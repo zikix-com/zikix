@@ -73,7 +73,8 @@ class ExceptionHandler extends Handler
         $data['code']       = 500;
         $data['message']    = $e instanceof NotFoundHttpException ? '请求地址错误' : '服务器繁忙';
         if (config('app.debug') === true) {
-            $data['trace'] = $e->getTrace();
+            $data['exception'] = $e;
+            $data['trace']     = $e->getTrace();
         }
 
         return new JsonResponse($data, 500);

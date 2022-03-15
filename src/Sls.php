@@ -31,6 +31,11 @@ class Sls
     public static $logs = [];
 
     /**
+     * @var Exception|null
+     */
+    public static $exception;
+
+    /**
      * Handle dynamic, static calls to the object.
      *
      * @param string $method
@@ -52,25 +57,25 @@ class Sls
 
     /**
      * @param Exception $e
-     * @param mixed     $user
      * @return void
      * @throws Exception
      */
-    public static function exception(Exception $e, $user = [])
+    public static function exception(Exception $e)
     {
-        $data = [
-            'exception' => get_class($e),
+        self::$exception = [
+            'message'   => $e->getMessage(),
+            'class'     => get_class($e),
             'file'      => $e->getFile(),
             'line'      => $e->getLine(),
             'code'      => $e->getCode(),
-            'message'   => $e->getMessage(),
+            'exception' => $e,
         ];
 
         if ($e instanceof HttpResponseException) {
-            $data['response'] = $e->getResponse();
+            self::$exception['response'] = $e->getResponse();
         }
 
-        Sls::put($data, $user);
+        Sls::put();
     }
 
     /**
@@ -96,21 +101,28 @@ class Sls
             ];
         }
 
+
         try {
-            app('sls')
-                ->putLogs([
-                              'request_id' => Api::getRequestId(),
-                              'app'        => config('app.name'),
-                              'env'        => config('app.env'),
-                              'request'    => json_encode(request()->toArray()),
-                              'route'      => json_encode(request()->route()),
-                              'response'   => json_encode($data),
-                              'user'       => json_encode($user),
-                              'ip'         => request()->getClientIp(),
-                              'headers'    => json_encode(self::getHeaders()),
-                              'logs'       => json_encode(self::$logs),
-                              'sql'        => json_encode($sql),
-                          ]);
+
+            $data = [
+                'request_id' => Api::getRequestId(),
+                'app'        => config('app.name'),
+                'env'        => config('app.env'),
+                'request'    => json_encode(request()->toArray()),
+                'route'      => json_encode(request()->route()),
+                'response'   => json_encode($data),
+                'user'       => json_encode($user),
+                'ip'         => request()->getClientIp(),
+                'headers'    => json_encode(self::getHeaders()),
+                'logs'       => json_encode(self::$logs),
+                'sql'        => json_encode($sql),
+            ];
+
+            if (self::$exception) {
+                $data['exception'] = self::$exception;
+            }
+
+            app('sls')->putLogs($data);
         } catch (Exception $exception) {
             Log::error(json_encode($exception));
         }
