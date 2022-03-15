@@ -9,7 +9,24 @@ use Ramsey\Uuid\Uuid;
 
 class Api
 {
+    /**
+     * @var string
+     */
     private static $requestId;
+
+    /**
+     * @var bool Use HTTP Code
+     */
+    private static $setHttpCode = true;
+
+    /**
+     * @param bool $bool
+     * @return void
+     */
+    public static function setHttpCode(bool $bool)
+    {
+        self::$setHttpCode = $bool;
+    }
 
     /**
      * Success - OK
@@ -54,7 +71,7 @@ class Api
 
         Sls::put($json);
 
-        return new JsonResponse($json, $statusCode);
+        return new JsonResponse($json, self::$setHttpCode ? $statusCode : 200);
     }
 
     /**
@@ -213,7 +230,9 @@ class Api
 
         Sls::put($json);
 
-        throw new HttpResponseException(new JsonResponse($json, $statusCode));
+        throw new HttpResponseException(
+            new JsonResponse($json, self::$setHttpCode ? $statusCode : 200)
+        );
     }
 
     /**
