@@ -50,7 +50,7 @@ class ExceptionHandler extends Handler
     {
         Qy::exception($e);
 
-        Sls::put(['exception' => Common::exceptionToArray($e)]);
+        Sls::$exception = $e;
 
         parent::report($e);
     }
@@ -70,14 +70,14 @@ class ExceptionHandler extends Handler
             return $e->getResponse();
         }
 
-        $data['request_id'] = Api::getRequestId();
-        $data['code']       = 500;
-        $data['message']    = $e instanceof NotFoundHttpException ? '请求地址错误' : '服务器繁忙';
+        $message = $e instanceof NotFoundHttpException ? '请求地址错误' : '服务器繁忙';
+
+        $data = [];
         if (config('app.debug') === true) {
-            $data['exception'] = Common::exceptionToArray($e);
+            $data = Common::exceptionToArray($e);
         }
 
-        return new JsonResponse($data, 500);
+        return Api::response(500, $message, $data);
     }
 
 }

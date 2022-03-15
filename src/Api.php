@@ -45,16 +45,15 @@ class Api
     }
 
     /**
-     * Public Success Method.
-     *
      * @param int    $statusCode
      * @param string $message
-     * @param mixed  $data
-     *
+     * @param array  $data
+     * @param array  $headers
+     * @param int    $options
      * @return JsonResponse
      * @throws Exception
      */
-    public static function success(int $statusCode, string $message, $data = []): JsonResponse
+    public static function response(int $statusCode, string $message, array $data = [], array $headers = [], $options = 0): JsonResponse
     {
         $json['request_id'] = self::getRequestId();
         $json['code']       = $statusCode;
@@ -65,8 +64,26 @@ class Api
 
         Sls::put(['response' => $json]);
 
-        return new JsonResponse($json, self::getCode() ? self::getCode() : $statusCode);
+        $status = self::getCode() ? self::getCode() : $statusCode;
+
+        return new JsonResponse($json, $status, $headers, $options);
     }
+
+    /**
+     * Public Success Method.
+     *
+     * @param int    $statusCode
+     * @param string $message
+     * @param mixed  $data
+     *
+     * @return JsonResponse
+     * @throws Exception
+     */
+    private static function success(int $statusCode, string $message, $data = []): JsonResponse
+    {
+        return self::response($statusCode, $message, $data);
+    }
+
 
     /**
      * @return string
@@ -200,33 +217,18 @@ class Api
         if ($message === '') {
             $message = __('api.bad_request');
         }
-        self::error(400, $message, $errors, $append);
+        self::error(400, $message, $errors);
     }
 
     /**
      * @param int    $statusCode
      * @param string $message
      * @param mixed  $errors
-     * @param array  $append
      * @throws Exception
      */
-    public static function error(int $statusCode, string $message, $errors = [], array $append = []): void
+    private static function error(int $statusCode, string $message, $errors = []): void
     {
-        $json['request_id'] = self::getRequestId();
-        $json['code']       = $statusCode;
-        $json['message']    = $message;
-        if ($errors) {
-            $json['errors'] = $errors;
-        }
-        if ($append) {
-            $json = array_merge($json, $append);
-        }
-
-        Sls::put(['response' => $json]);
-
-        throw new HttpResponseException(
-            new JsonResponse($json, self::getCode() ? self::getCode() : $statusCode)
-        );
+        throw new HttpResponseException(self::response($statusCode, $message, $errors));
     }
 
     /**

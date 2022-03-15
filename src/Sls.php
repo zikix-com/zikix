@@ -27,7 +27,7 @@ class Sls
     /**
      * @var array
      */
-    public static $logs = [];
+    private static $logs = [];
 
     /**
      * @var Exception|null
@@ -115,6 +115,10 @@ class Sls
                 'time'    => QueryListener::$sql_time,
                 'queries' => QueryListener::$sql,
             ];
+        }
+
+        if (self::$exception) {
+            $logs['exception'] = Common::exceptionToArray(self::$exception);
         }
 
         return $logs;
