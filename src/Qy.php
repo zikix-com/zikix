@@ -3,6 +3,7 @@
 namespace Zikix\LaravelComponent;
 
 use Exception;
+use Illuminate\Support\Facades\Cache;
 
 class Qy
 {
@@ -82,6 +83,14 @@ class Qy
             return;
         }
 
+        $post_data = json_encode($post_data);
+
+        $mds = md5($post_data);
+
+        if (!Cache::add("qy:$mds", 1, 2)) {
+            return;
+        }
+
         try {
             $webhook = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=" . $key;
             $curl    = curl_init();
@@ -89,7 +98,7 @@ class Qy
             curl_setopt($curl, CURLOPT_HEADER, 1);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($curl, CURLOPT_POST, 1);
-            curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($post_data));
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $post_data);
             curl_exec($curl);
             curl_close($curl);
         } catch (Exception $exception) {
