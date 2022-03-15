@@ -27,5 +27,4 @@ For answers, you may not find in the Wiki, avoid posting issues. Feel free to as
 
 This package is licensed under the [BSD 3-Clause license](http://opensource.org/licenses/BSD-3-Clause).
 
-[packagist]: https://packagist.org/packages/Zikix/support
-[travis]: https://travis-ci.org/Zikix/support
+[packagist]: https://packagist.org/packages/zikix/laravel-component
