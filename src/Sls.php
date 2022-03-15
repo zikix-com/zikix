@@ -87,9 +87,9 @@ class Sls
         }
 
         $sql = [];
-        if (QueryListener::$sql) {
+        if ($count = count(QueryListener::$sql)) {
             $sql = [
-                'count'   => count(QueryListener::$sql),
+                'count'   => $count,
                 'time'    => QueryListener::$sql_time,
                 'queries' => QueryListener::$sql,
             ];
