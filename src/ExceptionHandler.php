@@ -74,7 +74,7 @@ class ExceptionHandler extends Handler
 
         $data = [];
         if (config('app.debug') === true) {
-            $data = Common::exceptionToArray($e);
+            $data = Common::exceptionToArray($e, true);
         }
 
         return Api::response(500, $message, $data);
