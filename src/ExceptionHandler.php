@@ -49,7 +49,8 @@ class ExceptionHandler extends Handler
     public function report(Exception $e)
     {
         Qy::exception($e);
-        Sls::exception($e);
+
+        Sls::put(['exception' => Common::exceptionToArray($e)]);
 
         parent::report($e);
     }
@@ -73,8 +74,7 @@ class ExceptionHandler extends Handler
         $data['code']       = 500;
         $data['message']    = $e instanceof NotFoundHttpException ? '请求地址错误' : '服务器繁忙';
         if (config('app.debug') === true) {
-            $data['exception'] = $e;
-            $data['trace']     = $e->getTrace();
+            $data['exception'] = Common::exceptionToArray($e);
         }
 
         return new JsonResponse($data, 500);

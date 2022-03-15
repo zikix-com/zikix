@@ -43,11 +43,13 @@ class Qy
             'uri'        => request()->getUri(),
             'referer'    => request()->header('referer'),
             'ip'         => request()->getClientIp(),
-            'message'    => $e->getMessage(),
-            'exception'  => str_replace("\\", "\\\\", get_class($e)),
-            'file'       => $e->getFile() . ':' . $e->getLine(),
-            'code'       => $e->getCode(),
         ];
+
+        $items = Common::exceptionToArray($e);
+
+        foreach ($items as $k => $v) {
+            $data[$k] = $v;
+        }
 
         Qy::markdown($data, $mentioned_list);
     }

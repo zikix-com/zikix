@@ -3,7 +3,6 @@
 namespace Zikix\LaravelComponent;
 
 use Exception;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Log;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -53,31 +52,6 @@ class Sls
 
         self::$logs[] = $log;
         return Log::getFacadeRoot()->$method(...$args);
-    }
-
-    /**
-     * @param Exception $e
-     * @return void
-     * @throws Exception
-     */
-    public static function exception(Exception $e)
-    {
-        $exception = [
-            'message'   => $e->getMessage(),
-            'class'     => get_class($e),
-            'file'      => $e->getFile(),
-            'line'      => $e->getLine(),
-            'code'      => $e->getCode(),
-            'exception' => $e,
-        ];
-
-        if ($e instanceof HttpResponseException) {
-            $exception['response'] = $e->getResponse();
-        }
-
-        Sls::put([
-                     'exception' => $exception
-                 ]);
     }
 
     /**
