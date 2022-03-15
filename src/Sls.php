@@ -74,6 +74,10 @@ class Sls
             $logs['data'] = $data;
         }
 
+        foreach ($logs as $k => $v) {
+            $logs[$k] = json_encode($v, JSON_UNESCAPED_UNICODE);
+        }
+
         try {
             app('sls')->putLogs($logs);
         } catch (Exception $exception) {
@@ -91,11 +95,11 @@ class Sls
                 'request_id' => Api::getRequestId(),
                 'app'        => config('app.name'),
                 'env'        => config('app.env'),
-                'request'    => json_encode(request()->toArray()),
-                'route'      => json_encode(request()->route()),
+                'request'    => request()->toArray(),
+                'route'      => request()->route(),
                 'ip'         => request()->getClientIp(),
-                'headers'    => json_encode(self::getHeaders()),
-                'logs'       => json_encode(self::$logs),
+                'headers'    => self::getHeaders(),
+                'logs'       => self::$logs,
             ];
         } catch (Exception $exception) {
             $logs = [];
