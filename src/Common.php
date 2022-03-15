@@ -17,8 +17,7 @@ class Common
         $exception = [
             'message' => $e->getMessage(),
             'class'   => get_class($e),
-            'file'    => $e->getFile(),
-            'line'    => $e->getLine(),
+            'file'    => $e->getFile() . ':' . $e->getLine(),
             'code'    => $e->getCode(),
         ];
 
