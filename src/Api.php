@@ -33,34 +33,19 @@ class Api
             $message = __('api.ok');
         }
 
-        return self::clientSuccess(200, $message, $data);
+        return self::response(200, $message, $data);
     }
 
     /**
-     * Public Success Method.
-     *
      * @param int    $statusCode
      * @param string $message
      * @param mixed  $data
-     *
-     * @return JsonResponse
-     * @throws Exception
-     */
-    private static function clientSuccess(int $statusCode, string $message, $data = []): JsonResponse
-    {
-        return self::response($statusCode, $message, $data);
-    }
-
-    /**
-     * @param int    $statusCode
-     * @param string $message
-     * @param array  $data
      * @param array  $headers
      * @param int    $options
      * @return JsonResponse
      * @throws Exception
      */
-    public static function response(int $statusCode, string $message, $data = [], $headers = [], $options = 0): JsonResponse
+    public static function response(int $statusCode, string $message, $data = [], array $headers = [], int $options = 0): JsonResponse
     {
         $json['request_id'] = self::getRequestId();
         $json['code']       = $statusCode;
@@ -71,7 +56,7 @@ class Api
 
         Sls::put(['response' => $json]);
 
-        $status = self::getCode() ? self::getCode() : $statusCode;
+        $status = self::httpStatusCode() ? self::httpStatusCode() : $statusCode;
 
         return new JsonResponse($json, $status, $headers, $options);
     }
@@ -91,7 +76,7 @@ class Api
     /**
      * @return null|string|int
      */
-    private static function getCode()
+    private static function httpStatusCode()
     {
         return config('zikix.api_http_code');
     }
@@ -151,7 +136,7 @@ class Api
             $message = __('api.created');
         }
 
-        return self::clientSuccess(201, $message, $data);
+        return self::response(201, $message, $data);
     }
 
     /**
@@ -172,7 +157,7 @@ class Api
             $message = __('api.accepted');
         }
 
-        return self::clientSuccess(202, $message, $data);
+        return self::response(202, $message, $data);
     }
 
     /**
@@ -193,7 +178,7 @@ class Api
             $message = __('api.non_authoritative');
         }
 
-        return self::clientSuccess(203, $message, $data);
+        return self::response(203, $message, $data);
     }
 
     /**
@@ -213,7 +198,7 @@ class Api
             $message = __('api.no_content');
         }
 
-        return self::clientSuccess(204, $message, $data);
+        return self::response(204, $message, $data);
     }
 
     /**
@@ -234,7 +219,7 @@ class Api
             $message = __('api.reset_content');
         }
 
-        return self::clientSuccess(205, $message, $data);
+        return self::response(205, $message, $data);
     }
 
     /**
