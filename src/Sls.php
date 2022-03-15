@@ -25,14 +25,14 @@ use RuntimeException;
 class Sls
 {
     /**
-     * @var array
-     */
-    private static $logs = [];
-
-    /**
      * @var Exception|null
      */
     public static $exception;
+
+    /**
+     * @var array
+     */
+    private static $logs = [];
 
     /**
      * Handle dynamic, static calls to the object.

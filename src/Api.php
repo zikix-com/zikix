@@ -15,14 +15,6 @@ class Api
     private static $requestId;
 
     /**
-     * @return null|string|int
-     */
-    private static function getCode()
-    {
-        return config('zikix.api_http_code');
-    }
-
-    /**
      * Success - OK
      *
      * Standard response for successful HTTP requests. The actual response will depend on the request method used. In a
@@ -42,6 +34,21 @@ class Api
         }
 
         return self::success(200, $message, $data);
+    }
+
+    /**
+     * Public Success Method.
+     *
+     * @param int    $statusCode
+     * @param string $message
+     * @param mixed  $data
+     *
+     * @return JsonResponse
+     * @throws Exception
+     */
+    private static function success(int $statusCode, string $message, $data = []): JsonResponse
+    {
+        return self::response($statusCode, $message, $data);
     }
 
     /**
@@ -70,22 +77,6 @@ class Api
     }
 
     /**
-     * Public Success Method.
-     *
-     * @param int    $statusCode
-     * @param string $message
-     * @param mixed  $data
-     *
-     * @return JsonResponse
-     * @throws Exception
-     */
-    private static function success(int $statusCode, string $message, $data = []): JsonResponse
-    {
-        return self::response($statusCode, $message, $data);
-    }
-
-
-    /**
      * @return string
      * @throws Exception
      */
@@ -96,6 +87,14 @@ class Api
         }
 
         return strtoupper(self::$requestId);
+    }
+
+    /**
+     * @return null|string|int
+     */
+    private static function getCode()
+    {
+        return config('zikix.api_http_code');
     }
 
     /**
