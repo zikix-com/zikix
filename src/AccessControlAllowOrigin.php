@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace Zikix\LaravelComponent;
 
 use Closure;
 use Illuminate\Http\Request;
