@@ -74,7 +74,7 @@ class Api
         $headers['Access-Control-Allow-Credentials'] = 'true';
         $headers['Access-Control-Allow-Methods']     = '*';
         $headers['Access-Control-Expose-Headers']    = '*';
-        $headers['Access-Control-Allow-Headers']     = 'Content-Type,Access-Token,AUTHORIZATION,X-REQUESTED-WITH';
+        $headers['Access-Control-Allow-Headers']     = '*';
 
         return new JsonResponse($content, $httpCode, $headers, $options);
     }
