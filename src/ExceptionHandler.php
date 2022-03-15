@@ -22,10 +22,10 @@ class ExceptionHandler extends Handler
         \Illuminate\Http\Exceptions\HttpResponseException::class,
         \Illuminate\Auth\AuthenticationException::class,
         \Illuminate\Auth\Access\AuthorizationException::class,
-        //        \Symfony\Component\HttpKernel\Exception\HttpException::class,
         \Illuminate\Database\Eloquent\ModelNotFoundException::class,
         \Illuminate\Session\TokenMismatchException::class,
         \Illuminate\Validation\ValidationException::class,
+        // \Symfony\Component\HttpKernel\Exception\HttpException::class,
     ];
 
     /**
@@ -65,20 +65,14 @@ class ExceptionHandler extends Handler
      */
     public function render($request, Exception $e)
     {
-        /**
-         * 来自 Api 组件，说明已经被包装好了，可以直接 render 了
-         */
         if ($e instanceof HttpResponseException) {
-            return parent::render($request, $e);
+            return $e->getResponse();
         }
 
-        /**
-         * 否则就要包装统一格式的
-         */
         $data['request_id'] = Api::getRequestId();
         $data['code']       = 500;
         $data['message']    = $e instanceof NotFoundHttpException ? '请求地址错误' : '服务器繁忙';
-        if (config('app.env') !== 'production') {
+        if (config('app.debug', false) === true) {
             $data['trace'] = $e->getTrace();
         }
 
