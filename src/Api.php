@@ -80,7 +80,6 @@ class Api
 
     /**
      * @return string
-     * @throws Exception
      */
     public static function getRequestId(): string
     {
@@ -107,7 +106,7 @@ class Api
      * @param array  $headers
      * @param int    $options
      * @return mixed
-     * @throws Exception
+     * @throws HttpResponseException
      */
     public static function error(int $code, string $message = '错误', $data = [], int $httpCode = 200, array $headers = [], int $options = 0)
     {
@@ -122,7 +121,6 @@ class Api
      * @param array  $headers
      * @param int    $options
      * @return JsonResponse
-     * @throws Exception
      */
     public static function json(int $code, string $message = '成功', $data = [], int $httpCode = 200, array $headers = [], int $options = 0): JsonResponse
     {

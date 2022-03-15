@@ -77,7 +77,7 @@ class ExceptionHandler extends Handler
             $data = Common::exceptionToArray($e, true);
         }
 
-        return Api::response(500, $message, $data);
+        return Api::json(500, $message, $data, 500);
     }
 
 }
