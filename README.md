@@ -1,8 +1,7 @@
 [![Total Downloads](https://poser.pugx.org/zikix/laravel-component/d/total.svg)][packagist]
 [![Latest Stable Version](https://poser.pugx.org/zikix/laravel-component/v/stable.svg)][packagist]
 [![PHP Version](https://img.shields.io/packagist/php-v/zikix/laravel-component.svg)][packagist]
-[![Build Status](https://travis-ci.org/zikix-com/laravel-component.svg?branch=master)][travis]
-[![License](https://poser.pugx.org/zikix-com/laravel-component/license.svg)][packagist]
+[![License](https://poser.pugx.org/zikix/laravel-component/license.svg)][packagist]
 
 
 ## Installation
