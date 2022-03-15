@@ -62,7 +62,7 @@ class Sls
      */
     public static function exception(Exception $e)
     {
-        self::$exception = [
+        $exception = [
             'message'   => $e->getMessage(),
             'class'     => get_class($e),
             'file'      => $e->getFile(),
@@ -72,60 +72,74 @@ class Sls
         ];
 
         if ($e instanceof HttpResponseException) {
-            self::$exception['response'] = $e->getResponse();
+            $exception['response'] = $e->getResponse();
         }
 
-        Sls::put();
+        Sls::put([
+                     'exception' => $exception
+                 ]);
     }
 
     /**
      * @param mixed $data
-     * @param mixed $user
      * @return void
      * @throws Exception
      */
-    public static function put($data = [], $user = [])
+    public static function put($data = [])
     {
-        if ($user === []) {
-            if (class_exists('\App\User') && method_exists('\App\User', 'getDefaultUser')) {
-                $user = \App\User::getDefaultUser();
+        $logs = self::getDefaultFields();
+
+        if (is_array($data)) {
+            foreach ($data as $k => $v) {
+                if (is_numeric($k)) {
+                    break;
+                }
+                $logs[$k] = $v;
             }
+        } else {
+            $logs['data'] = $data;
         }
 
-        $sql = [];
+        try {
+            app('sls')->putLogs($logs);
+        } catch (Exception $exception) {
+            Log::error(json_encode($exception));
+        }
+    }
+
+    /**
+     * @return array
+     */
+    private static function getDefaultFields(): array
+    {
+        try {
+            $logs = [
+                'request_id' => Api::getRequestId(),
+                'app'        => config('app.name'),
+                'env'        => config('app.env'),
+                'request'    => json_encode(request()->toArray()),
+                'route'      => json_encode(request()->route()),
+                'ip'         => request()->getClientIp(),
+                'headers'    => json_encode(self::getHeaders()),
+                'logs'       => json_encode(self::$logs),
+            ];
+        } catch (Exception $exception) {
+            $logs = [];
+        }
+
+        if (class_exists('\App\User') && method_exists('\App\User', 'getDefaultUser')) {
+            $logs['user'] = \App\User::getDefaultUser();
+        }
+
         if ($count = count(QueryListener::$sql)) {
-            $sql = [
+            $logs['sql'] = [
                 'count'   => $count,
                 'time'    => QueryListener::$sql_time,
                 'queries' => QueryListener::$sql,
             ];
         }
 
-
-        try {
-
-            $data = [
-                'request_id' => Api::getRequestId(),
-                'app'        => config('app.name'),
-                'env'        => config('app.env'),
-                'request'    => json_encode(request()->toArray()),
-                'route'      => json_encode(request()->route()),
-                'response'   => json_encode($data),
-                'user'       => json_encode($user),
-                'ip'         => request()->getClientIp(),
-                'headers'    => json_encode(self::getHeaders()),
-                'logs'       => json_encode(self::$logs),
-                'sql'        => json_encode($sql),
-            ];
-
-            if (self::$exception) {
-                $data['exception'] = self::$exception;
-            }
-
-            app('sls')->putLogs($data);
-        } catch (Exception $exception) {
-            Log::error(json_encode($exception));
-        }
+        return $logs;
     }
 
     /**

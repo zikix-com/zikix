@@ -63,7 +63,7 @@ class Api
             $json['data'] = $data;
         }
 
-        Sls::put($json);
+        Sls::put(['response' => $json]);
 
         return new JsonResponse($json, self::getCode() ? self::getCode() : $statusCode);
     }
@@ -222,7 +222,7 @@ class Api
             $json = array_merge($json, $append);
         }
 
-        Sls::put($json);
+        Sls::put(['response' => $json]);
 
         throw new HttpResponseException(
             new JsonResponse($json, self::getCode() ? self::getCode() : $statusCode)
