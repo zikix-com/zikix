@@ -108,7 +108,7 @@ class Qy
 
         $mds = md5($post_data);
 
-        if (!Cache::add("qy:$mds", 1, 2)) {
+        if (!Cache::add("qy:$mds", 1, 3)) {
             return;
         }
 
