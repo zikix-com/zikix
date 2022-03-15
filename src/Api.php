@@ -60,7 +60,7 @@ class Api
      * @return JsonResponse
      * @throws Exception
      */
-    public static function response(int $statusCode, string $message, array $data = [], array $headers = [], $options = 0): JsonResponse
+    public static function response(int $statusCode, string $message, $data = [], $headers = [], $options = 0): JsonResponse
     {
         $json['request_id'] = self::getRequestId();
         $json['code']       = $statusCode;
