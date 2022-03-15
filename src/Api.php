@@ -82,7 +82,7 @@ class Api
     }
 
     /**
-     * @param int    $code
+     * @param int    $bizCode
      * @param string $message
      * @param mixed  $data
      * @param int    $httpCode
@@ -91,13 +91,13 @@ class Api
      * @return mixed
      * @throws HttpResponseException
      */
-    public static function error(int $code, string $message = '错误', $data = [], int $httpCode = 200, array $headers = [], int $options = 0)
+    public static function error(int $bizCode, string $message = '错误', $data = [], int $httpCode = 200, array $headers = [], int $options = 0)
     {
-        throw new HttpResponseException(self::json($code, $message, $data, $httpCode, $headers, $options));
+        throw new HttpResponseException(self::json($bizCode, $message, $data, $httpCode, $headers, $options));
     }
 
     /**
-     * @param int    $code
+     * @param int    $bizCode
      * @param string $message
      * @param mixed  $data
      * @param int    $httpCode
@@ -105,10 +105,10 @@ class Api
      * @param int    $options
      * @return JsonResponse
      */
-    public static function json(int $code, string $message = '成功', $data = [], int $httpCode = 200, array $headers = [], int $options = 0): JsonResponse
+    public static function json(int $bizCode, string $message = '成功', $data = [], int $httpCode = 200, array $headers = [], int $options = 0): JsonResponse
     {
         $content['request_id'] = self::getRequestId();
-        $content['code']       = $code;
+        $content['code']       = $bizCode;
         $content['message']    = $message;
         if ($data !== []) {
             $content['data'] = $data;
