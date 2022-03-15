@@ -87,21 +87,23 @@ class Sls
         }
 
         try {
-            app('sls')->putLogs([
-                                    'env'      => config('app.env'),
-                                    'request'  => json_encode(request()->toArray()),
-                                    'route'    => json_encode(request()->route()),
-                                    'response' => json_encode($data),
-                                    'user'     => json_encode($user),
-                                    'ip'       => request()->getClientIp(),
-                                    'headers'  => json_encode(self::getHeaders()),
-                                    'logs'     => json_encode(self::$logs),
-                                    'sql'      => json_encode([
-                                                                  'count'   => count(QueryListener::$sql),
-                                                                  'time'    => QueryListener::$sql_time,
-                                                                  'queries' => QueryListener::$sql,
-                                                              ]),
-                                ]);
+            app('sls')
+                ->putLogs([
+                              'app'      => config('app.app'),
+                              'env'      => config('app.env'),
+                              'request'  => json_encode(request()->toArray()),
+                              'route'    => json_encode(request()->route()),
+                              'response' => json_encode($data),
+                              'user'     => json_encode($user),
+                              'ip'       => request()->getClientIp(),
+                              'headers'  => json_encode(self::getHeaders()),
+                              'logs'     => json_encode(self::$logs),
+                              'sql'      => json_encode([
+                                                            'count'   => count(QueryListener::$sql),
+                                                            'time'    => QueryListener::$sql_time,
+                                                            'queries' => QueryListener::$sql,
+                                                        ]),
+                          ]);
         } catch (Exception $exception) {
             Log::error(json_encode($exception));
         }

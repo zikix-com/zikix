@@ -15,6 +15,7 @@ class Qy
     public static function exception(Exception $e, string $mentioned_list = '')
     {
         $data = [
+            'app'        => config('app.app'),
             'env'        => config('app.env'),
             'Request Id' => Api::getRequestId(),
             'uri'        => request()->getUri(),
