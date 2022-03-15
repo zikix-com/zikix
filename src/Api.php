@@ -45,7 +45,6 @@ class Api
      *
      * @return JsonResponse
      * @throws Exception
-     * @deprecated
      */
     private static function clientSuccess(int $statusCode, string $message, $data = []): JsonResponse
     {
@@ -60,7 +59,6 @@ class Api
      * @param int    $options
      * @return JsonResponse
      * @throws Exception
-     * @deprecated
      */
     public static function response(int $statusCode, string $message, $data = [], $headers = [], $options = 0): JsonResponse
     {
@@ -122,7 +120,7 @@ class Api
      * @param int    $options
      * @return JsonResponse
      */
-    public static function json(int $code, $data = [], string $message = '成功', int $httpCode = 200, array $headers = [], int $options = 0): JsonResponse
+    public static function json(int $code, string $message = '成功', $data = [], int $httpCode = 200, array $headers = [], int $options = 0): JsonResponse
     {
         $content['request_id'] = self::getRequestId();
         $content['code']       = $code;
