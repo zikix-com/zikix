@@ -4,11 +4,51 @@ namespace Zikix\LaravelComponent;
 
 use Exception;
 use Illuminate\Support\Facades\Log;
+use Psr\Log\LoggerInterface;
+use RuntimeException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+/**
+ * @method static void emergency(string $message, array $context = [])
+ * @method static void alert(string $message, array $context = [])
+ * @method static void critical(string $message, array $context = [])
+ * @method static void error(string $message, array $context = [])
+ * @method static void warning(string $message, array $context = [])
+ * @method static void notice(string $message, array $context = [])
+ * @method static void info(string $message, array $context = [])
+ * @method static void debug(string $message, array $context = [])
+ * @method static void log($level, string $message, array $context = [])
+ * @method static mixed channel(string $channel = null)
+ * @method static LoggerInterface stack(array $channels, string $channel = null)
+ *
+ * @see \Illuminate\Log\Logger
+ */
 class Sls
 {
-    public static $errors = [];
+    /**
+     * @var array
+     */
+    public static $logs = [];
+
+    /**
+     * Handle dynamic, static calls to the object.
+     *
+     * @param string $method
+     * @param array  $args
+     * @return mixed
+     *
+     * @throws RuntimeException
+     */
+    public static function __callStatic(string $method, array $args)
+    {
+        $log = $method;
+        foreach ($args as $arg) {
+            $log .= ' ' . $arg;
+        }
+
+        self::$logs[] = $log;
+        return Log::getFacadeRoot()->$method(...$args);
+    }
 
     /**
      * @param Exception $e
@@ -55,7 +95,7 @@ class Sls
                                     'user'     => json_encode($user),
                                     'ip'       => request()->getClientIp(),
                                     'headers'  => json_encode(self::getHeaders()),
-                                    'errors'   => json_encode(self::$errors),
+                                    'logs'     => json_encode(self::$logs),
                                     'sql'      => json_encode([
                                                                   'count'   => count(QueryListener::$sql),
                                                                   'time'    => QueryListener::$sql_time,

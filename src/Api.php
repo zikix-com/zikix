@@ -15,17 +15,11 @@ class Api
     private static $requestId;
 
     /**
-     * @var bool Use HTTP Code
+     * @return null|string|int
      */
-    private static $setHttpCode = true;
-
-    /**
-     * @param bool $bool
-     * @return void
-     */
-    public static function setHttpCode(bool $bool)
+    private static function getCode()
     {
-        self::$setHttpCode = $bool;
+        return config('zikix.api_http_code');
     }
 
     /**
@@ -60,7 +54,7 @@ class Api
      * @return JsonResponse
      * @throws Exception
      */
-    private static function success(int $statusCode, string $message, $data = []): JsonResponse
+    public static function success(int $statusCode, string $message, $data = []): JsonResponse
     {
         $json['request_id'] = self::getRequestId();
         $json['code']       = $statusCode;
@@ -71,7 +65,7 @@ class Api
 
         Sls::put($json);
 
-        return new JsonResponse($json, self::$setHttpCode ? $statusCode : 200);
+        return new JsonResponse($json, self::getCode() ? self::getCode() : $statusCode);
     }
 
     /**
@@ -216,7 +210,7 @@ class Api
      * @param array  $append
      * @throws Exception
      */
-    private static function error(int $statusCode, string $message, $errors = [], array $append = []): void
+    public static function error(int $statusCode, string $message, $errors = [], array $append = []): void
     {
         $json['request_id'] = self::getRequestId();
         $json['code']       = $statusCode;
@@ -231,7 +225,7 @@ class Api
         Sls::put($json);
 
         throw new HttpResponseException(
-            new JsonResponse($json, self::$setHttpCode ? $statusCode : 200)
+            new JsonResponse($json, self::getCode() ? self::getCode() : $statusCode)
         );
     }
 

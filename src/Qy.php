@@ -3,28 +3,17 @@
 namespace Zikix\LaravelComponent;
 
 use Exception;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Qy
 {
     /**
-     * @param           $key
      * @param Exception $e
      * @param string    $mentioned_list
      * @return void
      * @throws Exception
      */
-    public static function exception($key, Exception $e, string $mentioned_list = '')
+    public static function exception(Exception $e, string $mentioned_list = '')
     {
-        if ($e instanceof HttpResponseException) {
-            return;
-        }
-
-        if ($e instanceof NotFoundHttpException) {
-            return;
-        }
-
         $data = [
             'env'        => config('app.env'),
             'Request Id' => Api::getRequestId(),
@@ -37,16 +26,16 @@ class Qy
             'code'       => $e->getCode(),
         ];
 
-        Qy::markdown($key, $data, $mentioned_list);
+        Qy::markdown($data, $mentioned_list);
     }
 
     /**
-     * @param        $key
      * @param        $content
      * @param string $mentioned_list
      * @return void
+     * @throws Exception
      */
-    public static function markdown($key, $content, string $mentioned_list = '')
+    public static function markdown($content, string $mentioned_list = '')
     {
         $post_data = [
             'msgtype'  => 'markdown',
@@ -55,7 +44,7 @@ class Qy
                 'mentioned_list' => $mentioned_list,
             ],
         ];
-        self::send($key, $post_data);
+        self::send($post_data);
     }
 
     /**
@@ -81,21 +70,31 @@ class Qy
 
 
     /**
-     * @param string $key
-     * @param array  $post_data
+     * @param array $post_data
      * @return void
+     * @throws Exception
      */
-    private static function send(string $key, array $post_data)
+    private static function send(array $post_data)
     {
-        $webhook = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=" . $key;
-        $curl    = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $webhook);
-        curl_setopt($curl, CURLOPT_HEADER, 1);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_POST, 1);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($post_data));
-        curl_exec($curl);
-        curl_close($curl);
+        $key = config('zikix.qy_key');
+        if (!$key) {
+            return;
+        }
+
+        try {
+            $webhook = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=" . $key;
+            $curl    = curl_init();
+            curl_setopt($curl, CURLOPT_URL, $webhook);
+            curl_setopt($curl, CURLOPT_HEADER, 1);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($post_data));
+            curl_exec($curl);
+            curl_close($curl);
+        } catch (Exception $exception) {
+
+        }
+
     }
 
 }
