@@ -37,7 +37,7 @@ class Api
     }
 
     /**
-     * @param int    $statusCode
+     * @param int    $httpOrBizCode
      * @param string $message
      * @param mixed  $data
      * @param array  $headers
@@ -45,10 +45,10 @@ class Api
      * @return JsonResponse
      * @throws Exception
      */
-    public static function response(int $statusCode, string $message, $data = [], array $headers = [], int $options = 0): JsonResponse
+    public static function response(int $httpOrBizCode, string $message, $data = [], array $headers = [], int $options = 0): JsonResponse
     {
         $json['request_id'] = self::getRequestId();
-        $json['code']       = $statusCode;
+        $json['code']       = $httpOrBizCode;
         $json['message']    = $message;
         if ($data) {
             $json['data'] = $data;
@@ -56,7 +56,7 @@ class Api
 
         Sls::put(['response' => $json]);
 
-        $status = self::httpStatusCode() ? self::httpStatusCode() : $statusCode;
+        $status = self::httpStatusCode() ? self::httpStatusCode() : $httpOrBizCode;
 
         return new JsonResponse($json, $status, $headers, $options);
     }
