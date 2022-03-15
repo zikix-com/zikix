@@ -19,6 +19,16 @@
       "email": "i@zikix.com"
     }
   ],
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.0-dev"
+    },
+    "laravel": {
+      "providers": [
+        "Lokielse\\LaravelSLS\\LaravelSLSServiceProvider"
+      ]
+    }
+  },
   "require": {
     "php": "^7.1",
     "ext-xml": "*",
