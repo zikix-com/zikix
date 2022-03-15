@@ -47,18 +47,36 @@ class Api
      */
     public static function response(int $httpOrBizCode, string $message, $data = [], array $headers = [], int $options = 0): JsonResponse
     {
-        $json['request_id'] = self::getRequestId();
-        $json['code']       = $httpOrBizCode;
-        $json['message']    = $message;
-        if ($data) {
-            $json['data'] = $data;
+        return self::json($httpOrBizCode, $message, $data, self::httpStatusCode() ?: $httpOrBizCode, $headers, $options);
+    }
+
+    /**
+     * @param int    $bizCode
+     * @param string $message
+     * @param mixed  $data
+     * @param int    $httpCode
+     * @param array  $headers
+     * @param int    $options
+     * @return JsonResponse
+     */
+    public static function json(int $bizCode, string $message = '成功', $data = [], int $httpCode = 200, array $headers = [], int $options = 0): JsonResponse
+    {
+        $content['request_id'] = self::getRequestId();
+        $content['code']       = $bizCode;
+        $content['message']    = $message;
+        if ($data !== []) {
+            $content['data'] = $data;
         }
 
-        Sls::put(['response' => $json]);
+        Sls::put(['response' => $content]);
 
-        $status = self::httpStatusCode() ? self::httpStatusCode() : $httpOrBizCode;
+        $headers['Access-Control-Allow-Origin']      = '*';
+        $headers['Access-Control-Allow-Credentials'] = 'true';
+        $headers['Access-Control-Allow-Methods']     = '*';
+        $headers['Access-Control-Expose-Headers']    = '*';
+        $headers['Access-Control-Allow-Headers']     = 'Content-Type,Access-Token';
 
-        return new JsonResponse($json, $status, $headers, $options);
+        return new JsonResponse($content, $httpCode, $headers, $options);
     }
 
     /**
@@ -94,29 +112,6 @@ class Api
     public static function error(int $bizCode, string $message = '错误', $data = [], int $httpCode = 200, array $headers = [], int $options = 0)
     {
         throw new HttpResponseException(self::json($bizCode, $message, $data, $httpCode, $headers, $options));
-    }
-
-    /**
-     * @param int    $bizCode
-     * @param string $message
-     * @param mixed  $data
-     * @param int    $httpCode
-     * @param array  $headers
-     * @param int    $options
-     * @return JsonResponse
-     */
-    public static function json(int $bizCode, string $message = '成功', $data = [], int $httpCode = 200, array $headers = [], int $options = 0): JsonResponse
-    {
-        $content['request_id'] = self::getRequestId();
-        $content['code']       = $bizCode;
-        $content['message']    = $message;
-        if ($data !== []) {
-            $content['data'] = $data;
-        }
-
-        Sls::put(['response' => $content]);
-
-        return new JsonResponse($content, $httpCode, $headers, $options);
     }
 
     /**

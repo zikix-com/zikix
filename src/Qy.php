@@ -3,7 +3,14 @@
 namespace Zikix\LaravelComponent;
 
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Qy
 {
@@ -13,13 +20,13 @@ class Qy
      * @var array
      */
     protected static $dontReport = [
-        \Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class,
-        \Illuminate\Http\Exceptions\HttpResponseException::class,
-        \Illuminate\Auth\AuthenticationException::class,
-        \Illuminate\Auth\Access\AuthorizationException::class,
-        \Illuminate\Database\Eloquent\ModelNotFoundException::class,
-        \Illuminate\Session\TokenMismatchException::class,
-        \Illuminate\Validation\ValidationException::class,
+        NotFoundHttpException::class,
+        HttpResponseException::class,
+        AuthenticationException::class,
+        AuthorizationException::class,
+        ModelNotFoundException::class,
+        TokenMismatchException::class,
+        ValidationException::class,
     ];
 
     /**
