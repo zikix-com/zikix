@@ -11,6 +11,9 @@ use Monolog\Logger;
 
 class QueryListener
 {
+    /**
+     * @var array SQL
+     */
     public static $sql = [];
 
     /**
