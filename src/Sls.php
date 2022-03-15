@@ -3,10 +3,10 @@
 namespace Zikix\LaravelComponent;
 
 use Exception;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Log;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method static void emergency(string $message, array $context = [])
@@ -58,16 +58,17 @@ class Sls
      */
     public static function exception(Exception $e, $user = [])
     {
-        $data['request_id'] = Api::getRequestId();
-        $data['code']       = 500;
-        $data['message']    = $e instanceof NotFoundHttpException ? '请求地址错误' : '服务器繁忙';
-        $data['exception']  = [
+        $data = [
             'exception' => get_class($e),
             'file'      => $e->getFile(),
             'line'      => $e->getLine(),
             'code'      => $e->getCode(),
             'message'   => $e->getMessage(),
         ];
+
+        if ($e instanceof HttpResponseException) {
+            $data['response'] = $e->getResponse();
+        }
 
         Sls::put($data, $user);
     }
