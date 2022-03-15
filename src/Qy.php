@@ -67,6 +67,7 @@ class Qy
                 'mentioned_list' => $mentioned_list,
             ],
         ];
+
         self::send($post_data);
     }
 
@@ -88,6 +89,7 @@ class Qy
                 }
             }
         }
+
         return $markdown;
     }
 
@@ -104,15 +106,15 @@ class Qy
             return;
         }
 
-        $post_data = json_encode($post_data);
-
-        $mds = md5($post_data);
-
-        if (!Cache::add("qy:$mds", 1, 3)) {
-            return;
-        }
-
         try {
+
+            $post_data = json_encode($post_data);
+            $mds       = md5($post_data);
+
+            if (!Cache::add("qy:$mds", 1, 3)) {
+                return;
+            }
+
             $webhook = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=" . $key;
             $curl    = curl_init();
             curl_setopt($curl, CURLOPT_URL, $webhook);
