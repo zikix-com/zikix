@@ -45,12 +45,7 @@ class Sls
      */
     public static function __callStatic(string $method, array $args)
     {
-        $log = $method;
-        foreach ($args as $arg) {
-            $log .= ' ' . $arg;
-        }
-
-        self::$logs[] = $log;
+        self::$logs[] = $args;
         return Log::getFacadeRoot()->$method(...$args);
     }
 
@@ -75,7 +70,9 @@ class Sls
         }
 
         foreach ($logs as $k => $v) {
-            $logs[$k] = json_encode($v, JSON_UNESCAPED_UNICODE);
+            if (!is_string($v)) {
+                $logs[$k] = json_encode($v, JSON_UNESCAPED_UNICODE);
+            }
         }
 
         try {
