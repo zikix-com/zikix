@@ -89,7 +89,7 @@ class Sls
         try {
             app('sls')
                 ->putLogs([
-                              'app'      => config('app.app'),
+                              'app'      => config('app.name'),
                               'env'      => config('app.env'),
                               'request'  => json_encode(request()->toArray()),
                               'route'    => json_encode(request()->route()),

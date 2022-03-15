@@ -8,6 +8,21 @@ use Illuminate\Support\Facades\Cache;
 class Qy
 {
     /**
+     * A list of the exception types that are not reported.
+     *
+     * @var array
+     */
+    protected static $dontReport = [
+        \Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class,
+        \Illuminate\Http\Exceptions\HttpResponseException::class,
+        \Illuminate\Auth\AuthenticationException::class,
+        \Illuminate\Auth\Access\AuthorizationException::class,
+        \Illuminate\Database\Eloquent\ModelNotFoundException::class,
+        \Illuminate\Session\TokenMismatchException::class,
+        \Illuminate\Validation\ValidationException::class,
+    ];
+
+    /**
      * @param Exception $e
      * @param string    $mentioned_list
      * @return void
@@ -15,8 +30,14 @@ class Qy
      */
     public static function exception(Exception $e, string $mentioned_list = '')
     {
+        foreach (self::$dontReport as $item) {
+            if ($e instanceof $item) {
+                return;
+            }
+        }
+
         $data = [
-            'app'        => config('app.app'),
+            'app'        => config('app.name'),
             'env'        => config('app.env'),
             'Request Id' => Api::getRequestId(),
             'uri'        => request()->getUri(),
