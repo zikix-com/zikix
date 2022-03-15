@@ -51,10 +51,6 @@ class ExceptionHandler extends Handler
         Qy::exception($e);
         Sls::exception($e);
 
-        if (app()->bound('sentry') && $this->shouldReport($e)) {
-            app('sentry')->captureException($e);
-        }
-
         parent::report($e);
     }
 
