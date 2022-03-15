@@ -86,6 +86,15 @@ class Sls
             }
         }
 
+        $sql = [];
+        if (QueryListener::$sql) {
+            $sql = [
+                'count'   => count(QueryListener::$sql),
+                'time'    => QueryListener::$sql_time,
+                'queries' => QueryListener::$sql,
+            ];
+        }
+
         try {
             app('sls')
                 ->putLogs([
@@ -98,11 +107,7 @@ class Sls
                               'ip'       => request()->getClientIp(),
                               'headers'  => json_encode(self::getHeaders()),
                               'logs'     => json_encode(self::$logs),
-                              'sql'      => json_encode([
-                                                            'count'   => count(QueryListener::$sql),
-                                                            'time'    => QueryListener::$sql_time,
-                                                            'queries' => QueryListener::$sql,
-                                                        ]),
+                              'sql'      => json_encode($sql),
                           ]);
         } catch (Exception $exception) {
             Log::error(json_encode($exception));
