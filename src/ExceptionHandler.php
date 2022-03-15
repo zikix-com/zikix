@@ -72,7 +72,7 @@ class ExceptionHandler extends Handler
         $data['request_id'] = Api::getRequestId();
         $data['code']       = 500;
         $data['message']    = $e instanceof NotFoundHttpException ? '请求地址错误' : '服务器繁忙';
-        if (config('app.debug', false) === true) {
+        if (config('app.debug') === true) {
             $data['trace'] = $e->getTrace();
         }
 
