@@ -15,7 +15,7 @@ class Common
     {
         $exception = [
             'message'  => $e->getMessage(),
-            'class'    => str_replace("\\", "\\\\", get_class($e)),
+            'class'    => get_class($e),
             'file'     => $e->getFile(),
             'line'     => $e->getLine(),
             'code'     => $e->getCode(),

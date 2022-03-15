@@ -87,6 +87,8 @@ class Qy
                 if (strpos($v, 'http') === 0) {
                     $markdown .= "<font color=\"comment\">[$v]($v)</font>\n\n\n";
                 } else {
+                    $v = str_replace("\\", "\\\\", $v);
+
                     $markdown .= "<font color=\"comment\">$v</font>\n\n\n";
                 }
             }

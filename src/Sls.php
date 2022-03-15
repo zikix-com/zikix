@@ -77,7 +77,7 @@ class Sls
         try {
             app('sls')->putLogs($logs);
         } catch (Exception $exception) {
-            Log::error(json_encode($exception));
+            Log::error(json_encode(Common::exceptionToArray($exception)));
         }
     }
 
