@@ -33,7 +33,7 @@ class Api
             $message = __('api.ok');
         }
 
-        return self::success(200, $message, $data);
+        return self::clientSuccess(200, $message, $data);
     }
 
     /**
@@ -45,8 +45,9 @@ class Api
      *
      * @return JsonResponse
      * @throws Exception
+     * @deprecated
      */
-    private static function success(int $statusCode, string $message, $data = []): JsonResponse
+    private static function clientSuccess(int $statusCode, string $message, $data = []): JsonResponse
     {
         return self::response($statusCode, $message, $data);
     }
@@ -59,6 +60,7 @@ class Api
      * @param int    $options
      * @return JsonResponse
      * @throws Exception
+     * @deprecated
      */
     public static function response(int $statusCode, string $message, $data = [], $headers = [], $options = 0): JsonResponse
     {
@@ -98,6 +100,45 @@ class Api
     }
 
     /**
+     * @param int    $code
+     * @param string $message
+     * @param mixed  $data
+     * @param int    $httpCode
+     * @param array  $headers
+     * @param int    $options
+     * @return mixed
+     * @throws Exception
+     */
+    public static function error(int $code, string $message = '错误', $data = [], int $httpCode = 200, array $headers = [], int $options = 0)
+    {
+        throw new HttpResponseException(self::json($code, $message, $data, $httpCode, $headers, $options));
+    }
+
+    /**
+     * @param int    $code
+     * @param string $message
+     * @param mixed  $data
+     * @param int    $httpCode
+     * @param array  $headers
+     * @param int    $options
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public static function json(int $code, string $message = '成功', $data = [], int $httpCode = 200, array $headers = [], int $options = 0): JsonResponse
+    {
+        $content['request_id'] = self::getRequestId();
+        $content['code']       = $code;
+        $content['message']    = $message;
+        if ($data !== []) {
+            $content['data'] = $data;
+        }
+
+        Sls::put(['response' => $content]);
+
+        return new JsonResponse($content, $httpCode, $headers, $options);
+    }
+
+    /**
      * Success - Created
      *
      * The request has been fulfilled, resulting in the creation of a new resource.
@@ -114,7 +155,7 @@ class Api
             $message = __('api.created');
         }
 
-        return self::success(201, $message, $data);
+        return self::clientSuccess(201, $message, $data);
     }
 
     /**
@@ -135,7 +176,7 @@ class Api
             $message = __('api.accepted');
         }
 
-        return self::success(202, $message, $data);
+        return self::clientSuccess(202, $message, $data);
     }
 
     /**
@@ -156,7 +197,7 @@ class Api
             $message = __('api.non_authoritative');
         }
 
-        return self::success(203, $message, $data);
+        return self::clientSuccess(203, $message, $data);
     }
 
     /**
@@ -176,7 +217,7 @@ class Api
             $message = __('api.no_content');
         }
 
-        return self::success(204, $message, $data);
+        return self::clientSuccess(204, $message, $data);
     }
 
     /**
@@ -197,7 +238,7 @@ class Api
             $message = __('api.reset_content');
         }
 
-        return self::success(205, $message, $data);
+        return self::clientSuccess(205, $message, $data);
     }
 
     /**
@@ -216,7 +257,7 @@ class Api
         if ($message === '') {
             $message = __('api.bad_request');
         }
-        self::error(400, $message, $errors);
+        self::clientError(400, $message, $errors);
     }
 
     /**
@@ -225,7 +266,7 @@ class Api
      * @param mixed  $errors
      * @throws Exception
      */
-    private static function error(int $statusCode, string $message, $errors = []): void
+    private static function clientError(int $statusCode, string $message, $errors = []): void
     {
         throw new HttpResponseException(self::response($statusCode, $message, $errors));
     }
@@ -250,7 +291,7 @@ class Api
         if ($message === '') {
             $message = __('api.unauthorized');
         }
-        self::error(401, $message, $errors);
+        self::clientError(401, $message, $errors);
     }
 
     /**
@@ -268,7 +309,7 @@ class Api
         if ($message === '') {
             $message = __('api.forbidden');
         }
-        self::error(403, $message, $errors);
+        self::clientError(403, $message, $errors);
     }
 
     /**
@@ -286,7 +327,7 @@ class Api
         if ($message === '') {
             $message = __('api.not_found');
         }
-        self::error(404, $message, $errors);
+        self::clientError(404, $message, $errors);
     }
 
     /**
@@ -305,7 +346,7 @@ class Api
             $message = __('api.method_not_allowed');
         }
 
-        self::error(405, $message, $errors);
+        self::clientError(405, $message, $errors);
     }
 
     /**
@@ -324,7 +365,7 @@ class Api
             $message = __('api.not_acceptable');
         }
 
-        self::error(406, $message, $errors);
+        self::clientError(406, $message, $errors);
     }
 
     /**
@@ -343,7 +384,7 @@ class Api
             $message = __('api.conflict');
         }
 
-        self::error(409, $message, $errors);
+        self::clientError(409, $message, $errors);
     }
 
     /**
@@ -365,7 +406,7 @@ class Api
             $message = __('api.gone');
         }
 
-        self::error(410, $message, $errors);
+        self::clientError(410, $message, $errors);
     }
 
     /**
@@ -383,7 +424,7 @@ class Api
             $message = __('api.length_required');
         }
 
-        self::error(411, $message, $errors);
+        self::clientError(411, $message, $errors);
     }
 
     /**
@@ -401,7 +442,7 @@ class Api
             $message = __('api.precondition_failed');
         }
 
-        self::error(412, $message, $errors);
+        self::clientError(412, $message, $errors);
     }
 
     /**
@@ -420,7 +461,7 @@ class Api
             $message = __('api.unsupported_media_type');
         }
 
-        self::error(413, $message, $errors);
+        self::clientError(413, $message, $errors);
     }
 
     /**
@@ -438,7 +479,7 @@ class Api
             $message = __('api.unprocessable_entity');
         }
 
-        self::error(422, $message, $errors);
+        self::clientError(422, $message, $errors);
     }
 
     /**
@@ -458,7 +499,7 @@ class Api
             $message = __('api.precondition_required');
         }
 
-        self::error(428, $message, $errors);
+        self::clientError(428, $message, $errors);
     }
 
     /**
@@ -476,7 +517,7 @@ class Api
             $message = __('api.too_many_requests');
         }
 
-        self::error(429, $message, $errors);
+        self::clientError(429, $message, $errors);
     }
 
     /**
@@ -495,7 +536,7 @@ class Api
             $message = __('api.internal_server_error');
         }
 
-        self::error(500, $message, $errors);
+        self::clientError(500, $message, $errors);
     }
 
     /**
@@ -514,7 +555,7 @@ class Api
             $message = __('api.not_implemented');
         }
 
-        self::error(501, $message, $errors);
+        self::clientError(501, $message, $errors);
     }
 
     /**
@@ -532,7 +573,7 @@ class Api
             $message = __('api.bad_gateway');
         }
 
-        self::error(502, $message, $errors);
+        self::clientError(502, $message, $errors);
     }
 
     /**
@@ -551,7 +592,7 @@ class Api
             $message = __('api.service_unavailable');
         }
 
-        self::error(503, $message, $errors);
+        self::clientError(503, $message, $errors);
     }
 
     /**
@@ -569,7 +610,7 @@ class Api
             $message = __('api.gateway_time_out');
         }
 
-        self::error(504, $message, $errors);
+        self::clientError(504, $message, $errors);
     }
 
     /**
@@ -587,7 +628,7 @@ class Api
             $message = __('api.http_version_not_supported');
         }
 
-        self::error(505, $message, $errors);
+        self::clientError(505, $message, $errors);
     }
 
     /**
@@ -605,7 +646,7 @@ class Api
             $message = __('api.variant_also_negotiates');
         }
 
-        self::error(506, $message, $errors);
+        self::clientError(506, $message, $errors);
     }
 
     /**
@@ -623,7 +664,7 @@ class Api
             $message = __('api.insufficient_storage');
         }
 
-        self::error(507, $message, $errors);
+        self::clientError(507, $message, $errors);
     }
 
     /**
@@ -641,7 +682,7 @@ class Api
             $message = __('api.loop_detected');
         }
 
-        self::error(508, $message, $errors);
+        self::clientError(508, $message, $errors);
     }
 
     /**
@@ -659,7 +700,7 @@ class Api
             $message = __('api.not_extended');
         }
 
-        self::error(510, $message, $errors);
+        self::clientError(510, $message, $errors);
     }
 
     /**
@@ -678,6 +719,6 @@ class Api
         if ($message === '') {
             $message = __('api.network_authentication_required');
         }
-        self::error(511, $message, $errors);
+        self::clientError(511, $message, $errors);
     }
 }
