@@ -40,6 +40,12 @@ class Sls
      */
     public static function put($data = [], $user = [])
     {
+        if ($user === []) {
+            if (class_exists('\App\User') && method_exists('\App\User', 'getDefaultUser')) {
+                $user = \App\User::getDefaultUser();
+            }
+        }
+
         try {
             app('sls')->putLogs([
                                     'env'      => config('app.env'),

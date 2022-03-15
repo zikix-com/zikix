@@ -3,11 +3,9 @@
 [![PHP Version](https://img.shields.io/packagist/php-v/zikix/laravel-component.svg)][packagist]
 [![License](https://poser.pugx.org/zikix/laravel-component/license.svg)][packagist]
 
-
 ## Installation
 
 Require this package with composer:
-
 
 ```shell
 composer require zikix/laravel-component
@@ -15,13 +13,12 @@ composer require zikix/laravel-component
 
 ## Quick Examples
 
-Please refer to our extensive [Wiki documentation](https://github.com/zikix-com/laravel-component/wiki) for more information.
-
+Please refer to our extensive [Wiki documentation](https://github.com/zikix-com/laravel-component/wiki) for more
+information.
 
 ## Support
 
 For answers, you may not find in the Wiki, avoid posting issues. Feel free to ask for support on Zikix.com
-
 
 ## License
 
