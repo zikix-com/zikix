@@ -2,7 +2,6 @@
 
 namespace Zikix\LaravelComponent;
 
-use App\User;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -13,10 +12,12 @@ class Sls
 
     /**
      * @param Exception $e
+     * @param mixed     $user
      * @return void
      * @throws Exception
      */
-    public static function exception(Exception $e){
+    public static function exception(Exception $e, $user = [])
+    {
         $data['request_id'] = Api::getRequestId();
         $data['code']       = 500;
         $data['message']    = $e instanceof NotFoundHttpException ? '请求地址错误' : '服务器繁忙';
@@ -28,15 +29,16 @@ class Sls
             'message'   => $e->getMessage(),
         ];
 
-        Sls::put($data);
+        Sls::put($data, $user);
     }
 
     /**
-     * @param array|object|mixed $data
+     * @param mixed $data
+     * @param mixed $user
      * @return void
      * @throws Exception
      */
-    public static function put($data = [])
+    public static function put($data = [], $user = [])
     {
         try {
             app('sls')->putLogs([
@@ -44,7 +46,7 @@ class Sls
                                     'request'  => json_encode(request()->toArray()),
                                     'route'    => json_encode(request()->route()),
                                     'response' => json_encode($data),
-                                    'user'     => json_encode(User::getDefaultUser()),
+                                    'user'     => json_encode($user),
                                     'ip'       => request()->getClientIp(),
                                     'headers'  => json_encode(self::getHeaders()),
                                     'errors'   => json_encode(self::$errors),
