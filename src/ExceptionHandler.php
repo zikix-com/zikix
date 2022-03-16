@@ -87,6 +87,7 @@ class ExceptionHandler extends Handler
             if (count($e->getIds()) > 0) {
                 $message .= ' ' . implode(', ', $e->getIds());
             }
+            return Api::json(400, $message);
         }
 
         if (config('app.debug') === true) {
