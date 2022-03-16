@@ -122,7 +122,7 @@ class Qy
             $post_data = json_encode($post_data);
             $mds       = md5($post_data);
 
-            if (!Cache::add("qy:$mds", 1, 3)) {
+            if (!Cache::add("qy:$mds", 1, 10)) {
                 return;
             }
 
