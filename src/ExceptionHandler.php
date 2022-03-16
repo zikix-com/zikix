@@ -84,6 +84,9 @@ class ExceptionHandler extends Handler
 
         if ($e instanceof ModelNotFoundException) {
             $message = '指定的数据不存在：' . $e->getModel();
+            if (count($e->getIds()) > 0) {
+                $message .= ' ' . implode(', ', $e->getIds());
+            }
         }
 
         if (config('app.debug') === true) {
