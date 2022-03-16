@@ -95,6 +95,8 @@ class Sls
                 'request'    => request()->toArray(),
                 'route'      => request()->route(),
                 'ip'         => request()->getClientIp(),
+                'uri'        => request()->getUri(),
+                'referer'    => request()->header('referer'),
                 'headers'    => self::getHeaders(),
                 'logs'       => self::$logs,
             ];
