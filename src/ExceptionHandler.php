@@ -75,11 +75,19 @@ class ExceptionHandler extends Handler
             return $e->getResponse();
         }
 
-        $message = $e instanceof NotFoundHttpException ? '请求地址错误' : '服务器繁忙';
+        $message = '服务器繁忙';
+        $data    = [];
 
-        $data = [];
+        if ($e instanceof NotFoundHttpException) {
+            $message = '请求地址错误';
+        }
+
+        if ($e instanceof ModelNotFoundException) {
+            $message = '指定的数据不存在：' . $e->getModel();
+        }
+
         if (config('app.debug') === true) {
-            $data = Common::exceptionToArray($e, true);
+            $data['exception'] = Common::exceptionToArray($e, true);
         }
 
         return Api::json(500, $message, $data, 500);
