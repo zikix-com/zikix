@@ -58,6 +58,7 @@ class Qy
     {
         $data = [
             'app'        => config('app.name'),
+            'whoami'     => exec('whoami'),
             'env'        => config('app.env'),
             'Request Id' => Api::getRequestId(),
             'uri'        => request()->getUri(),

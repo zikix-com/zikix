@@ -91,6 +91,7 @@ class Sls
             $logs = [
                 'request_id' => Api::getRequestId(),
                 'app'        => config('app.name'),
+                'whoami'     => exec('whoami'),
                 'env'        => config('app.env'),
                 'request'    => request()->toArray(),
                 'route'      => request()->route(),
