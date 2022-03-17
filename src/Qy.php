@@ -35,7 +35,7 @@ class Qy
      * @return void
      * @throws Exception
      */
-    public static function exception(Exception $e, string $mentioned_list = '')
+    public static function exception(Exception $e, string $mentioned_list = ''): void
     {
         foreach (self::$dontReport as $item) {
             if ($e instanceof $item) {
@@ -43,6 +43,19 @@ class Qy
             }
         }
 
+        $data = Common::exceptionToArray($e);
+
+        Qy::markdown($data, $mentioned_list);
+    }
+
+    /**
+     * @param array  $content
+     * @param string $mentioned_list
+     * @return void
+     * @throws Exception
+     */
+    public static function markdown(array $content, string $mentioned_list = ''): void
+    {
         $data = [
             'app'        => config('app.name'),
             'env'        => config('app.env'),
@@ -52,27 +65,14 @@ class Qy
             'ip'         => request()->getClientIp(),
         ];
 
-        $items = Common::exceptionToArray($e);
-
-        foreach ($items as $k => $v) {
+        foreach ($content as $k => $v) {
             $data[$k] = $v;
         }
 
-        Qy::markdown($data, $mentioned_list);
-    }
-
-    /**
-     * @param        $content
-     * @param string $mentioned_list
-     * @return void
-     * @throws Exception
-     */
-    public static function markdown($content, string $mentioned_list = '')
-    {
         $post_data = [
             'msgtype'  => 'markdown',
             'markdown' => [
-                'content'        => self::getMarkdownString($content),
+                'content'        => self::getMarkdownString($data),
                 'mentioned_list' => $mentioned_list,
             ],
         ];
