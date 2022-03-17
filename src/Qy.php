@@ -91,6 +91,11 @@ class Qy
             if ($v) {
                 $k        = strtoupper($k);
                 $markdown .= "<font color=\"warning\">$k</font>\n";
+
+                if (is_array($v) || is_object($v)) {
+                    $v = json_encode($v, JSON_UNESCAPED_UNICODE);
+                }
+
                 if (strpos($v, 'http') === 0) {
                     $markdown .= "<font color=\"comment\">[$v]($v)</font>\n\n\n";
                 } else {
