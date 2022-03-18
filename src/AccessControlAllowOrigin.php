@@ -17,6 +17,10 @@ class AccessControlAllowOrigin
      */
     public function handle(Request $request, Closure $next)
     {
+        if (config('app.env') === 'testing') {
+            return $next($request);
+        }
+
         header('Access-Control-Allow-Origin: *');
         header("Access-Control-Allow-Credentials: true");
         header("Access-Control-Allow-Methods: *");
