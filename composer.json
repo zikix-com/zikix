@@ -30,12 +30,11 @@
     }
   },
   "require": {
-    "php": "^7.1",
+    "php": ">=5.5",
     "ext-xml": "*",
     "ext-json": "*",
     "ext-simplexml": "*",
     "ext-curl": "*",
-    "pandasir/laravel-sls": "^1.0",
     "ext-zip": "*"
   },
   "require-dev": {
@@ -44,7 +43,8 @@
   },
   "autoload": {
     "psr-4": {
-      "Zikix\\LaravelComponent\\": "src/"
+      "Zikix\\LaravelComponent\\": "src/",
+      "Lokielse\\LaravelSLS\\": "sls/src/"
     },
     "files": [
     ]
