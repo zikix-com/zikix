@@ -2,10 +2,7 @@
   "name": "zikix/laravel-component",
   "description": "The Zikix Laravel Components package.",
   "keywords": [
-    "support",
-    "laravel",
-    "web",
-    "Tools"
+    "support"
   ],
   "license": "MIT",
   "homepage": "https://zikix.com",
@@ -43,8 +40,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Zikix\\LaravelComponent\\": "src/",
-      "Lokielse\\LaravelSLS\\": "sls/src/"
+      "Zikix\\LaravelComponent\\": "src/"
     },
     "files": [
     ]
