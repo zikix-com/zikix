@@ -39,11 +39,5 @@ class SLSServiceProvider extends ServiceProvider
             return $log;
         });
 
-        $config = $this->app['config']['zikix'];
-
-        $this->app->instance(
-            'sls.writer',
-            new Writer(app('sls'), $this->app['events'], $config['topic'])
-        );
     }
 }
