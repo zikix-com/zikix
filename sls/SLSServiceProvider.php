@@ -4,7 +4,9 @@ namespace Zikix\SLS;
 
 use Aliyun\SLS\Client;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Zikix\LaravelComponent\HealthController;
 
 class SLSServiceProvider extends ServiceProvider
 {
@@ -21,6 +23,8 @@ class SLSServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        Route::get('/health', [HealthController::class, 'action']);
+
         $this->app->singleton('sls', function ($app) {
             $config = $app['config']['zikix'];
 

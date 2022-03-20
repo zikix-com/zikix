@@ -12,15 +12,6 @@ class HealthController extends BaseController
      * @return JsonResponse
      * @throws Exception
      */
-    public function __invoke()
-    {
-        return Api::ok([], 'OK');
-    }
-
-    /**
-     * @return JsonResponse
-     * @throws Exception
-     */
     public function action()
     {
         return Api::ok([], 'OK');
