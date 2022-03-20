@@ -1,10 +1,10 @@
 <?php
 
-namespace Zikix\Component\SLS\Facades;
+namespace Zikix\Component\Sls\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class SLSLogWriter extends Facade
+class SlsLogWriter extends Facade
 {
     /**
      * @return string

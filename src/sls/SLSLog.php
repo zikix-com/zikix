@@ -1,6 +1,6 @@
 <?php
 
-namespace Zikix\Component\SLS;
+namespace Zikix\Component\Sls;
 
 use Aliyun\SLS\Client;
 use Aliyun\SLS\Exception;
@@ -16,7 +16,7 @@ use Aliyun\SLS\Responses\ListLogStoresResponse;
 use Aliyun\SLS\Responses\ListTopicsResponse;
 use Illuminate\Support\Arr;
 
-class SLSLog
+class SlsLog
 {
 
     /**

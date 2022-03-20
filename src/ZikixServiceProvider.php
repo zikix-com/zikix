@@ -6,7 +6,7 @@ use Aliyun\SLS\Client;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Zikix\Component\SLS\SlsLog;
+use Zikix\Component\Sls\SlsLog;
 
 class ZikixServiceProvider extends ServiceProvider
 {
