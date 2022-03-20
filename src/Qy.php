@@ -11,6 +11,7 @@ use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Throwable;
 
 class Qy
 {
@@ -30,12 +31,12 @@ class Qy
     ];
 
     /**
-     * @param Exception $e
+     * @param Throwable $e
      * @param string    $mentioned_list
      * @return void
-     * @throws Exception
+     * @throws Throwable
      */
-    public static function exception(Exception $e, string $mentioned_list = '')
+    public static function exception(Throwable $e, string $mentioned_list = '')
     {
         foreach (self::$dontReport as $item) {
             if ($e instanceof $item) {
@@ -52,7 +53,7 @@ class Qy
      * @param array  $content
      * @param string $mentioned_list
      * @return void
-     * @throws Exception
+     * @throws Throwable
      */
     public static function markdown(array $content, string $mentioned_list = ''): void
     {

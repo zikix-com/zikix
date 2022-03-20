@@ -4,6 +4,7 @@ namespace Zikix\Component;
 
 use Exception;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Throwable;
 
 class Common
 {
@@ -12,7 +13,7 @@ class Common
      * @param bool      $detail
      * @return array
      */
-    public static function exceptionToArray(Exception $e, bool $detail = false): array
+    public static function exceptionToArray(Throwable $e, bool $detail = false): array
     {
         $exception = [
             'message' => $e->getMessage(),

@@ -27,7 +27,7 @@
     }
   },
   "require": {
-    "php": ">=5.5",
+    "php": "^8.1",
     "ext-xml": "*",
     "ext-json": "*",
     "ext-simplexml": "*",
@@ -36,6 +36,7 @@
     "lokielse/aliyun-open-api-sls": "^1.0"
   },
   "require-dev": {
+    "laravel/framework": "^9.2"
   },
   "autoload": {
     "psr-4": {
