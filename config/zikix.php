@@ -10,5 +10,4 @@ return [
     'store'             => env('SLS_STORE'),
     'topic'             => null,
     'qy_key'            => env('QY_KEY'),
-    'api_http_code'     => null,
 ];

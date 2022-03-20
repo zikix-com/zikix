@@ -14,6 +14,7 @@ use Illuminate\Http\Response;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Throwable;
 
 class ExceptionHandler extends Handler
 {
@@ -48,9 +49,9 @@ class ExceptionHandler extends Handler
      * @param Exception $e
      *
      * @return void
-     * @throws Exception
+     * @throws Throwable
      */
-    public function report(Exception $e)
+    public function report(Throwable $e)
     {
         Qy::exception($e);
 
@@ -66,9 +67,9 @@ class ExceptionHandler extends Handler
      * @param Exception $e
      *
      * @return Response|JsonResponse
-     * @throws Exception
+     * @throws Throwable
      */
-    public function render($request, Exception $e)
+    public function render($request, Throwable $e)
     {
         if ($e instanceof HttpResponseException) {
             return $e->getResponse();
@@ -86,14 +87,15 @@ class ExceptionHandler extends Handler
             if (count($e->getIds()) > 0) {
                 $message .= ' ' . implode(', ', $e->getIds());
             }
-            return Api::json(400, $message);
+
+            return Api::response(400, $message);
         }
 
         if (config('app.debug') === true) {
             $data['exception'] = Common::exceptionToArray($e, true);
         }
 
-        return Api::json(500, $message, $data, 500);
+        return Api::response(500, $message, $data, 500);
     }
 
 }

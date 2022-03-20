@@ -12,7 +12,7 @@ class Api
     /**
      * @var string
      */
-    private static $requestId;
+    private static string $requestId;
 
     /**
      * Success - OK
@@ -22,32 +22,18 @@ class Api
      *
      * @param mixed|array|object $data
      * @param string $message
+     * @param int $bizCode
      *
      * @return JsonResponse
      * @throws Exception
      */
-    public static function ok($data = [], string $message = ''): JsonResponse
+    public static function ok(array|object $data = [], string $message = '', int $bizCode = 200): JsonResponse
     {
         if ($message === '') {
             $message = __('api.ok');
         }
 
-        return self::response(200, $message, $data);
-    }
-
-    /**
-     * @param int $httpOrBizCode
-     * @param string $message
-     * @param mixed $data
-     * @param array $headers
-     * @param int $options
-     *
-     * @return JsonResponse
-     * @throws Exception
-     */
-    public static function response(int $httpOrBizCode, string $message, $data = [], array $headers = [], int $options = 0): JsonResponse
-    {
-        return self::json($httpOrBizCode, $message, $data, self::httpStatusCode() ?: $httpOrBizCode, $headers, $options);
+        return self::response($bizCode, $message, $data);
     }
 
     /**
@@ -59,8 +45,9 @@ class Api
      * @param int $options
      *
      * @return JsonResponse
+     * @throws Exception
      */
-    public static function json(int $bizCode, string $message = '成功', $data = [], int $httpCode = 200, array $headers = [], int $options = 0): JsonResponse
+    public static function response(int $bizCode, string $message = '成功', array|object $data = [], int $httpCode = 200, array $headers = [], int $options = 0): JsonResponse
     {
         $content['request_id'] = self::getRequestId();
         $content['code']       = $bizCode;
@@ -87,27 +74,19 @@ class Api
     }
 
     /**
-     * @return null|string|int
-     */
-    private static function httpStatusCode()
-    {
-        return config('zikix.api_http_code');
-    }
-
-    /**
      * @param int $bizCode
      * @param string $message
-     * @param mixed $data
+     * @param array|object $data
      * @param int $httpCode
      * @param array $headers
      * @param int $options
      *
      * @return mixed
-     * @throws HttpResponseException
+     * @throws Exception
      */
-    public static function error(int $bizCode, string $message = '错误', $data = [], int $httpCode = 200, array $headers = [], int $options = 0)
+    public static function error(int $bizCode, string $message = '错误', array|object $data = [], int $httpCode = 400, array $headers = [], int $options = 0)
     {
-        throw new HttpResponseException(self::json($bizCode, $message, $data, $httpCode, $headers, $options));
+        throw new HttpResponseException(self::response($bizCode, $message, $data, $httpCode, $headers, $options));
     }
 
     /**
@@ -116,17 +95,18 @@ class Api
      *
      * @param string $message
      * @param mixed $data
+     * @param int $bizCode
      *
      * @return JsonResponse
      * @throws Exception
      */
-    public static function created(string $message = '', $data = []): JsonResponse
+    public static function created(string $message = '', array|object $data = [], int $bizCode = 201): JsonResponse
     {
         if ($message === '') {
             $message = __('api.created');
         }
 
-        return self::response(201, $message, $data);
+        return self::response($bizCode, $message, $data, 201);
     }
 
     /**
@@ -136,17 +116,18 @@ class Api
      *
      * @param string $message
      * @param mixed $data
+     * @param int $bizCode
      *
      * @return JsonResponse
      * @throws Exception
      */
-    public static function accepted(string $message = '', $data = []): JsonResponse
+    public static function accepted(string $message = '', array|object $data = [], int $bizCode = 202): JsonResponse
     {
         if ($message === '') {
             $message = __('api.accepted');
         }
 
-        return self::response(202, $message, $data);
+        return self::response($bizCode, $message, $data, 202);
     }
 
     /**
@@ -156,17 +137,18 @@ class Api
      *
      * @param string $message
      * @param mixed $data
+     * @param int $bizCode
      *
      * @return JsonResponse
      * @throws Exception
      */
-    public static function nonAuthoritativeInformation(string $message = '', $data = []): JsonResponse
+    public static function nonAuthoritativeInformation(string $message = '', array|object $data = [], int $bizCode = 203): JsonResponse
     {
         if ($message === '') {
             $message = __('api.non_authoritative');
         }
 
-        return self::response(203, $message, $data);
+        return self::response($bizCode, $message, $data, 203);
     }
 
     /**
@@ -175,17 +157,18 @@ class Api
      *
      * @param string $message
      * @param mixed $data
+     * @param int $bizCode
      *
      * @return JsonResponse
      * @throws Exception
      */
-    public static function noContent(string $message = '', $data = []): JsonResponse
+    public static function noContent(string $message = '', array|object $data = [], int $bizCode = 204): JsonResponse
     {
         if ($message === '') {
             $message = __('api.no_content');
         }
 
-        return self::response(204, $message, $data);
+        return self::response($bizCode, $message, $data, 204);
     }
 
     /**
@@ -195,17 +178,18 @@ class Api
      *
      * @param string $message
      * @param mixed $data
+     * @param int $bizCode
      *
      * @return JsonResponse
      * @throws Exception
      */
-    public static function resetContent(string $message = '', $data = []): JsonResponse
+    public static function resetContent(string $message = '', array|object $data = [], int $bizCode = 205): JsonResponse
     {
         if ($message === '') {
             $message = __('api.reset_content');
         }
 
-        return self::response(205, $message, $data);
+        return self::response($bizCode, $message, $data, 205);
     }
 
     /**
@@ -215,28 +199,17 @@ class Api
      *
      * @param string $message
      * @param mixed $errors
-     * @param array $append
+     * @param int $bizCode
      *
      * @throws Exception
      */
-    public static function badRequest(string $message = '', $errors = [], array $append = []): void
+    public static function badRequest(string $message = '', array|object $errors = [], int $bizCode = 400): void
     {
         if ($message === '') {
             $message = __('api.bad_request');
         }
-        self::clientError(400, $message, $errors);
-    }
 
-    /**
-     * @param int $statusCode
-     * @param string $message
-     * @param mixed $errors
-     *
-     * @throws Exception
-     */
-    private static function clientError(int $statusCode, string $message, $errors = []): void
-    {
-        throw new HttpResponseException(self::response($statusCode, $message, $errors));
+        self::error($bizCode, $message, $errors, 400);
     }
 
     /**
@@ -250,15 +223,17 @@ class Api
      *
      * @param string $message
      * @param mixed $errors
+     * @param int $bizCode
      *
      * @throws Exception
      */
-    public static function unauthorized(string $message = '', $errors = []): void
+    public static function unauthorized(string $message = '', array|object $errors = [], int $bizCode = 401): void
     {
         if ($message === '') {
             $message = __('api.unauthorized');
         }
-        self::clientError(401, $message, $errors);
+
+        self::error($bizCode, $message, $errors, 401);
     }
 
     /**
@@ -268,15 +243,17 @@ class Api
      *
      * @param string $message
      * @param mixed $errors
+     * @param int $bizCode
      *
      * @throws Exception
      */
-    public static function forbidden(string $message = '', array $errors = []): void
+    public static function forbidden(string $message = '', array|object $errors = [], int $bizCode = 403): void
     {
         if ($message === '') {
             $message = __('api.forbidden');
         }
-        self::clientError(403, $message, $errors);
+
+        self::error($bizCode, $message, $errors, 403);
     }
 
     /**
@@ -286,15 +263,17 @@ class Api
      *
      * @param string $message
      * @param mixed $errors
+     * @param int $bizCode
      *
      * @throws Exception
      */
-    public static function notFound(string $message = '', $errors = []): void
+    public static function notFound(string $message = '', array|object $errors = [], int $bizCode = 404): void
     {
         if ($message === '') {
             $message = __('api.not_found');
         }
-        self::clientError(404, $message, $errors);
+
+        self::error($bizCode, $message, $errors, 404);
     }
 
     /**
@@ -304,16 +283,17 @@ class Api
      *
      * @param string $message
      * @param mixed $errors
+     * @param int $bizCode
      *
      * @throws Exception
      */
-    public static function methodNotAllowed(string $message = '', $errors = []): void
+    public static function methodNotAllowed(string $message = '', array|object $errors = [], int $bizCode = 405): void
     {
         if ($message === '') {
             $message = __('api.method_not_allowed');
         }
 
-        self::clientError(405, $message, $errors);
+        self::error($bizCode, $message, $errors, 405);
     }
 
     /**
@@ -323,16 +303,17 @@ class Api
      *
      * @param string $message
      * @param mixed $errors
+     * @param int $bizCode
      *
      * @throws Exception
      */
-    public static function notAcceptable(string $message = '', $errors = null): void
+    public static function notAcceptable(string $message = '', array|object $errors = null, int $bizCode = 406): void
     {
         if ($message === '') {
             $message = __('api.not_acceptable');
         }
 
-        self::clientError(406, $message, $errors);
+        self::error($bizCode, $message, $errors, 406);
     }
 
     /**
@@ -342,16 +323,17 @@ class Api
      *
      * @param string $message
      * @param mixed $errors
+     * @param int $bizCode
      *
      * @throws Exception
      */
-    public static function conflict(string $message = '', $errors = []): void
+    public static function conflict(string $message = '', array|object $errors = [], int $bizCode = 409): void
     {
         if ($message === '') {
             $message = __('api.conflict');
         }
 
-        self::clientError(409, $message, $errors);
+        self::error($bizCode, $message, $errors, 409);
     }
 
     /**
@@ -364,16 +346,17 @@ class Api
      *
      * @param string $message
      * @param mixed $errors
+     * @param int $bizCode
      *
      * @throws Exception
      */
-    public static function gone(string $message = '', $errors = []): void
+    public static function gone(string $message = '', array|object $errors = [], int $bizCode = 410): void
     {
         if ($message === '') {
             $message = __('api.gone');
         }
 
-        self::clientError(410, $message, $errors);
+        self::error($bizCode, $message, $errors, 410);
     }
 
     /**
@@ -382,16 +365,17 @@ class Api
      *
      * @param string $message
      * @param mixed $errors
+     * @param int $bizCode
      *
      * @throws Exception
      */
-    public static function lengthRequired(string $message = '', $errors = []): void
+    public static function lengthRequired(string $message = '', array|object $errors = [], int $bizCode = 411): void
     {
         if ($message === '') {
             $message = __('api.length_required');
         }
 
-        self::clientError(411, $message, $errors);
+        self::error($bizCode, $message, $errors, 411);
     }
 
     /**
@@ -400,16 +384,17 @@ class Api
      *
      * @param string $message
      * @param mixed $errors
+     * @param int $bizCode
      *
      * @throws Exception
      */
-    public static function preconditionFailed(string $message = '', $errors = []): void
+    public static function preconditionFailed(string $message = '', array|object $errors = [], int $bizCode = 412): void
     {
         if ($message === '') {
             $message = __('api.precondition_failed');
         }
 
-        self::clientError(412, $message, $errors);
+        self::error($bizCode, $message, $errors, 412);
     }
 
     /**
@@ -419,16 +404,17 @@ class Api
      *
      * @param string $message
      * @param mixed $errors
+     * @param int $bizCode
      *
      * @throws Exception
      */
-    public static function unsupportedMediaType(string $message = '', $errors = []): void
+    public static function unsupportedMediaType(string $message = '', array|object $errors = [], int $bizCode = 413): void
     {
         if ($message === '') {
             $message = __('api.unsupported_media_type');
         }
 
-        self::clientError(413, $message, $errors);
+        self::error($bizCode, $message, $errors, 413);
     }
 
     /**
@@ -437,16 +423,17 @@ class Api
      *
      * @param string $message
      * @param mixed $errors
+     * @param int $bizCode
      *
      * @throws Exception
      */
-    public static function unprocessableEntity(string $message = '', $errors = []): void
+    public static function unprocessableEntity(string $message = '', array|object $errors = [], int $bizCode = 422): void
     {
         if ($message === '') {
             $message = __('api.unprocessable_entity');
         }
 
-        self::clientError(422, $message, $errors);
+        self::error($bizCode, $message, $errors, 422);
     }
 
     /**
@@ -457,16 +444,17 @@ class Api
      *
      * @param string $message
      * @param mixed $errors
+     * @param int $bizCode
      *
      * @throws Exception
      */
-    public static function preconditionRequired(string $message = '', $errors = []): void
+    public static function preconditionRequired(string $message = '', array|object $errors = [], int $bizCode = 428): void
     {
         if ($message === '') {
             $message = __('api.precondition_required');
         }
 
-        self::clientError(428, $message, $errors);
+        self::error($bizCode, $message, $errors, 428);
     }
 
     /**
@@ -475,16 +463,17 @@ class Api
      *
      * @param string $message
      * @param mixed $errors
+     * @param int $bizCode
      *
      * @throws Exception
      */
-    public static function tooManyRequests(string $message = '', $errors = []): void
+    public static function tooManyRequests(string $message = '', array|object $errors = [], int $bizCode = 429): void
     {
         if ($message === '') {
             $message = __('api.too_many_requests');
         }
 
-        self::clientError(429, $message, $errors);
+        self::error($bizCode, $message, $errors, 429);
     }
 
     /**
@@ -494,16 +483,17 @@ class Api
      *
      * @param string $message
      * @param mixed $errors
+     * @param int $bizCode
      *
      * @throws Exception
      */
-    public static function internalServerError(string $message = '', $errors = []): void
+    public static function internalServerError(string $message = '', array|object $errors = [], int $bizCode = 500): void
     {
         if ($message === '') {
             $message = __('api.internal_server_error');
         }
 
-        self::clientError(500, $message, $errors);
+        self::error($bizCode, $message, $errors, 500);
     }
 
     /**
@@ -513,16 +503,17 @@ class Api
      *
      * @param string $message
      * @param mixed $errors
+     * @param int $bizCode
      *
      * @throws Exception
      */
-    public static function notImplemented(string $message = '', $errors = []): void
+    public static function notImplemented(string $message = '', array|object $errors = [], int $bizCode = 501): void
     {
         if ($message === '') {
             $message = __('api.not_implemented');
         }
 
-        self::clientError(501, $message, $errors);
+        self::error($bizCode, $message, $errors, 501);
     }
 
     /**
@@ -531,16 +522,17 @@ class Api
      *
      * @param string $message
      * @param mixed $errors
+     * @param int $bizCode
      *
      * @throws Exception
      */
-    public static function badGateway(string $message = '', $errors = []): void
+    public static function badGateway(string $message = '', array|object $errors = [], int $bizCode = 502): void
     {
         if ($message === '') {
             $message = __('api.bad_gateway');
         }
 
-        self::clientError(502, $message, $errors);
+        self::error($bizCode, $message, $errors, 502);
     }
 
     /**
@@ -550,16 +542,17 @@ class Api
      *
      * @param string $message
      * @param mixed $errors
+     * @param int $bizCode
      *
      * @throws Exception
      */
-    public static function serviceUnavailable(string $message = '', $errors = []): void
+    public static function serviceUnavailable(string $message = '', array|object $errors = [], int $bizCode = 503): void
     {
         if ($message === '') {
             $message = __('api.service_unavailable');
         }
 
-        self::clientError(503, $message, $errors);
+        self::error($bizCode, $message, $errors, 503);
     }
 
     /**
@@ -568,16 +561,17 @@ class Api
      *
      * @param string $message
      * @param mixed $errors
+     * @param int $bizCode
      *
      * @throws Exception
      */
-    public static function gatewayTimeOut(string $message = '', $errors = []): void
+    public static function gatewayTimeOut(string $message = '', array|object $errors = [], int $bizCode = 504): void
     {
         if ($message === '') {
             $message = __('api.gateway_time_out');
         }
 
-        self::clientError(504, $message, $errors);
+        self::error($bizCode, $message, $errors, 504);
     }
 
     /**
@@ -586,16 +580,17 @@ class Api
      *
      * @param string $message
      * @param mixed $errors
+     * @param int $bizCode
      *
      * @throws Exception
      */
-    public static function httpVersionNotSupported(string $message = '', $errors = []): void
+    public static function httpVersionNotSupported(string $message = '', array|object $errors = [], int $bizCode = 505): void
     {
         if ($message === '') {
             $message = __('api.http_version_not_supported');
         }
 
-        self::clientError(505, $message, $errors);
+        self::error($bizCode, $message, $errors, 505);
     }
 
     /**
@@ -604,16 +599,17 @@ class Api
      *
      * @param string $message
      * @param mixed $errors
+     * @param int $bizCode
      *
      * @throws Exception
      */
-    public static function variantAlsoNegotiates(string $message = '', $errors = []): void
+    public static function variantAlsoNegotiates(string $message = '', array|object $errors = [], int $bizCode = 506): void
     {
         if ($message === '') {
             $message = __('api.variant_also_negotiates');
         }
 
-        self::clientError(506, $message, $errors);
+        self::error($bizCode, $message, $errors, 506);
     }
 
     /**
@@ -622,16 +618,17 @@ class Api
      *
      * @param string $message
      * @param mixed $errors
+     * @param int $bizCode
      *
      * @throws Exception
      */
-    public static function insufficientStorage(string $message = '', $errors = []): void
+    public static function insufficientStorage(string $message = '', array|object $errors = [], int $bizCode = 507): void
     {
         if ($message === '') {
             $message = __('api.insufficient_storage');
         }
 
-        self::clientError(507, $message, $errors);
+        self::error($bizCode, $message, $errors, 507);
     }
 
     /**
@@ -640,16 +637,17 @@ class Api
      *
      * @param string $message
      * @param mixed $errors
+     * @param int $bizCode
      *
      * @throws Exception
      */
-    public static function loopDetected(string $message = '', $errors = []): void
+    public static function loopDetected(string $message = '', array|object $errors = [], int $bizCode = 508): void
     {
         if ($message === '') {
             $message = __('api.loop_detected');
         }
 
-        self::clientError(508, $message, $errors);
+        self::error($bizCode, $message, $errors, 508);
     }
 
     /**
@@ -658,16 +656,17 @@ class Api
      *
      * @param string $message
      * @param mixed $errors
+     * @param int $bizCode
      *
      * @throws Exception
      */
-    public static function notExtended(string $message = '', $errors = []): void
+    public static function notExtended(string $message = '', array|object $errors = [], int $bizCode = 510): void
     {
         if ($message === '') {
             $message = __('api.not_extended');
         }
 
-        self::clientError(510, $message, $errors);
+        self::error($bizCode, $message, $errors, 510);
     }
 
     /**
@@ -678,14 +677,16 @@ class Api
      *
      * @param string $message
      * @param mixed $errors
+     * @param int $bizCode
      *
      * @throws Exception
      */
-    public static function networkAuthenticationRequired(string $message = '', $errors = []): void
+    public static function networkAuthenticationRequired(string $message = '', array|object $errors = [], int $bizCode = 511): void
     {
         if ($message === '') {
             $message = __('api.network_authentication_required');
         }
-        self::clientError(511, $message, $errors);
+
+        self::error($bizCode, $message, $errors, 511);
     }
 }
