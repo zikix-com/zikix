@@ -12,7 +12,7 @@ class Api
     /**
      * @var string
      */
-    private static string $requestId;
+    private static $requestId;
 
     /**
      * Success - OK
