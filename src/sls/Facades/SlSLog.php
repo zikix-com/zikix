@@ -1,6 +1,6 @@
 <?php
 
-namespace Zikix\SLS\Facades;
+namespace Zikix\Component\SLS\Facades;
 
 use Aliyun\SLS\Responses\GetHistogramsResponse;
 use Aliyun\SLS\Responses\GetLogsResponse;
@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * Class SlSLog
- * @package Lokielse\LaravelSLS\Facades
  * @method ListLogStoresResponse listLogStores($project = null) static
  * @method bool putLogs($data, $topic = null, $source = null, $time = null) static
  * @method ListTopicsResponse listTopics() static
@@ -20,7 +19,10 @@ use Illuminate\Support\Facades\Facade;
  */
 class SlSLog extends Facade
 {
-    protected static function getFacadeAccessor()
+    /**
+     * @return string
+     */
+    protected static function getFacadeAccessor(): string
     {
         return 'sls';
     }

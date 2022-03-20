@@ -1,16 +1,19 @@
 <?php
 
-namespace Zikix\SLS;
+namespace Zikix\Component;
 
 use Aliyun\SLS\Client;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Zikix\LaravelComponent\HealthController;
+use Zikix\Component\SLS\SLSLog;
 
-class SLSServiceProvider extends ServiceProvider
+class ZikixServiceProvider extends ServiceProvider
 {
 
+    /**
+     * @return void
+     */
     public function boot()
     {
         $this->publishes([realpath(__DIR__ . '/../config/zikix.php') => config_path('zikix.php')]);

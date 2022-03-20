@@ -18,11 +18,11 @@
   ],
   "extra": {
     "branch-alias": {
-      "dev-master": "1.0.0-dev"
+      "dev-master": "2.0.0-dev"
     },
     "laravel": {
       "providers": [
-        "Zikix\\SLS\\SLSServiceProvider"
+        "Zikix\\Component\\ZikixServiceProvider"
       ]
     }
   },
@@ -39,15 +39,14 @@
   },
   "autoload": {
     "psr-4": {
-      "Zikix\\SLS\\": "sls/",
-      "Zikix\\LaravelComponent\\": "src/"
+      "Zikix\\Component\\": "src/"
     },
     "files": [
     ]
   },
   "autoload-dev": {
     "psr-4": {
-      "Zikix\\LaravelComponent\\Test\\": "tests/"
+      "Zikix\\Component\\Test\\": "tests/"
     }
   },
   "scripts": {

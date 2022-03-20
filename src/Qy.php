@@ -1,6 +1,6 @@
 <?php
 
-namespace Zikix\LaravelComponent;
+namespace Zikix\Component;
 
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -35,7 +35,7 @@ class Qy
      * @return void
      * @throws Exception
      */
-    public static function exception(Exception $e, string $mentioned_list = ''): void
+    public static function exception(Exception $e, string $mentioned_list = '')
     {
         foreach (self::$dontReport as $item) {
             if ($e instanceof $item) {

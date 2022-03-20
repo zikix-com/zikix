@@ -1,6 +1,6 @@
 <?php
 
-namespace Zikix\LaravelComponent;
+namespace Zikix\Component;
 
 use Exception;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -21,8 +21,8 @@ class Api
      * GET request, the response will contain an entity corresponding to the requested resource. In a POST request, the
      * response will contain an entity describing or containing the result of the action.
      *
-     * @param mixed  $data
-     * @param string $message
+     * @param mixed|array|object $data
+     * @param string             $message
      *
      * @return JsonResponse
      * @throws Exception

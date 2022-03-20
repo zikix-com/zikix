@@ -1,6 +1,6 @@
 <?php
 
-namespace Zikix\LaravelComponent;
+namespace Zikix\Component;
 
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -30,7 +30,6 @@ class ExceptionHandler extends Handler
         ModelNotFoundException::class,
         TokenMismatchException::class,
         ValidationException::class,
-        // \Symfony\Component\HttpKernel\Exception\HttpException::class,
     ];
 
     /**

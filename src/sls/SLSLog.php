@@ -1,8 +1,9 @@
 <?php
 
-namespace Zikix\SLS;
+namespace Zikix\Component\SLS;
 
 use Aliyun\SLS\Client;
+use Aliyun\SLS\Exception;
 use Aliyun\SLS\Models\LogItem;
 use Aliyun\SLS\Requests\GetHistogramsRequest;
 use Aliyun\SLS\Requests\GetLogsRequest;
@@ -43,30 +44,31 @@ class SLSLog
     /**
      * List log stores in project
      *
-     * @param string $project
+     * @param null $project
      *
      * @return ListLogStoresResponse
+     * @throws Exception
      */
     public function listLogStores($project = null)
     {
-        $project  = $project ?: $this->project;
-        $request  = new ListLogStoresRequest($project);
-        $response = $this->client->listLogStores($request);
-
-        return $response;
+        $project = $project ?: $this->project;
+        $request = new ListLogStoresRequest($project);
+        return $this->client->listLogStores($request);
     }
 
 
     /**
      * Write logs to store
      *
-     * @param array  $data
+     * @param array $data
      *
-     * @param string $topic
-     *
+     * @param null  $topic
+     * @param null  $source
+     * @param null  $time
      * @return bool
+     * @throws Exception
      */
-    public function putLogs($data, $topic = null, $source = null, $time = null)
+    public function putLogs($data, $topic = null, $source = null, $time = null): bool
     {
         $logItem  = new LogItem($data, $time);
         $request  = new PutLogsRequest($this->project, $this->logStore, $topic, $source, [$logItem]);
@@ -80,47 +82,46 @@ class SLSLog
      * List topics in store
      *
      * @return ListTopicsResponse
+     * @throws Exception
      */
     public function listTopics()
     {
-        $request  = new ListTopicsRequest($this->project, $this->logStore);
-        $response = $this->client->listTopics($request);
-
-        return $response;
+        $request = new ListTopicsRequest($this->project, $this->logStore);
+        return $this->client->listTopics($request);
     }
 
 
     /**
      * Get history logs
      *
-     * @param integer $from
-     * @param integer $to
-     * @param string  $query
-     * @param string  $topic
+     * @param null $from
+     * @param null $to
+     * @param null $query
+     * @param null $topic
      *
      * @return GetHistogramsResponse
+     * @throws Exception
      */
     public function getHistograms($from = null, $to = null, $query = null, $topic = null)
     {
-        $request  = new GetHistogramsRequest($this->project, $this->logStore, $from, $to, $topic, $query);
-        $response = $this->client->getHistograms($request);
-
-        return $response;
+        $request = new GetHistogramsRequest($this->project, $this->logStore, $from, $to, $topic, $query);
+        return $this->client->getHistograms($request);
     }
 
 
     /**
      * Get logs in store
      *
-     * @param string  $from
-     * @param string  $to
-     * @param string  $query
-     * @param string  $topic
+     * @param null    $from
+     * @param null    $to
+     * @param null    $query
+     * @param null    $topic
      * @param int     $line
-     * @param string  $offset
+     * @param null    $offset
      * @param boolean $reverse
      *
      * @return GetLogsResponse
+     * @throws Exception
      */
     public function getLogs(
         $from = null,
@@ -132,11 +133,9 @@ class SLSLog
         $reverse = true
     )
     {
-        $request  = new GetLogsRequest($this->project, $this->logStore, $from, $to, $topic, $query, $line, $offset,
-                                       $reverse);
-        $response = $this->client->getLogs($request);
-
-        return $response;
+        $request = new GetLogsRequest($this->project, $this->logStore, $from, $to, $topic, $query, $line, $offset,
+                                      $reverse);
+        return $this->client->getLogs($request);
     }
 
 
@@ -182,7 +181,6 @@ class SLSLog
 
         return $this;
     }
-
 
     /**
      * @return Client

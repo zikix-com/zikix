@@ -1,6 +1,6 @@
 <?php
 
-namespace Zikix\LaravelComponent;
+namespace Zikix\Component;
 
 class XLSXWriterBuffererWriter
 {
