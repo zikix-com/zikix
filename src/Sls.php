@@ -2,6 +2,7 @@
 
 namespace Zikix\Component;
 
+use App\User;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Psr\Log\LoggerInterface;
@@ -19,7 +20,6 @@ use RuntimeException;
  * @method static void log($level, string $message, array $context = [])
  * @method static mixed channel(string $channel = null)
  * @method static LoggerInterface stack(array $channels, string $channel = null)
- *
  * @see \Illuminate\Log\Logger
  */
 class Sls
@@ -38,9 +38,9 @@ class Sls
      * Handle dynamic, static calls to the object.
      *
      * @param string $method
-     * @param array  $args
-     * @return mixed
+     * @param array $args
      *
+     * @return mixed
      * @throws RuntimeException
      */
     public static function __callStatic(string $method, array $args)
@@ -51,6 +51,7 @@ class Sls
 
     /**
      * @param mixed $data
+     *
      * @return void
      * @throws Exception
      */
@@ -106,7 +107,7 @@ class Sls
         }
 
         if (class_exists('\App\User') && method_exists('\App\User', 'getDefaultUser')) {
-            $logs['user'] = \App\User::getDefaultUser();
+            $logs['user'] = User::getDefaultUser();
         }
 
         if ($count = count(QueryListener::$sql)) {

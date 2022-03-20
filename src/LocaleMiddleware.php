@@ -15,7 +15,7 @@ class LocaleMiddleware
     /**
      * @param Request $request
      * @param Closure $next
-     * @param null    $guard
+     * @param null $guard
      *
      * @return mixed
      * @throws Exception

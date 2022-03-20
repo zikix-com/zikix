@@ -16,13 +16,12 @@ class Api
 
     /**
      * Success - OK
-     *
      * Standard response for successful HTTP requests. The actual response will depend on the request method used. In a
      * GET request, the response will contain an entity corresponding to the requested resource. In a POST request, the
      * response will contain an entity describing or containing the result of the action.
      *
      * @param mixed|array|object $data
-     * @param string             $message
+     * @param string $message
      *
      * @return JsonResponse
      * @throws Exception
@@ -37,11 +36,12 @@ class Api
     }
 
     /**
-     * @param int    $httpOrBizCode
+     * @param int $httpOrBizCode
      * @param string $message
-     * @param mixed  $data
-     * @param array  $headers
-     * @param int    $options
+     * @param mixed $data
+     * @param array $headers
+     * @param int $options
+     *
      * @return JsonResponse
      * @throws Exception
      */
@@ -51,12 +51,13 @@ class Api
     }
 
     /**
-     * @param int    $bizCode
+     * @param int $bizCode
      * @param string $message
-     * @param mixed  $data
-     * @param int    $httpCode
-     * @param array  $headers
-     * @param int    $options
+     * @param mixed $data
+     * @param int $httpCode
+     * @param array $headers
+     * @param int $options
+     *
      * @return JsonResponse
      */
     public static function json(int $bizCode, string $message = '成功', $data = [], int $httpCode = 200, array $headers = [], int $options = 0): JsonResponse
@@ -94,12 +95,13 @@ class Api
     }
 
     /**
-     * @param int    $bizCode
+     * @param int $bizCode
      * @param string $message
-     * @param mixed  $data
-     * @param int    $httpCode
-     * @param array  $headers
-     * @param int    $options
+     * @param mixed $data
+     * @param int $httpCode
+     * @param array $headers
+     * @param int $options
+     *
      * @return mixed
      * @throws HttpResponseException
      */
@@ -110,11 +112,10 @@ class Api
 
     /**
      * Success - Created
-     *
      * The request has been fulfilled, resulting in the creation of a new resource.
      *
      * @param string $message
-     * @param mixed  $data
+     * @param mixed $data
      *
      * @return JsonResponse
      * @throws Exception
@@ -130,12 +131,11 @@ class Api
 
     /**
      * Success - Accepted
-     *
      * The request has been accepted for processing, but the processing has not been completed. The request might or
      * might not be eventually acted upon, and may be disallowed when processing occurs.
      *
      * @param string $message
-     * @param mixed  $data
+     * @param mixed $data
      *
      * @return JsonResponse
      * @throws Exception
@@ -151,12 +151,11 @@ class Api
 
     /**
      * Success - Non-Authoritative Information
-     *
      * The server is a transforming proxy (e.g. a Web accelerator) that received a 200 OK from its origin, but is
      * returning a modified version of the origin's response.
      *
      * @param string $message
-     * @param mixed  $data
+     * @param mixed $data
      *
      * @return JsonResponse
      * @throws Exception
@@ -172,11 +171,10 @@ class Api
 
     /**
      * Success - No Content
-     *
      * The server successfully processed the request and is not returning any content.
      *
      * @param string $message
-     * @param mixed  $data
+     * @param mixed $data
      *
      * @return JsonResponse
      * @throws Exception
@@ -192,12 +190,11 @@ class Api
 
     /**
      * Success - Reset Content
-     *
      * The server successfully processed the request, but is not returning any content. Unlike a 204 response, this
      * response requires that the requester reset the document view.
      *
      * @param string $message
-     * @param mixed  $data
+     * @param mixed $data
      *
      * @return JsonResponse
      * @throws Exception
@@ -213,13 +210,13 @@ class Api
 
     /**
      * Client errors - Bad Request
-     *
      * The server cannot or will not process the request due to an apparent client error (e.g., malformed request
      * syntax, too large size, invalid request message framing, or deceptive request routing).
      *
      * @param string $message
-     * @param mixed  $errors
-     * @param array  $append
+     * @param mixed $errors
+     * @param array $append
+     *
      * @throws Exception
      */
     public static function badRequest(string $message = '', $errors = [], array $append = []): void
@@ -231,9 +228,10 @@ class Api
     }
 
     /**
-     * @param int    $statusCode
+     * @param int $statusCode
      * @param string $message
-     * @param mixed  $errors
+     * @param mixed $errors
+     *
      * @throws Exception
      */
     private static function clientError(int $statusCode, string $message, $errors = []): void
@@ -243,17 +241,16 @@ class Api
 
     /**
      * Client errors - Unauthorized
-     *
      * Similar to 403 Forbidden, but specifically for use when authentication is required and has failed or has not yet
      * been provided. The response must include a WWW-Authenticate header field containing a challenge applicable to
      * the requested resource. See Basic access authentication and Digest access authentication.[32] 401 semantically
      * means "unauthenticated",[33] i.e. the user does not have the necessary credentials.
-     *
      * Note: Some sites issue HTTP 401 when an IP address is banned from the website (usually the website domain) and
      * that specific address is refused permission to access a website.
      *
      * @param string $message
-     * @param mixed  $errors
+     * @param mixed $errors
+     *
      * @throws Exception
      */
     public static function unauthorized(string $message = '', $errors = []): void
@@ -266,12 +263,12 @@ class Api
 
     /**
      * Client errors - Forbidden
-     *
      * The request was valid, but the server is refusing action. The user might not have the necessary permissions for
      * a resource.
      *
      * @param string $message
-     * @param mixed  $errors
+     * @param mixed $errors
+     *
      * @throws Exception
      */
     public static function forbidden(string $message = '', array $errors = []): void
@@ -284,12 +281,12 @@ class Api
 
     /**
      * Client errors - Not Found
-     *
      * The requested resource could not be found but may be available in the future. Subsequent requests by the client
      * are permissible.
      *
      * @param string $message
-     * @param mixed  $errors
+     * @param mixed $errors
+     *
      * @throws Exception
      */
     public static function notFound(string $message = '', $errors = []): void
@@ -302,12 +299,12 @@ class Api
 
     /**
      * Client errors - Method Not Allowed
-     *
      * A request method is not supported for the requested resource; for example, a GET request on a form that requires
      * data to be presented via POST, or a PUT request on a read-only resource.
      *
      * @param string $message
-     * @param mixed  $errors
+     * @param mixed $errors
+     *
      * @throws Exception
      */
     public static function methodNotAllowed(string $message = '', $errors = []): void
@@ -321,12 +318,12 @@ class Api
 
     /**
      * Client errors - Not Acceptable
-     *
      * The requested resource is capable of generating only content not acceptable according to the Accept headers sent
      * in the request.[36] See Content negotiation.
      *
      * @param string $message
-     * @param mixed  $errors
+     * @param mixed $errors
+     *
      * @throws Exception
      */
     public static function notAcceptable(string $message = '', $errors = null): void
@@ -340,12 +337,12 @@ class Api
 
     /**
      * Client errors - Conflict
-     *
      * Indicates that the request could not be processed because of conflict in the request, such as an edit conflict
      * between multiple simultaneous updates.
      *
      * @param string $message
-     * @param mixed  $errors
+     * @param mixed $errors
+     *
      * @throws Exception
      */
     public static function conflict(string $message = '', $errors = []): void
@@ -359,7 +356,6 @@ class Api
 
     /**
      * Client errors - Gone
-     *
      * Indicates that the resource requested is no longer available and will not be available again. This should be
      * used when a resource has been intentionally removed and the resource should be purged. Upon receiving a 410
      * status code, the client should not request the resource in the future. Clients such as search engines should
@@ -367,7 +363,8 @@ class Api
      * the resource, and a "404 Not Found" may be used instead.
      *
      * @param string $message
-     * @param mixed  $errors
+     * @param mixed $errors
+     *
      * @throws Exception
      */
     public static function gone(string $message = '', $errors = []): void
@@ -381,11 +378,11 @@ class Api
 
     /**
      * Client errors - Length Required
-     *
      * The request did not specify the length of its content, which is required by the requested resource.
      *
      * @param string $message
-     * @param mixed  $errors
+     * @param mixed $errors
+     *
      * @throws Exception
      */
     public static function lengthRequired(string $message = '', $errors = []): void
@@ -399,11 +396,11 @@ class Api
 
     /**
      * Client errors - Precondition Failed
-     *
      * The server does not meet one of the preconditions that the requester put on the request.
      *
      * @param string $message
-     * @param mixed  $errors
+     * @param mixed $errors
+     *
      * @throws Exception
      */
     public static function preconditionFailed(string $message = '', $errors = []): void
@@ -417,12 +414,12 @@ class Api
 
     /**
      * Client errors - Unsupported Media Type
-     *
      * The request entity has a media type which the server or resource does not support. For example, the client
      * uploads an image as image/svg+xml, but the server requires that images use a different format.
      *
      * @param string $message
-     * @param mixed  $errors
+     * @param mixed $errors
+     *
      * @throws Exception
      */
     public static function unsupportedMediaType(string $message = '', $errors = []): void
@@ -436,11 +433,11 @@ class Api
 
     /**
      * Client errors - Unprocessable Entity
-     *
      * The request was well-formed but was unable to be followed due to semantic errors.[15].
      *
      * @param string $message
-     * @param mixed  $errors
+     * @param mixed $errors
+     *
      * @throws Exception
      */
     public static function unprocessableEntity(string $message = '', $errors = []): void
@@ -454,13 +451,13 @@ class Api
 
     /**
      * Client errors - Precondition Required
-     *
      * The origin server requires the request to be conditional. Intended to prevent "the 'lost update' problem, where
      * a client GETs a resource's state, modifies it, and PUTs it back to the server, when meanwhile a third party has
      * modified the state on the server, leading to a conflict.
      *
      * @param string $message
-     * @param mixed  $errors
+     * @param mixed $errors
+     *
      * @throws Exception
      */
     public static function preconditionRequired(string $message = '', $errors = []): void
@@ -474,11 +471,11 @@ class Api
 
     /**
      * Client errors - Too Many Requests
-     *
      * The user has sent too many requests in a given amount of time. Intended for use with rate-limiting schemes.
      *
      * @param string $message
-     * @param mixed  $errors
+     * @param mixed $errors
+     *
      * @throws Exception
      */
     public static function tooManyRequests(string $message = '', $errors = []): void
@@ -492,12 +489,12 @@ class Api
 
     /**
      * Server error - Internal Server Error
-     *
      * A generic error message, given when an unexpected condition was encountered and no more specific message is
      * suitable.
      *
      * @param string $message
-     * @param mixed  $errors
+     * @param mixed $errors
+     *
      * @throws Exception
      */
     public static function internalServerError(string $message = '', $errors = []): void
@@ -511,12 +508,12 @@ class Api
 
     /**
      * Server error - Not Implemented
-     *
      * The server either does not recognize the request method, or it lacks the ability to fulfill the request. Usually
      * this implies future availability (e.g., a new feature of a web-service API).
      *
      * @param string $message
-     * @param mixed  $errors
+     * @param mixed $errors
+     *
      * @throws Exception
      */
     public static function notImplemented(string $message = '', $errors = []): void
@@ -530,11 +527,11 @@ class Api
 
     /**
      * Server error - Bad Gateway
-     *
      * The server was acting as a gateway or proxy and received an invalid response from the upstream server.
      *
      * @param string $message
-     * @param mixed  $errors
+     * @param mixed $errors
+     *
      * @throws Exception
      */
     public static function badGateway(string $message = '', $errors = []): void
@@ -548,12 +545,12 @@ class Api
 
     /**
      * Server error - Service Unavailable
-     *
      * The server is currently unavailable (because it is overloaded or down for maintenance). Generally, this is a
      * temporary state.
      *
      * @param string $message
-     * @param mixed  $errors
+     * @param mixed $errors
+     *
      * @throws Exception
      */
     public static function serviceUnavailable(string $message = '', $errors = []): void
@@ -567,11 +564,11 @@ class Api
 
     /**
      * Server error - Gateway Time-out
-     *
      * The server was acting as a gateway or proxy and did not receive a timely response from the upstream server.
      *
      * @param string $message
-     * @param mixed  $errors
+     * @param mixed $errors
+     *
      * @throws Exception
      */
     public static function gatewayTimeOut(string $message = '', $errors = []): void
@@ -585,11 +582,11 @@ class Api
 
     /**
      * Server error - HTTP Version Not Supported
-     *
      * The server does not support the HTTP protocol version used in the request.
      *
      * @param string $message
-     * @param mixed  $errors
+     * @param mixed $errors
+     *
      * @throws Exception
      */
     public static function httpVersionNotSupported(string $message = '', $errors = []): void
@@ -603,11 +600,11 @@ class Api
 
     /**
      * Server error - Variant Also Negotiates
-     *
      * Transparent content negotiation for the request results in a circular reference.
      *
      * @param string $message
-     * @param mixed  $errors
+     * @param mixed $errors
+     *
      * @throws Exception
      */
     public static function variantAlsoNegotiates(string $message = '', $errors = []): void
@@ -621,11 +618,11 @@ class Api
 
     /**
      * Server error - Insufficient Storage
-     *
      * The server is unable to store the representation needed to complete the request.
      *
      * @param string $message
-     * @param mixed  $errors
+     * @param mixed $errors
+     *
      * @throws Exception
      */
     public static function insufficientStorage(string $message = '', $errors = []): void
@@ -639,11 +636,11 @@ class Api
 
     /**
      * Server error - Loop Detected
-     *
      * The server detected an infinite loop while processing the request (sent in lieu of 208 Already Reported).
      *
      * @param string $message
-     * @param mixed  $errors
+     * @param mixed $errors
+     *
      * @throws Exception
      */
     public static function loopDetected(string $message = '', $errors = []): void
@@ -657,11 +654,11 @@ class Api
 
     /**
      * Server error - Not Extended
-     *
      * Further extensions to the request are required for the server to fulfill it.
      *
      * @param string $message
-     * @param mixed  $errors
+     * @param mixed $errors
+     *
      * @throws Exception
      */
     public static function notExtended(string $message = '', $errors = []): void
@@ -675,13 +672,13 @@ class Api
 
     /**
      * Server error - Network Authentication Required
-     *
      * The client needs to authenticate to gain network access. Intended for use by intercepting proxies used to
      * control access to the network (e.g., "captive portals" used to require agreement to Terms of Service before
      * granting full Internet access via a Wi-Fi hotspot).
      *
      * @param string $message
-     * @param mixed  $errors
+     * @param mixed $errors
+     *
      * @throws Exception
      */
     public static function networkAuthenticationRequired(string $message = '', $errors = []): void

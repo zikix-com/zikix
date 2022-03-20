@@ -11,7 +11,7 @@ class XLSXWriterBuffererWriter
     /**
      * @param        $filename
      * @param string $fd_fopen_flags
-     * @param bool   $check_utf8
+     * @param bool $check_utf8
      */
     public function __construct($filename, string $fd_fopen_flags = 'wb', bool $check_utf8 = false)
     {
@@ -24,6 +24,7 @@ class XLSXWriterBuffererWriter
 
     /**
      * @param $string
+     *
      * @return void
      */
     public function write($string): void
@@ -49,6 +50,20 @@ class XLSXWriterBuffererWriter
         }
     }
 
+    protected static function isValidUTF8($string): bool
+    {
+        if (function_exists('mb_check_encoding')) {
+            return mb_check_encoding($string, 'UTF-8');
+        }
+
+        return (bool)preg_match("//u", $string);
+    }
+
+    public function __destruct()
+    {
+        $this->close();
+    }
+
     public function close(): void
     {
         $this->purge();
@@ -56,11 +71,6 @@ class XLSXWriterBuffererWriter
             fclose($this->fd);
             $this->fd = null;
         }
-    }
-
-    public function __destruct()
-    {
-        $this->close();
     }
 
     public function ftell()
@@ -83,14 +93,5 @@ class XLSXWriterBuffererWriter
         }
 
         return -1;
-    }
-
-    protected static function isValidUTF8($string): bool
-    {
-        if (function_exists('mb_check_encoding')) {
-            return mb_check_encoding($string, 'UTF-8');
-        }
-
-        return (bool)preg_match("//u", $string);
     }
 }

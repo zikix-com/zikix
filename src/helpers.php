@@ -5,8 +5,9 @@ use Zikix\Component\Api;
 
 if (!function_exists('zikix')) {
     /**
-     * @param mixed  $data
+     * @param mixed $data
      * @param string $message
+     *
      * @return JsonResponse
      * @throws Exception
      */

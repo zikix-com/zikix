@@ -10,7 +10,8 @@ class Common
 {
     /**
      * @param Exception $e
-     * @param bool      $detail
+     * @param bool $detail
+     *
      * @return array
      */
     public static function exceptionToArray(Throwable $e, bool $detail = false): array

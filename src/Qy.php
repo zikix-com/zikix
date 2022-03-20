@@ -32,7 +32,8 @@ class Qy
 
     /**
      * @param Throwable $e
-     * @param string    $mentioned_list
+     * @param string $mentioned_list
+     *
      * @return void
      * @throws Throwable
      */
@@ -50,8 +51,9 @@ class Qy
     }
 
     /**
-     * @param array  $content
+     * @param array $content
      * @param string $mentioned_list
+     *
      * @return void
      * @throws Throwable
      */
@@ -84,6 +86,7 @@ class Qy
 
     /**
      * @param array $array
+     *
      * @return string
      */
     public static function getMarkdownString(array $array): string
@@ -114,6 +117,7 @@ class Qy
 
     /**
      * @param array $post_data
+     *
      * @return void
      * @throws Exception
      */

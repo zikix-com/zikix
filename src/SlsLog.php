@@ -61,10 +61,10 @@ class SlsLog
      * Write logs to store
      *
      * @param array $data
+     * @param null $topic
+     * @param null $source
+     * @param null $time
      *
-     * @param null  $topic
-     * @param null  $source
-     * @param null  $time
      * @return bool
      * @throws Exception
      */
@@ -112,12 +112,12 @@ class SlsLog
     /**
      * Get logs in store
      *
-     * @param null    $from
-     * @param null    $to
-     * @param null    $query
-     * @param null    $topic
-     * @param int     $line
-     * @param null    $offset
+     * @param null $from
+     * @param null $to
+     * @param null $query
+     * @param null $topic
+     * @param int $line
+     * @param null $offset
      * @param boolean $reverse
      *
      * @return GetLogsResponse
