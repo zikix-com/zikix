@@ -6,7 +6,7 @@ use Aliyun\SLS\Client;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Zikix\Component\SLS\SLSLog;
+use Zikix\Component\SLS\SlsLog;
 
 class ZikixServiceProvider extends ServiceProvider
 {
@@ -39,7 +39,7 @@ class ZikixServiceProvider extends ServiceProvider
 
             $client = new Client($endpoint, $accessKeyId, $accessKeySecret);
 
-            $log = new SLSLog($client);
+            $log = new SlsLog($client);
             $log->setProject($project);
             $log->setLogStore($store);
 
