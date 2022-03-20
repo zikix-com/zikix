@@ -14,7 +14,7 @@ class HealthController extends BaseController
      */
     public function __invoke()
     {
-        return Api::ok();
+        return Api::ok([], 'OK');
     }
 
     /**
@@ -23,6 +23,6 @@ class HealthController extends BaseController
      */
     public function action()
     {
-        return Api::ok();
+        return Api::ok([], 'OK');
     }
 }
