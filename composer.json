@@ -7,8 +7,8 @@
   "license": "MIT",
   "homepage": "https://zikix.com",
   "support": {
-    "issues": "https://github.com/zikix-com/support/issues",
-    "source": "https://github.com/zikix-com/support"
+    "issues": "https://github.com/zikix-com/laravel-component/issues",
+    "source": "https://github.com/zikix-com/laravel-component"
   },
   "authors": [
     {
@@ -42,6 +42,7 @@
       "Zikix\\Component\\": "src/"
     },
     "files": [
+      "src/helpers.php"
     ]
   },
   "autoload-dev": {
