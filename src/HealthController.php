@@ -16,4 +16,13 @@ class HealthController extends BaseController
     {
         return Api::ok();
     }
+
+    /**
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function action()
+    {
+        return Api::ok();
+    }
 }
