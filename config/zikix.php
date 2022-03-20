@@ -9,6 +9,6 @@ return [
     'project'           => env('SLS_PROJECT'),
     'store'             => env('SLS_STORE'),
     'topic'             => null,
-    'qy_key'            => 'ac6cfbbe-fe4a-4574-b951-76cf0517a1d2',
+    'qy_key'            => env('QY_KEY'),
     'api_http_code'     => null,
 ];
