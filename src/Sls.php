@@ -2,7 +2,6 @@
 
 namespace Zikix\Component;
 
-use App\User;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Psr\Log\LoggerInterface;
@@ -50,12 +49,12 @@ class Sls
     }
 
     /**
-     * @param mixed $data
+     * @param array $data
      *
      * @return void
      * @throws Exception
      */
-    public static function put($data = [])
+    public static function put(array $data = []): void
     {
         $logs = self::getDefaultFields();
 
@@ -72,14 +71,14 @@ class Sls
 
         foreach ($logs as $k => $v) {
             if (!is_string($v)) {
-                $logs[$k] = json_encode($v, JSON_UNESCAPED_UNICODE);
+                $logs[$k] = json_encode($v, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE);
             }
         }
 
         try {
             app('sls')->putLogs($logs);
         } catch (Exception $exception) {
-            Log::error(json_encode(Common::exceptionToArray($exception)));
+            Log::error(json_encode(Common::exceptionToArray($exception), JSON_THROW_ON_ERROR));
         }
     }
 
@@ -94,11 +93,11 @@ class Sls
                 'app'        => config('app.name'),
                 'whoami'     => exec('whoami'),
                 'env'        => config('app.env'),
-                'request'    => request()->toArray(),
-                'route'      => request()->route(),
-                'ip'         => request()->getClientIp(),
-                'uri'        => request()->getUri(),
-                'referer'    => request()->header('referer'),
+                'request'    => request()?->toArray(),
+                'route'      => request()?->route(),
+                'ip'         => request()?->getClientIp(),
+                'uri'        => request()?->getUri(),
+                'referer'    => request()?->header('referer'),
                 'headers'    => self::getHeaders(),
                 'logs'       => self::$logs,
             ];
@@ -107,7 +106,7 @@ class Sls
         }
 
         if (class_exists('\App\User') && method_exists('\App\User', 'getDefaultUser')) {
-            $logs['user'] = User::getDefaultUser();
+            $logs['user'] = \App\User::getUser();
         }
 
         if ($count = count(QueryListener::$sql)) {
@@ -130,7 +129,7 @@ class Sls
      */
     private static function getHeaders()
     {
-        $headers = request()->header();
+        $headers = request()?->header();
         foreach ($headers as $k => $v) {
             $headers[$k] = $v[0];
         }
