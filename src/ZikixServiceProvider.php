@@ -15,7 +15,7 @@ class ZikixServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->publishes([realpath(__DIR__ . '/../config/zikix.php') => config_path('zikix.php')]);
+        $this->publishes([dirname(__DIR__) . '/config/zikix.php' => config_path('zikix.php')]);
     }
 
     /**
@@ -32,9 +32,9 @@ class ZikixServiceProvider extends ServiceProvider
 
             $accessKeyId     = Arr::get($config, 'access_key_id');
             $accessKeySecret = Arr::get($config, 'access_key_secret');
-            $endpoint        = Arr::get($config, 'endpoint');
-            $project         = Arr::get($config, 'project');
-            $store           = Arr::get($config, 'store');
+            $endpoint        = Arr::get($config, 'sls_endpoint');
+            $project         = Arr::get($config, 'sls_project');
+            $store           = Arr::get($config, 'sls_store');
 
             $client = new Client($endpoint, $accessKeyId, $accessKeySecret);
 

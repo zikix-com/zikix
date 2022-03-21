@@ -56,7 +56,7 @@ class XLSXWriterBuffererWriter
             return mb_check_encoding($string, 'UTF-8');
         }
 
-        return (bool)preg_match("//u", $string);
+        return (bool) preg_match("//u", $string);
     }
 
     public function __destruct()

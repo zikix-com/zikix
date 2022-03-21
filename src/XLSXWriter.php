@@ -279,7 +279,7 @@ class XLSXWriter
         $core_xml .= '<dc:creator>' . self::xmlspecialchars($this->author) . '</dc:creator>';
         if (!empty($this->keywords)) {
             $core_xml .= '<cp:keywords>' . self::xmlspecialchars(implode(", ",
-                                                                         (array)$this->keywords)) . '</cp:keywords>';
+                                                                         (array) $this->keywords)) . '</cp:keywords>';
         }
         $core_xml .= '<dc:description>' . self::xmlspecialchars($this->description) . '</dc:description>';
         $core_xml .= '<cp:revision>0</cp:revision>';
@@ -557,11 +557,11 @@ class XLSXWriter
             }
             if (isset($style['wrap_text'])) {
                 $style_indexes[$i]['alignment'] = true;
-                $style_indexes[$i]['wrap_text'] = (bool)$style['wrap_text'];
+                $style_indexes[$i]['wrap_text'] = (bool) $style['wrap_text'];
             }
 
             $font = $default_font;
-            if (isset($style['font-size'])) $font['size'] = (float)$style['font-size'];
+            if (isset($style['font-size'])) $font['size'] = (float) $style['font-size'];
             if (isset($style['font']) && is_string($style['font'])) {
                 if ('Comic Sans MS' === $style['font']) {
                     $font['family'] = 4;
@@ -697,7 +697,7 @@ class XLSXWriter
 
         $sheet_filename            = $this->tempFilename();
         $sheet_xmlname             = 'sheet' . (count($this->sheets) + 1) . ".xml";
-        $this->sheets[$sheet_name] = (object)[
+        $this->sheets[$sheet_name] = (object) [
             'filename'           => $sheet_filename,
             'sheetname'          => $sheet_name,
             'xmlname'            => $sheet_xmlname,
@@ -798,7 +798,7 @@ class XLSXWriter
         }
         $style = &$col_options;
 
-        $col_widths     = isset($col_options['widths']) ? (array)$col_options['widths'] : [];
+        $col_widths     = isset($col_options['widths']) ? (array) $col_options['widths'] : [];
         $auto_filter    = isset($col_options['auto_filter']) ? intval($col_options['auto_filter']) : false;
         $freeze_rows    = isset($col_options['freeze_rows']) ? intval($col_options['freeze_rows']) : false;
         $freeze_columns = isset($col_options['freeze_columns']) ? intval($col_options['freeze_columns']) : false;
@@ -1052,14 +1052,14 @@ class XLSXWriter
                 $this->initializeColumnTypes(array_fill($from = 0,
                                                         $until = count($row),
                                                         'GENERAL'));//will map to n_auto
-            $sheet->columns       = array_merge((array)$sheet->columns, $default_column_types);
+            $sheet->columns       = array_merge((array) $sheet->columns, $default_column_types);
         }
 
         if (!empty($row_options)) {
             $ht        = isset($row_options['height']) ? floatval($row_options['height']) : 12.1;
             $customHt  = isset($row_options['height']) ? true : false;
-            $hidden    = isset($row_options['hidden']) ? (bool)($row_options['hidden']) : false;
-            $collapsed = isset($row_options['collapsed']) ? (bool)($row_options['collapsed']) : false;
+            $hidden    = isset($row_options['hidden']) ? (bool) ($row_options['hidden']) : false;
+            $collapsed = isset($row_options['collapsed']) ? (bool) ($row_options['collapsed']) : false;
             $sheet->file_writer->write('<row collapsed="' . ($collapsed) . '" customFormat="false" customHeight="' . ($customHt) . '" hidden="' . ($hidden) . '" ht="' . ($ht) . '" outlineLevel="0" r="' . ($sheet->row_count + 1) . '">');
         } else {
             $sheet->file_writer->write('<row collapsed="false" customFormat="false" customHeight="false" hidden="false" ht="12.1" outlineLevel="0" r="' . ($sheet->row_count + 1) . '">');

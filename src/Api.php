@@ -74,22 +74,6 @@ class Api
     }
 
     /**
-     * @param int $bizCode
-     * @param string $message
-     * @param array|object $data
-     * @param int $httpCode
-     * @param array $headers
-     * @param int $options
-     *
-     * @return mixed
-     * @throws Exception
-     */
-    public static function error(int $bizCode, string $message = '错误', array|object $data = [], int $httpCode = 400, array $headers = [], int $options = 0)
-    {
-        throw new HttpResponseException(self::response($bizCode, $message, $data, $httpCode, $headers, $options));
-    }
-
-    /**
      * Success - Created
      * The request has been fulfilled, resulting in the creation of a new resource.
      *
@@ -210,6 +194,22 @@ class Api
         }
 
         self::error($bizCode, $message, $errors, 400);
+    }
+
+    /**
+     * @param int $bizCode
+     * @param string $message
+     * @param array|object $data
+     * @param int $httpCode
+     * @param array $headers
+     * @param int $options
+     *
+     * @return mixed
+     * @throws Exception
+     */
+    public static function error(int $bizCode, string $message = '错误', array|object $data = [], int $httpCode = 400, array $headers = [], int $options = 0)
+    {
+        throw new HttpResponseException(self::response($bizCode, $message, $data, $httpCode, $headers, $options));
     }
 
     /**
