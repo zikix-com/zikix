@@ -4,6 +4,7 @@ namespace Zikix\Component;
 
 use Exception;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\Http;
 use Throwable;
 
 class Common
@@ -34,5 +35,22 @@ class Common
 
         return $exception;
 
+    }
+
+    /**
+     * @param string $ip
+     *
+     * @return array|mixed
+     */
+    public static function ip(string $ip)
+    {
+        try {
+            $data = Http::timeout(1)
+                        ->get("http://opendata.baidu.com/api.php?query=$ip&co=&resource_id=6006&oe=utf8");
+        } catch (Exception $exception) {
+            return [];
+        }
+
+        return $data['data'] ?? [];
     }
 }

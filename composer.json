@@ -36,7 +36,8 @@
     "lokielse/aliyun-open-api-sls": "^1.0"
   },
   "require-dev": {
-    "laravel/framework": "^9.2"
+    "laravel/framework": "^9.2",
+    "phpunit/phpunit": "^9.5.10"
   },
   "autoload": {
     "psr-4": {
