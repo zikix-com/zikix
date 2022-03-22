@@ -41,26 +41,34 @@ class Common
     /**
      * @param string|null $ip
      *
-     * @return array
+     * @return array|mixed
      */
-    public static function ip(?string $ip): array
+    public static function ip(?string $ip)
     {
         if (!$ip) {
             return [];
         }
 
-        $data = Cache::remember('ip:' . $ip, 86400 * 10, static function () use ($ip) {
+        if ($ip === '127.0.0.1' || $ip === '0.0.0.0') {
+            return [];
+        }
+
+        return Cache::remember('ip:baidu:' . $ip, 86400 * 10, static function () use ($ip) {
 
             try {
-                return Http::timeout(1)
-                           ->get("http://opendata.baidu.com/api.php?query=$ip&co=&resource_id=6006&oe=utf8");
+                $response = Http::connectTimeout(1)
+                                ->timeout(1)
+                                ->get("http://opendata.baidu.com/api.php?query=$ip&co=&resource_id=6006&oe=utf8");
+                if (!$response->successful()) {
+                    return [];
+                }
+
+                return $response['data'][0] ?? [];
+
             } catch (Exception $exception) {
                 return [];
             }
 
         });
-
-
-        return $data['data'][0] ?? [];
     }
 }
