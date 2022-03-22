@@ -59,14 +59,17 @@ class Qy
      */
     public static function markdown(array $content, string $mentioned_list = ''): void
     {
+        $ip = Common::ip(request()?->ip());
+
         $data = [
             'app'        => config('app.name'),
             'whoami'     => exec('whoami'),
             'env'        => config('app.env'),
             'Request Id' => Api::getRequestId(),
-            'uri'        => request()->getUri(),
-            'referer'    => request()->header('referer'),
-            'ip'         => request()->getClientIp(),
+            'uri'        => request()?->getUri(),
+            'referer'    => request()?->header('referer'),
+            'ip'         => request()?->getClientIp(),
+            'location'   => $ip ? $ip['location'] : '',
         ];
 
         foreach ($content as $k => $v) {
