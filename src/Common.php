@@ -53,7 +53,7 @@ class Common
             return [];
         }
 
-        return Cache::remember('ip:baidu:' . $ip, 86400 * 10, static function () use ($ip) {
+        return Cache::remember('ip:baidu:' . $ip, 86400 * 100, static function () use ($ip) {
 
             try {
                 $response = Http::connectTimeout(1)
