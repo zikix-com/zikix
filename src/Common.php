@@ -53,7 +53,7 @@ class Common
             return '';
         }
 
-        return Cache::remember('location:' . $ip, 86400 * 365, static function () use ($ip) {
+        return Cache::remember('location:' . $ip, 86400, static function () use ($ip) {
 
             try {
                 $response = Http::connectTimeout(1)
