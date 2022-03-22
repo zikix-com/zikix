@@ -3,6 +3,7 @@
 namespace Zikix\Component;
 
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -100,13 +101,10 @@ class Sls
                 'referer'    => request()?->header('referer'),
                 'headers'    => self::getHeaders(),
                 'logs'       => self::$logs,
+                'user'       => Auth::user(),
             ];
         } catch (Exception $exception) {
             $logs = [];
-        }
-
-        if (method_exists('App\Models\User', 'getUser')) {
-            $logs['user'] = \App\Models\User::getUser();
         }
 
         if ($count = count(QueryListener::$sql)) {
