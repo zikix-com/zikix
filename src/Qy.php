@@ -66,7 +66,7 @@ class Qy
             'Request Id' => Api::getRequestId(),
             'uri'        => request()?->getUri(),
             'referer'    => request()?->header('referer'),
-            'ip'         => request()?->getClientIp(),
+            'ip'         => request()?->ip() ?: '',
             'location'   => Common::ip(request()?->ip()),
         ];
 

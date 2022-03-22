@@ -93,10 +93,10 @@ class Sls
                 'app'        => config('app.name'),
                 'whoami'     => exec('whoami'),
                 'env'        => config('app.env'),
-                'request'    => request()?->toArray(),
-                'route'      => request()?->route(),
-                'ip'         => request()?->getClientIp(),
-                'uri'        => request()?->getUri(),
+                'request'    => request()?->toArray() ?: [],
+                'route'      => request()?->route() ?: [],
+                'ip'         => request()?->ip() ?: '',
+                'uri'        => request()?->getUri() ?: '',
                 'referer'    => request()?->header('referer'),
                 'headers'    => self::getHeaders(),
                 'logs'       => self::$logs,
@@ -105,8 +105,8 @@ class Sls
             $logs = [];
         }
 
-        if (class_exists('\App\User') && method_exists('\App\User', 'getDefaultUser')) {
-            $logs['user'] = \App\User::getUser();
+        if (method_exists('App\Models\User', 'getUser')) {
+            $logs['user'] = \App\Models\User::getUser();
         }
 
         if ($count = count(QueryListener::$sql)) {
