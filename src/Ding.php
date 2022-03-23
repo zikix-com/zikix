@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Client\Response;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Facades\Cache;
@@ -119,29 +120,29 @@ class Ding
 
 
     /**
-     * @param array $post_data
+     * @param array $data
      *
-     * @return void
+     * @return Response|null
      * @throws Exception
      */
-    private static function send(array $post_data)
+    private static function send(array $data): ?Response
     {
         $token = config('zikix.ding_token');
         if (!$token) {
-            return;
+            return null;
         }
 
         try {
 
-            $md5 = md5(json_encode($post_data));
-
+            $md5 = md5(json_encode($data, JSON_THROW_ON_ERROR));
             if (!Cache::add("ding:$md5", 1, 10)) {
-                return;
+                return null;
             }
 
-            Http::post("https://oapi.dingtalk.com/robot/send?access_token=$token", $post_data);
+            return Http::post("https://oapi.dingtalk.com/robot/send?access_token=$token", $data);
 
         } catch (Exception $exception) {
+            return null;
         }
 
     }

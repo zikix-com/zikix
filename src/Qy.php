@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Client\Response;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Facades\Cache;
@@ -118,29 +119,28 @@ class Qy
 
 
     /**
-     * @param array $post_data
+     * @param array $data
      *
-     * @return void
+     * @return Response|null
      * @throws Exception
      */
-    private static function send(array $post_data)
+    private static function send(array $data): ?Response
     {
         $key = config('zikix.qy_key');
         if (!$key) {
-            return;
+            return null;
         }
 
         try {
-            $mds = md5(json_encode($post_data));
-
+            $mds = md5(json_encode($data, JSON_THROW_ON_ERROR));
             if (!Cache::add("qy:$mds", 1, 10)) {
-                return;
+                return null;
             }
 
-            Http::post("https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=$key", $post_data);
+            return Http::post("https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=$key", $data);
 
         } catch (Exception $exception) {
-
+            return null;
         }
 
     }
