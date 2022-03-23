@@ -10,4 +10,5 @@ return [
     'sls_project'       => env('SLS_PROJECT'),
     'sls_store'         => env('SLS_STORE', ''),
     'sls_topic'         => env('SLS_TOPIC'),
+    'ding_token'        => env('DING_TOKEN'),
 ];

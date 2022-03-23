@@ -14,7 +14,7 @@ use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
-class Qy
+class Ding
 {
     /**
      * A list of the exception types that are not reported.
@@ -33,12 +33,12 @@ class Qy
 
     /**
      * @param Throwable $e
-     * @param string $mentioned_list
+     * @param array $at
      *
      * @return void
      * @throws Throwable
      */
-    public static function exception(Throwable $e, string $mentioned_list = '')
+    public static function exception(Throwable $e, array $at = [])
     {
         foreach (self::$dontReport as $item) {
             if ($e instanceof $item) {
@@ -48,17 +48,17 @@ class Qy
 
         $data = Common::exceptionToArray($e);
 
-        Qy::markdown($data, $mentioned_list);
+        Qy::markdown($data, $at);
     }
 
     /**
      * @param array $content
-     * @param string $mentioned_list
+     * @param array $at
      *
      * @return void
      * @throws Throwable
      */
-    public static function markdown(array $content, string $mentioned_list = ''): void
+    public static function markdown(array $content, array $at = []): void
     {
         $data = [
             'app'        => config('app.name'),
@@ -78,8 +78,9 @@ class Qy
         $post_data = [
             'msgtype'  => 'markdown',
             'markdown' => [
-                'content'        => self::getMarkdownString($data),
-                'mentioned_list' => $mentioned_list,
+                'title' => 'app',
+                'text'  => self::getMarkdownString($data),
+                'at'    => $at,
             ],
         ];
 
@@ -125,22 +126,22 @@ class Qy
      */
     private static function send(array $post_data)
     {
-        $key = config('zikix.qy_key');
-        if (!$key) {
+        $token = config('zikix.ding_token');
+        if (!$token) {
             return;
         }
 
         try {
-            $mds = md5(json_encode($post_data));
 
-            if (!Cache::add("qy:$mds", 1, 10)) {
+            $md5 = md5(json_encode($post_data));
+
+            if (!Cache::add("ding:$md5", 1, 1)) {
                 return;
             }
 
-            Http::post("https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=$key", $post_data);
+            Http::post("https://oapi.dingtalk.com/robot/send?access_token=$token", $post_data);
 
         } catch (Exception $exception) {
-
         }
 
     }
