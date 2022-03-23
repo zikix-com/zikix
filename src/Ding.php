@@ -135,7 +135,7 @@ class Ding
 
             $md5 = md5(json_encode($post_data));
 
-            if (!Cache::add("ding:$md5", 1, 1)) {
+            if (!Cache::add("ding:$md5", 1, 10)) {
                 return;
             }
 
