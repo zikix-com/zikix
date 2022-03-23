@@ -33,7 +33,8 @@
     "ext-simplexml": "*",
     "ext-curl": "*",
     "ext-zip": "*",
-    "lokielse/aliyun-open-api-sls": "^1.0"
+    "lokielse/aliyun-open-api-sls": "^1.0",
+    "alibabacloud/client": "^1.5"
   },
   "require-dev": {
     "laravel/framework": "^9.2",

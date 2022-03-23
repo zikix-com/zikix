@@ -2,6 +2,8 @@
 
 namespace Zikix\Component;
 
+use AlibabaCloud\Client\AlibabaCloud;
+use AlibabaCloud\Client\Exception\ClientException;
 use Aliyun\SLS\Client;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
@@ -22,10 +24,16 @@ class ZikixServiceProvider extends ServiceProvider
      * Add the connector to the queue drivers.
      *
      * @return void
+     * @throws ClientException
      */
     public function register()
     {
         Route::get('/health', [HealthController::class, 'action']);
+
+        AlibabaCloud::accessKeyClient(
+            config('zikix.access_key_id'),
+            config('zikix.access_key_secret')
+        )->asDefaultClient()->regionId('cn-hangzhou');
 
         $this->app->singleton('sls', function ($app) {
             $config = $app['config']['zikix'];

@@ -1,5 +1,6 @@
 <?php
 return [
+    'region_id'         => env('ALIYUN_REGION_ID', 'cn-hangzhou'),
     'access_key_id'     => env('ALIYUN_ACCESS_KEY_ID'),
     'access_key_secret' => env('ALIYUN_ACCESS_KEY_SECRET'),
 
@@ -11,4 +12,6 @@ return [
     'sls_store'         => env('SLS_STORE', ''),
     'sls_topic'         => env('SLS_TOPIC'),
     'ding_token'        => env('DING_TOKEN'),
+
+    'weixin_url' => env('WEIXIN_URL'),
 ];
