@@ -53,6 +53,17 @@ class Qy
     }
 
     /**
+     * @param string $string
+     *
+     * @return void
+     * @throws Throwable
+     */
+    public static function message(string $string): void
+    {
+        self::markdown(['message' => $string]);
+    }
+
+    /**
      * @param array $content
      * @param string $mentioned_list
      *
