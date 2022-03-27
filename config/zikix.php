@@ -14,4 +14,5 @@ return [
     'ding_token'        => env('DING_TOKEN'),
 
     'weixin_url' => env('WEIXIN_URL'),
+    'api_error'  => true,
 ];
