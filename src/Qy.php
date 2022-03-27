@@ -72,6 +72,8 @@ class Qy
      */
     public static function markdown(array $content, string $mentioned_list = ''): void
     {
+        global $argv;
+
         $data = [
             'app'        => config('app.name'),
             'whoami'     => exec('whoami'),
@@ -81,6 +83,7 @@ class Qy
             'referer'    => request()?->header('referer'),
             'ip'         => request()?->getClientIp(),
             'location'   => Common::ip(request()?->ip()),
+            'argv'       => $argv ?? [],
         ];
 
         foreach ($content as $k => $v) {

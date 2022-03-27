@@ -89,6 +89,7 @@ class Sls
     private static function getDefaultFields(): array
     {
         try {
+            global $argv;
             $logs = [
                 'request_id' => Api::getRequestId(),
                 'app'        => config('app.name'),
@@ -102,6 +103,7 @@ class Sls
                 'headers'    => self::getHeaders(),
                 'logs'       => self::$logs,
                 'user'       => Auth::user(),
+                'argv'       => $argv ?? [],
             ];
         } catch (Exception $exception) {
             $logs = [];
