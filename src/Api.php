@@ -5,7 +5,6 @@ namespace Zikix\Component;
 use Exception;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 use Ramsey\Uuid\Uuid;
 
 class Api
@@ -212,12 +211,12 @@ class Api
     {
         // In order to take screenshots to quickly troubleshoot problems.
         // it is usually used in the management background.
-        if (config('zikix.api_error')) {
-            if (Auth::id()) {
-                $message .= ' UID:' . Auth::id();
-            }
-            $message .= ' Time:' . date('Y-m-d H:i:s');
-            $message .= ' RequestID' . self::getRequestId();
+        if (config('zikix.api_error_with_time')) {
+            $message .= ' ' . date('Y-m-d H:i:s');
+        }
+
+        if (config('zikix.api_error_with_request_id')) {
+            $message .= ' ' . self::getRequestId();
         }
 
         throw new HttpResponseException(self::response($bizCode, $message, $data, $httpCode, $headers, $options));
