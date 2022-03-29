@@ -71,4 +71,24 @@ class Common
 
         });
     }
+
+    /**
+     * @param $string
+     *
+     * @return mixed
+     */
+    public static function abbr($string)
+    {
+        return app('pinyin')->abbr($string);
+    }
+
+    /**
+     * @param $string
+     *
+     * @return array|string|string[]
+     */
+    public static function phrase($string)
+    {
+        return str_replace(' ', '', app('pinyin')->phrase($string));
+    }
 }
