@@ -38,8 +38,8 @@ class ZikixServiceProvider extends ServiceProvider
         $this->app->singleton('sls', function ($app) {
             $config = $app['config']['zikix'];
 
-            $accessKeyId     = Arr::get($config, 'access_key_id');
-            $accessKeySecret = Arr::get($config, 'access_key_secret');
+            $accessKeyId     = Arr::get($config, 'sls_access_key');
+            $accessKeySecret = Arr::get($config, 'sls_access_secret');
             $endpoint        = Arr::get($config, 'sls_endpoint');
             $project         = Arr::get($config, 'sls_project');
             $store           = Arr::get($config, 'sls_store');

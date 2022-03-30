@@ -7,6 +7,8 @@ return [
     /**
      * https://help.aliyun.com/document_detail/29008.html
      */
+    'sls_access_key'    => env('SLS_ACCESS_KEY'),
+    'sls_access_secret' => env('SLS_ACCESS_SECRET'),
     'sls_endpoint'      => env('SLS_ENDPOINT'),
     'sls_project'       => env('SLS_PROJECT'),
     'sls_store'         => env('SLS_STORE', ''),
