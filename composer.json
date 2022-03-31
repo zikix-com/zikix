@@ -37,7 +37,7 @@
     "alibabacloud/client": "^1.5"
   },
   "require-dev": {
-    "laravel/framework": "^9.2",
+    "laravel/framework": "^9",
     "phpunit/phpunit": "^9.5.10"
   },
   "autoload": {
