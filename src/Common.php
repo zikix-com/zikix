@@ -40,14 +40,14 @@ class Common
     }
 
     /**
-     * @param Builder $builder
+     * @param Builder|\Illuminate\Database\Query\Builder $builder
      * @param string $key
      * @param array $columns
      * @param string $opt
      *
      * @return void
      */
-    public static function search(Builder $builder, string $key, array $columns, string $opt = 'like'): void
+    public static function search($builder, string $key, array $columns, string $opt = 'like'): void
     {
         if ($keyword = request($key)) {
 
