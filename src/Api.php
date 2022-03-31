@@ -56,8 +56,8 @@ class Api
             $content['data'] = $data;
         }
 
-        if (config('api_key_case') !== null) {
-            array_change_key_case_recursive($content, config('api_key_case'));
+        if (config('zikix.api_key_case') !== null) {
+            array_change_key_case_recursive($content, config('zikix.api_key_case'));
         }
 
         Sls::put(['response' => $content]);
