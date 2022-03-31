@@ -15,15 +15,21 @@ class Where
      */
     public static function query($builder, string $key, array $columns, string $opt = 'like'): void
     {
-        if ($keyword = request($key)) {
+        if ($value = request($key)) {
 
-            $builder->where(function ($query) use ($columns, $opt, $keyword) {
+            $builder->where(function ($query) use ($columns, $opt, $value) {
                 /** @var Builder $query */
                 foreach ($columns as $column) {
                     if ($opt === 'like') {
-                        $query->orWhere($column, $opt, "%$keyword%");
+                        if (in_array($column, ['id', 'phone']) && !is_numeric($value)) {
+                            continue;
+                        }
+                        if (in_array($column, ['abbr', 'phrase']) && !ctype_alpha($value)) {
+                            continue;
+                        }
+                        $query->orWhere($column, $opt, "%$value%");
                     } else {
-                        $query->orWhere($column, $opt, $keyword);
+                        $query->orWhere($column, $opt, $value);
                     }
                 }
             });
