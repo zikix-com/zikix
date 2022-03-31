@@ -9,12 +9,13 @@ class Adb
 {
     /**
      * @param string $table
+     * @param string $connection
      *
      * @return Builder
      */
-    public static function table(string $table): Builder
+    public static function table(string $table, string $connection = 'adb'): Builder
     {
-        return DB::connection('adb')
+        return DB::connection($connection)
                  ->table($table);
     }
 }
