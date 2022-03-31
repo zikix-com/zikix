@@ -21,7 +21,7 @@ class Where
                 /** @var Builder $query */
                 foreach ($columns as $column) {
                     if ($opt === 'like') {
-                        if (in_array($column, ['id', 'phone']) && !is_numeric($value)) {
+                        if (in_array($column, ['id', 'user_id', 'phone']) && !is_numeric($value)) {
                             continue;
                         }
                         if (in_array($column, ['abbr', 'phrase']) && !ctype_alpha($value)) {
