@@ -17,7 +17,7 @@ class Cache
      * @return mixed
      * @throws JsonException
      */
-    public static function userSearch(array $keys, int $ttl, Closure $callback)
+    public static function userSelect(array $keys, int $ttl, Closure $callback)
     {
         $id  = Auth::id();
         $key = "search:$id:" . json_encode(Request::all($keys), JSON_THROW_ON_ERROR);
@@ -32,7 +32,7 @@ class Cache
      * @return mixed
      * @throws JsonException
      */
-    public static function allSearch(array $keys, int $ttl, Closure $callback)
+    public static function allSelect(array $keys, int $ttl, Closure $callback)
     {
         $key = "search:" . json_encode(Request::all($keys), JSON_THROW_ON_ERROR);
         return \Illuminate\Support\Facades\Cache::remember($key, $ttl, $callback);
