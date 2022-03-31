@@ -41,15 +41,15 @@ class Common
 
     /**
      * @param Builder|\Illuminate\Database\Query\Builder $builder
-     * @param string $key
+     * @param string $request
      * @param array $columns
      * @param string $opt
      *
      * @return void
      */
-    public static function search($builder, string $key, array $columns, string $opt = 'like'): void
+    public static function search($builder, string $request, array $columns, string $opt = 'like'): void
     {
-        if ($keyword = request($key)) {
+        if ($keyword = request($request)) {
 
             $builder->where(function ($query) use ($columns, $opt, $keyword) {
                 /** @var Builder $query */
