@@ -3,7 +3,6 @@
 namespace Zikix\Component;
 
 use Exception;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
@@ -37,32 +36,6 @@ class Common
 
         return $exception;
 
-    }
-
-    /**
-     * @param Builder|\Illuminate\Database\Query\Builder $builder
-     * @param string $request
-     * @param array $columns
-     * @param string $opt
-     *
-     * @return void
-     */
-    public static function search($builder, string $request, array $columns, string $opt = 'like'): void
-    {
-        if ($keyword = request($request)) {
-
-            $builder->where(function ($query) use ($columns, $opt, $keyword) {
-                /** @var Builder $query */
-                foreach ($columns as $column) {
-                    if ($opt === 'like') {
-                        $query->orWhere($column, $opt, "%$keyword%");
-                    } else {
-                        $query->orWhere($column, $opt, $keyword);
-                    }
-                }
-            });
-
-        }
     }
 
     /**

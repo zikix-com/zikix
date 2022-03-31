@@ -1,7 +1,24 @@
 <?php
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Zikix\Component\Api;
+use Zikix\Component\Where;
+
+if (!function_exists('where')) {
+    /**
+     * @param Builder|\Illuminate\Database\Query\Builder $builder
+     * @param string $request
+     * @param array $columns
+     * @param string $opt
+     *
+     * @return array
+     */
+    function where($builder, string $request, array $columns, string $opt = 'like')
+    {
+        Where::query($builder, $request, $columns, $opt);
+    }
+}
 
 if (!function_exists('zikix')) {
     /**
