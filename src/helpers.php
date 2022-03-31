@@ -2,8 +2,22 @@
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
+use Zikix\Component\Adb;
 use Zikix\Component\Api;
 use Zikix\Component\Where;
+
+if (!function_exists('adb')) {
+    /**
+     * @param string $table
+     * @param string $connection
+     *
+     * @return \Illuminate\Database\Query\Builder
+     */
+    function adb(string $table, string $connection = 'adb'): \Illuminate\Database\Query\Builder
+    {
+        return Adb::table($table, $connection);
+    }
+}
 
 if (!function_exists('where')) {
     /**
