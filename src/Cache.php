@@ -34,7 +34,7 @@ class Cache
      */
     public static function remember(string $prefix, array $keys, int $ttl, Closure $callback)
     {
-        $key = "search:$prefix:" . json_encode(Request::all($keys), JSON_THROW_ON_ERROR);
+        $key = "$prefix:" . json_encode(Request::all($keys), JSON_THROW_ON_ERROR);
         return \Illuminate\Support\Facades\Cache::remember($key, $ttl, $callback);
     }
 }
