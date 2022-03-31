@@ -13,13 +13,13 @@ class Where
      * @param array $columns
      * @param string $opt
      *
-     * @return void
+     * @return Builder|\Illuminate\Database\Query\Builder
      */
-    public static function query($builder, string $request, array $columns, string $opt = 'like'): void
+    public static function query($builder, string $request, array $columns, string $opt = 'like')
     {
         if ($keyword = request($request)) {
 
-            $builder->where(function ($query) use ($columns, $opt, $keyword) {
+            return $builder->where(function ($query) use ($columns, $opt, $keyword) {
                 /** @var Builder $query */
                 foreach ($columns as $column) {
                     if ($opt === 'like') {
@@ -31,6 +31,8 @@ class Where
             });
 
         }
+
+        return $builder;
     }
 
 }
