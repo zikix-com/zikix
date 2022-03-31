@@ -24,6 +24,7 @@ if (!function_exists('where')) {
      * @param Builder|\Illuminate\Database\Query\Builder $builder
      * @param string $request
      * @param array $columns
+     * @param string $opt
      */
     function where($builder, string $request, array $columns = [], string $opt = '='): void
     {
