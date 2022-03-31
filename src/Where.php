@@ -47,7 +47,7 @@ class Where
         }
 
         if ($endValue = request($end)) {
-            $builder->where($column, '>=', $endValue);
+            $builder->where($column, '<=', $endValue);
         }
     }
 
