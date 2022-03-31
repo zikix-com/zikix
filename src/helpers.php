@@ -24,11 +24,43 @@ if (!function_exists('where')) {
      * @param Builder|\Illuminate\Database\Query\Builder $builder
      * @param string $request
      * @param array $columns
-     * @param string $opt
      */
-    function where($builder, string $request, array $columns, string $opt = 'like'): void
+    function where($builder, string $request, array $columns = [], string $opt = '='): void
     {
-        Where::query($builder, $request, $columns, $opt);
+        if ($columns === []) {
+            Where::query($builder, $request, [$request], $opt);
+        } else {
+            Where::query($builder, $request, $columns, $opt);
+        }
+    }
+}
+
+if (!function_exists('whereLike')) {
+    /**
+     * @param Builder|\Illuminate\Database\Query\Builder $builder
+     * @param string $request
+     * @param array $columns
+     */
+    function whereLike($builder, string $request, array $columns = []): void
+    {
+        if ($columns === []) {
+            Where::query($builder, $request, [$request]);
+        } else {
+            Where::query($builder, $request, $columns);
+        }
+    }
+}
+
+if (!function_exists('whereBetween')) {
+    /**
+     * @param Builder|\Illuminate\Database\Query\Builder $builder
+     * @param string $column
+     * @param string|null $start
+     * @param string|null $end
+     */
+    function whereBetween($builder, string $column = 'created_at', string $start = null, string $end = null): void
+    {
+        Where::between($builder, $column, $start, $end);
     }
 }
 
