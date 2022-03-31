@@ -19,4 +19,5 @@ return [
 
     'api_error_with_time'       => true,
     'api_error_with_request_id' => false,
+    'api_key_case'              => CASE_LOWER,
 ];
