@@ -25,12 +25,10 @@ if (!function_exists('where')) {
      * @param string $request
      * @param array $columns
      * @param string $opt
-     *
-     * @return Builder|\Illuminate\Database\Query\Builder
      */
-    function where($builder, string $request, array $columns, string $opt = 'like')
+    function where($builder, string $request, array $columns, string $opt = 'like'): void
     {
-        return Where::query($builder, $request, $columns, $opt);
+        Where::query($builder, $request, $columns, $opt);
     }
 }
 
