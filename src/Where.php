@@ -9,13 +9,13 @@ class Where
 
     /**
      * @param Builder|\Illuminate\Database\Query\Builder $builder
-     * @param string $request
+     * @param string $key
      * @param array $columns
      * @param string $opt
      */
-    public static function query($builder, string $request, array $columns, string $opt = 'like'): void
+    public static function query($builder, string $key, array $columns, string $opt = 'like'): void
     {
-        if ($keyword = request($request)) {
+        if ($keyword = request($key)) {
 
             $builder->where(function ($query) use ($columns, $opt, $keyword) {
                 /** @var Builder $query */
