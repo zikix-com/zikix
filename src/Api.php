@@ -5,6 +5,7 @@ namespace Zikix\Component;
 use Exception;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 use Ramsey\Uuid\Uuid;
 
 class Api
@@ -63,6 +64,21 @@ class Api
         Sls::put(['response' => $content]);
 
         return new JsonResponse($content, $httpCode, $headers, $options);
+    }
+
+    /**
+     * @param string $content
+     * @param int $status
+     * @param array $headers
+     *
+     * @return Response
+     * @throws Exception
+     */
+    public static function text(string $content = '', int $status = 200, array $headers = []): Response
+    {
+        Sls::put(['response_text' => $content]);
+
+        return new Response($content, $status, $headers);
     }
 
     /**
