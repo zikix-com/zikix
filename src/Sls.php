@@ -91,19 +91,20 @@ class Sls
         try {
             global $argv;
             $logs = [
-                'request_id' => Api::getRequestId(),
-                'app'        => config('app.name'),
-                'whoami'     => exec('whoami'),
-                'env'        => config('app.env'),
-                'request'    => request()?->toArray() ?: [],
-                'route'      => request()?->route() ?: [],
-                'ip'         => request()?->ip() ?: '',
-                'uri'        => request()?->getUri() ?: '',
-                'referer'    => request()?->header('referer'),
-                'headers'    => self::getHeaders(),
-                'logs'       => self::$logs,
-                'user'       => Auth::user(),
-                'argv'       => $argv ?? [],
+                'request_id'      => Api::getRequestId(),
+                'app'             => config('app.name'),
+                'whoami'          => exec('whoami'),
+                'env'             => config('app.env'),
+                'request'         => request()?->toArray() ?: [],
+                'request_content' => request()?->getContent() ?: '',
+                'route'           => request()?->route() ?: [],
+                'ip'              => request()?->ip() ?: '',
+                'uri'             => request()?->getUri() ?: '',
+                'referer'         => request()?->header('referer'),
+                'headers'         => self::getHeaders(),
+                'logs'            => self::$logs,
+                'user'            => Auth::user(),
+                'argv'            => $argv ?? [],
             ];
         } catch (Exception $exception) {
             $logs = [];
