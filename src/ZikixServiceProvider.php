@@ -30,12 +30,15 @@ class ZikixServiceProvider extends ServiceProvider
     {
         Route::get('/health', [HealthController::class, 'action']);
 
-        AlibabaCloud::accessKeyClient(
-            config('zikix.access_key_id'),
-            config('zikix.access_key_secret')
-        )->asDefaultClient()->regionId('cn-hangzhou');
+        if (config('zikix.access_key_id')) {
+            AlibabaCloud::accessKeyClient(
+                config('zikix.access_key_id'),
+                config('zikix.access_key_secret')
+            )->asDefaultClient()->regionId('cn-hangzhou');
+        }
 
         $this->app->singleton('sls', function ($app) {
+
             $config = $app['config']['zikix'];
 
             $accessKeyId     = Arr::get($config, 'sls_access_key');
