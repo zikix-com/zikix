@@ -62,7 +62,7 @@ class Weixin
     {
         global $argv;
 
-        $data = [
+        $context = [
             'app'             => config('app.name'),
             'whoami'          => exec('whoami'),
             'env'             => config('app.env'),
@@ -76,10 +76,10 @@ class Weixin
         ];
 
         foreach ($content as $k => $v) {
-            $data[$k] = $v;
+            $context[$k] = $v;
         }
 
-        self::send($title, $data);
+        self::send($title, $context);
     }
 
 
