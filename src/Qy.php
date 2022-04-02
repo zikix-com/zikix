@@ -36,8 +36,8 @@ class Qy
      * @param Throwable $e
      * @param string $mentioned_list
      *
-     * @return void
-     * @throws Throwable
+     * @return Response|void|null
+     * @throws Exception
      */
     public static function exception(Throwable $e, string $mentioned_list = '')
     {
@@ -49,28 +49,28 @@ class Qy
 
         $data = Common::exceptionToArray($e);
 
-        Qy::markdown($data, $mentioned_list);
+        return self::markdown($data, $mentioned_list);
     }
 
     /**
      * @param string $string
      *
-     * @return void
-     * @throws Throwable
+     * @return Response|null
+     * @throws Exception
      */
-    public static function message(string $string): void
+    public static function message(string $string)
     {
-        self::markdown(['message' => $string]);
+        return self::markdown(['message' => $string]);
     }
 
     /**
      * @param array $content
      * @param string $mentioned_list
      *
-     * @return void
-     * @throws Throwable
+     * @return Response|null
+     * @throws Exception
      */
-    public static function markdown(array $content, string $mentioned_list = ''): void
+    public static function markdown(array $content, string $mentioned_list = '')
     {
         global $argv;
 
@@ -99,7 +99,7 @@ class Qy
             ],
         ];
 
-        self::send($post_data);
+        return self::send($post_data);
     }
 
     /**

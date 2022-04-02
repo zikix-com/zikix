@@ -36,30 +36,30 @@ class Ding
      * @param Throwable $e
      * @param array $at
      *
-     * @return void
-     * @throws Throwable
+     * @return Response|null
+     * @throws Exception
      */
     public static function exception(Throwable $e, array $at = [])
     {
         foreach (self::$dontReport as $item) {
             if ($e instanceof $item) {
-                return;
+                return null;
             }
         }
 
         $data = Common::exceptionToArray($e);
 
-        Qy::markdown($data, $at);
+        return self::markdown($data, $at);
     }
 
     /**
      * @param array $content
      * @param array $at
      *
-     * @return void
-     * @throws Throwable
+     * @return Response|null
+     * @throws Exception
      */
-    public static function markdown(array $content, array $at = []): void
+    public static function markdown(array $content, array $at = [])
     {
         $data = [
             'app'        => config('app.name'),
@@ -85,7 +85,7 @@ class Ding
             ],
         ];
 
-        self::send($post_data);
+        return self::send($post_data);
     }
 
     /**

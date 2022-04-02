@@ -34,20 +34,19 @@ class Weixin
     /**
      * @param Throwable $e
      *
-     * @return void
-     * @throws Throwable
+     * @return \GuzzleHttp\Promise\PromiseInterface|\Illuminate\Http\Client\Response|null
      */
     public static function exception(Throwable $e)
     {
         foreach (self::$dontReport as $item) {
             if ($e instanceof $item) {
-                return;
+                return null;
             }
         }
 
         $data = Common::exceptionToArray($e);
 
-        self::content('系统异常', $data);
+        return  self::content('系统异常', $data);
     }
 
 
@@ -55,10 +54,9 @@ class Weixin
      * @param string $title
      * @param array $content
      *
-     * @return void
-     * @throws Exception
+     * @return \GuzzleHttp\Promise\PromiseInterface|\Illuminate\Http\Client\Response|null
      */
-    public static function content(string $title, array $content = []): void
+    public static function content(string $title, array $content = [])
     {
         global $argv;
 
@@ -79,7 +77,7 @@ class Weixin
             $context[$k] = $v;
         }
 
-        self::send($title, $context);
+        return self::send($title, $context);
     }
 
 
@@ -87,31 +85,30 @@ class Weixin
      * @param string $title
      * @param array $data
      *
-     * @return void
+     * @return \GuzzleHttp\Promise\PromiseInterface|\Illuminate\Http\Client\Response|null
      */
-    private static function send(string $title, array $data): void
+    private static function send(string $title, array $data)
     {
         $key = config('zikix.openid');
         if (!$key) {
-            return;
+            return null;
         }
 
         try {
             $mds = md5(json_encode($data, JSON_THROW_ON_ERROR));
             if (!Cache::add("openid:$mds", 1, 10)) {
-                return;
+                return null;
             }
 
-            Http::timeout(3)
-                ->post("https://weixin.sofiner.com/m?app=sofiner&openid=$key",
-                       [
-                           'title'   => $title,
-                           'content' => $data,
-                       ]);
-            return;
+            return Http::timeout(3)
+                       ->post("https://weixin.sofiner.com/m?app=sofiner&openid=$key",
+                              [
+                                  'title'   => $title,
+                                  'content' => $data,
+                              ]);
 
         } catch (Exception $exception) {
-            return;
+            return null;
         }
 
     }
