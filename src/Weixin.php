@@ -58,7 +58,7 @@ class Weixin
      * @return void
      * @throws Exception
      */
-    public static function content(string $title, array $content): void
+    public static function content(string $title, array $content = []): void
     {
         global $argv;
 
