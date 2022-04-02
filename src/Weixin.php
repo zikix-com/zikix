@@ -89,19 +89,19 @@ class Weixin
      */
     private static function send(string $title, array $data)
     {
-        $key = config('zikix.openid');
+        $key = config('zikix.wx_key');
         if (!$key) {
             return null;
         }
 
         try {
             $mds = md5(json_encode($data, JSON_THROW_ON_ERROR));
-            if (!Cache::add("openid:$mds", 1, 10)) {
+            if (!Cache::add("wx:msg:$mds", 1, 10)) {
                 return null;
             }
 
             return Http::timeout(3)
-                       ->post("https://weixin.sofiner.com/m?app=sofiner&openid=$key",
+                       ->post("https://weixin.sofiner.com/m?app=sofiner&key=$key",
                               [
                                   'title'   => $title,
                                   'content' => $data,
