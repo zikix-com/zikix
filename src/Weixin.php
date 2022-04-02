@@ -6,7 +6,6 @@ use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Client\Response;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Facades\Cache;
@@ -48,27 +47,18 @@ class Weixin
 
         $data = Common::exceptionToArray($e);
 
-        Qy::markdown($data);
+        self::content('系统异常', $data);
     }
 
-    /**
-     * @param string $string
-     *
-     * @return void
-     * @throws Throwable
-     */
-    public static function message(string $string): void
-    {
-        self::content(['message' => $string]);
-    }
 
     /**
+     * @param string $title
      * @param array $content
      *
      * @return void
-     * @throws Throwable
+     * @throws Exception
      */
-    public static function content(array $content): void
+    public static function content(string $title, array $content): void
     {
         global $argv;
 
@@ -89,38 +79,39 @@ class Weixin
             $data[$k] = $v;
         }
 
-        self::send($data);
+        self::send($title, $data);
     }
 
 
     /**
+     * @param string $title
      * @param array $data
      *
-     * @return Response|null
-     * @throws Exception
+     * @return void
      */
-    private static function send(array $data): ?Response
+    private static function send(string $title, array $data): void
     {
         $key = config('zikix.openid');
         if (!$key) {
-            return null;
+            return;
         }
 
         try {
             $mds = md5(json_encode($data, JSON_THROW_ON_ERROR));
             if (!Cache::add("openid:$mds", 1, 10)) {
-                return null;
+                return;
             }
 
-            return Http::timeout(3)
-                       ->post("https://weixin.sofiner.com/m?app=sofiner&openid=$key",
-                              [
-                                  'title'   => '11',
-                                  'content' => $data,
-                              ]);
+            Http::timeout(3)
+                ->post("https://weixin.sofiner.com/m?app=sofiner&openid=$key",
+                       [
+                           'title'   => $title,
+                           'content' => $data,
+                       ]);
+            return;
 
         } catch (Exception $exception) {
-            return null;
+            return;
         }
 
     }
