@@ -46,7 +46,7 @@ class Weixin
 
         $data = Common::exceptionToArray($e);
 
-        return  self::content('系统异常', $data);
+        return self::content('系统异常', $data);
     }
 
 
@@ -113,5 +113,17 @@ class Weixin
 
     }
 
+    /**
+     * @param string $token
+     * @param string $app
+     *
+     * @return array|mixed
+     */
+    public static function getUser(string $token, string $app = 'sofiner'): mixed
+    {
+        $user = Http::get("https://weixin.sofiner.com/api/wechat/oauth/user?app=$app&token=$token");
+
+        return $user['data'] ?? [];
+    }
 
 }
