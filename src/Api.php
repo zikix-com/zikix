@@ -53,6 +53,12 @@ class Api
         $content['request_id'] = self::getRequestId();
         $content['code']       = $bizCode;
         $content['message']    = $message;
+
+        $env = config('app.env');
+        if ($env !== 'production') {
+            $content['message'] = "[$env]" . $content['message'];
+        }
+
         if ($data !== []) {
             $content['data'] = $data;
         }
