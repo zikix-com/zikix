@@ -1,33 +1,31 @@
 <?php
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\JsonResponse;
 use Zikix\Zikix\Adb;
-use Zikix\Zikix\Api;
 use Zikix\Zikix\Model;
 use Zikix\Zikix\Where;
 
-if (!function_exists('adb')) {
+if (!function_exists('zikix_adb')) {
     /**
      * @param string $table
      * @param string $connection
      *
      * @return \Illuminate\Database\Query\Builder
      */
-    function adb(string $table, string $connection = 'adb'): \Illuminate\Database\Query\Builder
+    function zikix_adb(string $table, string $connection = 'adb'): \Illuminate\Database\Query\Builder
     {
         return Adb::table($table, $connection);
     }
 }
 
-if (!function_exists('where')) {
+if (!function_exists('zikix_where')) {
     /**
      * @param Builder|\Illuminate\Database\Query\Builder $builder
      * @param string $key
      * @param array $columns
      * @param string $opt
      */
-    function where($builder, string $key, array $columns = [], string $opt = '='): void
+    function zikix_where($builder, string $key, array $columns = [], string $opt = '='): void
     {
         if ($columns === []) {
             Where::query($builder, $key, [$key], $opt);
@@ -37,13 +35,13 @@ if (!function_exists('where')) {
     }
 }
 
-if (!function_exists('whereLike')) {
+if (!function_exists('zikix_like')) {
     /**
      * @param Builder|\Illuminate\Database\Query\Builder $builder
      * @param string $key
      * @param array $columns
      */
-    function whereLike($builder, string $key, array $columns = []): void
+    function zikix_like($builder, string $key, array $columns = []): void
     {
         if ($columns === []) {
             Where::query($builder, $key, [$key]);
@@ -53,49 +51,20 @@ if (!function_exists('whereLike')) {
     }
 }
 
-if (!function_exists('like')) {
-    /**
-     * @param Builder|\Illuminate\Database\Query\Builder $builder
-     * @param string $key
-     * @param array $columns
-     */
-    function like($builder, string $key, array $columns = []): void
-    {
-        if ($columns === []) {
-            Where::query($builder, $key, [$key]);
-        } else {
-            Where::query($builder, $key, $columns);
-        }
-    }
-}
-
-if (!function_exists('whereBetween')) {
+if (!function_exists('zikix_between')) {
     /**
      * @param Builder|\Illuminate\Database\Query\Builder $builder
      * @param string $column
      * @param string|null $start
      * @param string|null $end
      */
-    function whereBetween($builder, string $column = 'created_at', string $start = null, string $end = null): void
+    function zikix_between($builder, string $column = 'created_at', string $start = null, string $end = null): void
     {
         Where::between($builder, $column, $start, $end);
     }
 }
 
-if (!function_exists('between')) {
-    /**
-     * @param Builder|\Illuminate\Database\Query\Builder $builder
-     * @param string $column
-     * @param string|null $start
-     * @param string|null $end
-     */
-    function between($builder, string $column = 'created_at', string $start = null, string $end = null): void
-    {
-        Where::between($builder, $column, $start, $end);
-    }
-}
-
-if (!function_exists('has')) {
+if (!function_exists('zikix_has')) {
 
     /**
      * @param \Illuminate\Database\Eloquent\Model $model
@@ -105,7 +74,7 @@ if (!function_exists('has')) {
      *
      * @return \Illuminate\Database\Eloquent\Model
      */
-    function has(
+    function zikix_has(
         \Illuminate\Database\Eloquent\Model $model,
         string                              $request,
         string                              $attribute = null,
@@ -116,7 +85,7 @@ if (!function_exists('has')) {
     }
 }
 
-if (!function_exists('filled')) {
+if (!function_exists('zikix_filled')) {
 
     /**
      * @param \Illuminate\Database\Eloquent\Model $model
@@ -126,7 +95,7 @@ if (!function_exists('filled')) {
      *
      * @return \Illuminate\Database\Eloquent\Model
      */
-    function filled(
+    function zikix_filled(
         \Illuminate\Database\Eloquent\Model $model,
         string                              $request,
         string                              $attribute = null,
@@ -137,7 +106,7 @@ if (!function_exists('filled')) {
     }
 }
 
-if (!function_exists('zikix')) {
+if (!function_exists('array_change_key_case_recursive')) {
     /**
      * @param $array
      * @param int $case
@@ -154,19 +123,5 @@ if (!function_exists('zikix')) {
         }
 
         return $array;
-    }
-}
-
-if (!function_exists('zikix')) {
-    /**
-     * @param mixed|array|object $data
-     * @param string $message
-     *
-     * @return JsonResponse
-     * @throws Exception
-     */
-    function zikix($data = [], string $message = ''): JsonResponse
-    {
-        return Api::ok($data, $message);
     }
 }
