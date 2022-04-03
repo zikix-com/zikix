@@ -53,17 +53,6 @@ class Qy
     }
 
     /**
-     * @param string $string
-     *
-     * @return Response|null
-     * @throws Exception
-     */
-    public static function message(string $string)
-    {
-        return self::markdown(['message' => $string]);
-    }
-
-    /**
      * @param array $content
      * @param string $mentioned_list
      *
@@ -132,7 +121,6 @@ class Qy
         return $markdown;
     }
 
-
     /**
      * @param array $data
      *
@@ -158,6 +146,17 @@ class Qy
             return null;
         }
 
+    }
+
+    /**
+     * @param string $string
+     *
+     * @return Response|null
+     * @throws Exception
+     */
+    public static function message(string $string)
+    {
+        return self::markdown(['message' => $string]);
     }
 
 

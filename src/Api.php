@@ -67,6 +67,18 @@ class Api
     }
 
     /**
+     * @return string
+     */
+    public static function getRequestId(): string
+    {
+        if (self::$requestId === null) {
+            self::$requestId = Uuid::uuid4()->toString();
+        }
+
+        return strtoupper(self::$requestId);
+    }
+
+    /**
      * @param string $content
      * @param int $status
      * @param array $headers
@@ -79,18 +91,6 @@ class Api
         Sls::put(['response_text' => $content]);
 
         return new Response($content, $status, $headers);
-    }
-
-    /**
-     * @return string
-     */
-    public static function getRequestId(): string
-    {
-        if (self::$requestId === null) {
-            self::$requestId = Uuid::uuid4()->toString();
-        }
-
-        return strtoupper(self::$requestId);
     }
 
     /**

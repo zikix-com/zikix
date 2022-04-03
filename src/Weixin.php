@@ -3,9 +3,11 @@
 namespace Zikix\Zikix;
 
 use Exception;
+use GuzzleHttp\Promise\PromiseInterface;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Client\Response;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Facades\Cache;
@@ -34,7 +36,7 @@ class Weixin
     /**
      * @param Throwable $e
      *
-     * @return \GuzzleHttp\Promise\PromiseInterface|\Illuminate\Http\Client\Response|null
+     * @return PromiseInterface|Response|null
      */
     public static function exception(Throwable $e)
     {
@@ -54,7 +56,7 @@ class Weixin
      * @param string $title
      * @param array $content
      *
-     * @return \GuzzleHttp\Promise\PromiseInterface|\Illuminate\Http\Client\Response|null
+     * @return PromiseInterface|Response|null
      */
     public static function content(string $title, array $content = [])
     {
@@ -85,7 +87,7 @@ class Weixin
      * @param string $title
      * @param array $data
      *
-     * @return \GuzzleHttp\Promise\PromiseInterface|\Illuminate\Http\Client\Response|null
+     * @return PromiseInterface|Response|null
      */
     private static function send(string $title, array $data)
     {
