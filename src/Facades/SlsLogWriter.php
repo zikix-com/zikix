@@ -1,6 +1,6 @@
 <?php
 
-namespace Zikix\Component\Facades;
+namespace Zikix\Zikix\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

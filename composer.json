@@ -1,5 +1,5 @@
 {
-  "name": "zikix/laravel-component",
+  "name": "zikix/zikix",
   "description": "The Zikix Laravel Components package.",
   "keywords": [
     "support"
@@ -7,8 +7,8 @@
   "license": "MIT",
   "homepage": "https://zikix.com",
   "support": {
-    "issues": "https://github.com/zikix-com/laravel-component/issues",
-    "source": "https://github.com/zikix-com/laravel-component"
+    "issues": "https://github.com/zikix-com/zikix/issues",
+    "source": "https://github.com/zikix-com/zikix"
   },
   "authors": [
     {
@@ -22,7 +22,7 @@
     },
     "laravel": {
       "providers": [
-        "Zikix\\Component\\ZikixServiceProvider"
+        "Zikix\\Zikix\\ZikixServiceProvider"
       ]
     }
   },
@@ -42,7 +42,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Zikix\\Component\\": "src/"
+      "Zikix\\Zikix\\": "src/"
     },
     "files": [
       "src/helpers.php"
@@ -50,7 +50,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Zikix\\Component\\Test\\": "tests/"
+      "Zikix\\Zikix\\Test\\": "tests/"
     }
   },
   "scripts": {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Zikix\Component;
+namespace Zikix\Zikix;
 
 use AlibabaCloud\Client\AlibabaCloud;
 use AlibabaCloud\Client\Exception\ClientException;

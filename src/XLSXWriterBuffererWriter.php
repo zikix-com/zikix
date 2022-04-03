@@ -1,6 +1,6 @@
 <?php
 
-namespace Zikix\Component;
+namespace Zikix\Zikix;
 
 class XLSXWriterBuffererWriter
 {

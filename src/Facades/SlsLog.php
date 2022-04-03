@@ -1,6 +1,6 @@
 <?php
 
-namespace Zikix\Component\Facades;
+namespace Zikix\Zikix\Facades;
 
 use Aliyun\SLS\Responses\GetHistogramsResponse;
 use Aliyun\SLS\Responses\GetLogsResponse;

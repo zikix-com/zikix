@@ -1,6 +1,6 @@
 <?php
 
-namespace Zikix\Component;
+namespace Zikix\Zikix;
 
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;

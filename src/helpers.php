@@ -2,10 +2,10 @@
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
-use Zikix\Component\Adb;
-use Zikix\Component\Api;
-use Zikix\Component\Model;
-use Zikix\Component\Where;
+use Zikix\Zikix\Adb;
+use Zikix\Zikix\Api;
+use Zikix\Zikix\Model;
+use Zikix\Zikix\Where;
 
 if (!function_exists('adb')) {
     /**
