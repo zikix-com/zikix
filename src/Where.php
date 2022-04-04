@@ -9,17 +9,17 @@ class Where
 
     /**
      * @param Builder|\Illuminate\Database\Query\Builder $builder
-     * @param string $key
-     * @param array $columns
+     * @param string $request_key
+     * @param array $model_columns
      * @param string $opt
      */
-    public static function query($builder, string $key, array $columns, string $opt = 'like'): void
+    public static function query($builder, string $request_key, array $model_columns, string $opt = 'like'): void
     {
-        if ($value = request($key)) {
+        if ($value = request($request_key)) {
 
-            $builder->where(function ($query) use ($columns, $opt, $value) {
+            $builder->where(function ($query) use ($model_columns, $opt, $value) {
                 /** @var Builder $query */
-                foreach ($columns as $column) {
+                foreach ($model_columns as $column) {
                     if ($opt === 'like') {
                         if (in_array($column, ['id', 'user_id', 'phone']) && !is_numeric($value)) {
                             continue;

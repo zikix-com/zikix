@@ -21,16 +21,16 @@ if (!function_exists('zikix_adb')) {
 if (!function_exists('zikix_where')) {
     /**
      * @param Builder|\Illuminate\Database\Query\Builder $builder
-     * @param string $key
+     * @param string $request_key
      * @param array $columns
      * @param string $opt
      */
-    function zikix_where($builder, string $key, array $columns = [], string $opt = '='): void
+    function zikix_where($builder, string $request_key, array $columns = [], string $opt = '='): void
     {
         if ($columns === []) {
-            Where::query($builder, $key, [$key], $opt);
+            Where::query($builder, $request_key, [$request_key], $opt);
         } else {
-            Where::query($builder, $key, $columns, $opt);
+            Where::query($builder, $request_key, $columns, $opt);
         }
     }
 }
@@ -38,15 +38,15 @@ if (!function_exists('zikix_where')) {
 if (!function_exists('zikix_like')) {
     /**
      * @param Builder|\Illuminate\Database\Query\Builder $builder
-     * @param string $key
+     * @param string $request_key
      * @param array $columns
      */
-    function zikix_like($builder, string $key, array $columns = []): void
+    function zikix_like($builder, string $request_key, array $columns = []): void
     {
         if ($columns === []) {
-            Where::query($builder, $key, [$key]);
+            Where::query($builder, $request_key, [$request_key]);
         } else {
-            Where::query($builder, $key, $columns);
+            Where::query($builder, $request_key, $columns);
         }
     }
 }
@@ -68,20 +68,20 @@ if (!function_exists('zikix_has')) {
 
     /**
      * @param \Illuminate\Database\Eloquent\Model $model
-     * @param string $request
-     * @param string|null $attribute
+     * @param string $request_key
+     * @param string|null $model_attribute
      * @param null $default
      *
      * @return \Illuminate\Database\Eloquent\Model
      */
     function zikix_has(
         \Illuminate\Database\Eloquent\Model $model,
-        string                              $request,
-        string                              $attribute = null,
+        string                              $request_key,
+        string                              $model_attribute = null,
                                             $default = null
     ): \Illuminate\Database\Eloquent\Model
     {
-        return Model::has($model, $request, $attribute, $default);
+        return Model::has($model, $request_key, $model_attribute, $default);
     }
 }
 
@@ -89,20 +89,20 @@ if (!function_exists('zikix_filled')) {
 
     /**
      * @param \Illuminate\Database\Eloquent\Model $model
-     * @param string $request
-     * @param string|null $attribute
+     * @param string $request_key
+     * @param string|null $model_attribute
      * @param null $default
      *
      * @return \Illuminate\Database\Eloquent\Model
      */
     function zikix_filled(
         \Illuminate\Database\Eloquent\Model $model,
-        string                              $request,
-        string                              $attribute = null,
+        string                              $request_key,
+        string                              $model_attribute = null,
                                             $default = null
     ): \Illuminate\Database\Eloquent\Model
     {
-        return Model::filled($model, $request, $attribute, $default);
+        return Model::filled($model, $request_key, $model_attribute, $default);
     }
 }
 
