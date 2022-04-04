@@ -21,17 +21,21 @@ class Api
      * GET request, the response will contain an entity corresponding to the requested resource. In a POST request, the
      * response will contain an entity describing or containing the result of the action.
      *
-     * @param mixed|array|object $data
+     * @param array|object|null $data
      * @param string $message
      * @param int $bizCode
      *
      * @return JsonResponse
      * @throws Exception
      */
-    public static function ok(array|object $data = [], string $message = '', int $bizCode = 200): JsonResponse
+    public static function ok(array|object|null $data = [], string $message = '', int $bizCode = 200): JsonResponse
     {
         if ($message === '') {
             $message = __('api.ok');
+        }
+
+        if (!$data) {
+            $data = [];
         }
 
         return self::response($bizCode, $message, $data);
