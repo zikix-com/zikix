@@ -30,6 +30,72 @@ class Common
     }
 
     /**
+     * @return array
+     */
+    public static function getApiDoc()
+    {
+        $routes = static::getApiRoutes();
+        $apis   = [];
+        foreach ($routes as $route) {
+
+            /**
+             * @var $controller \App\Http\Controllers\Controller
+             */
+            $class      = explode('@', $route->action['uses'])[0];
+            $controller = new $class();
+
+            $apis[] = [
+                'name'        => $controller->name ?? '',
+                'description' => $controller->description ?? '',
+                'uri'         => $route->uri,
+                'method'      => $route->methods[0],
+                'where'       => $route->action['where'] ?? '',
+                'rules'       => $controller->rules(),
+                'attributes'  => $controller->attributes(),
+            ];
+        }
+
+        return $apis;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getOpenApiDoc()
+    {
+        $routes = static::getApiRoutes();
+        $apis   = [];
+        foreach ($routes as $route) {
+
+            /**
+             * @var $controller \App\Http\Controllers\Controller
+             */
+            $class      = explode('@', $route->action['uses'])[0];
+            $controller = new $class();
+
+            if (!property_exists($controller, 'openapi')) {
+                continue;
+            }
+
+            if (!$controller->openapi) {
+                continue;
+            }
+
+            $apis[] = [
+                'name'        => $controller->name ?? '',
+                'description' => $controller->description ?? '',
+                'uri'         => $route->uri,
+                'method'      => $route->methods[0],
+                'where'       => $route->action['where'] ?? '',
+                'rules'       => $controller->rules(),
+                'attributes'  => $controller->attributes(),
+            ];
+        }
+
+        return $apis;
+    }
+
+    /**
      * @param Exception $e
      * @param bool $detail
      *
