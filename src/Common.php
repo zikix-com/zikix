@@ -49,7 +49,6 @@ class Common
                 'name'        => $controller->name,
                 'description' => $controller->description,
                 'method'      => $route->methods[0],
-                'where'       => $route->action['where'] ?? '',
                 'rules'       => $controller->rules(),
                 'attributes'  => $controller->attributes(),
             ];
@@ -86,7 +85,6 @@ class Common
                 'name'        => $controller->name,
                 'description' => $controller->description,
                 'method'      => $route->methods[0],
-                'where'       => $route->action['where'],
                 'rules'       => $controller->rules(),
                 'attributes'  => $controller->attributes(),
             ];
