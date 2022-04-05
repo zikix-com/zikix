@@ -45,8 +45,8 @@ class Common
             $controller = new $class();
 
             $apis[] = [
-                'name'        => $controller->name,
                 'uri'         => $route->uri,
+                'name'        => $controller->name,
                 'description' => $controller->description,
                 'method'      => $route->methods[0],
                 'where'       => $route->action['where'] ?? '',
@@ -82,8 +82,8 @@ class Common
             }
 
             $apis[] = [
-                'name'        => $controller->name,
                 'uri'         => $route->uri,
+                'name'        => $controller->name,
                 'description' => $controller->description,
                 'method'      => $route->methods[0],
                 'where'       => $route->action['where'],
