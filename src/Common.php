@@ -46,8 +46,8 @@ class Common
 
             $apis[] = [
                 'name'        => $controller->name,
-                'description' => $controller->description,
                 'uri'         => $route->uri,
+                'description' => $controller->description,
                 'method'      => $route->methods[0],
                 'where'       => $route->action['where'] ?? '',
                 'rules'       => $controller->rules(),
@@ -83,8 +83,8 @@ class Common
 
             $apis[] = [
                 'name'        => $controller->name,
-                'description' => $controller->description,
                 'uri'         => $route->uri,
+                'description' => $controller->description,
                 'method'      => $route->methods[0],
                 'where'       => $route->action['where'],
                 'rules'       => $controller->rules(),
