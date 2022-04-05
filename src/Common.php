@@ -15,7 +15,7 @@ class Common
     /**
      * @return array
      */
-    public static function getApiRoutes()
+    public static function getApiRoutes(): array
     {
         $routes = Route::getRoutes();
         $apis   = [];
@@ -32,21 +32,21 @@ class Common
     /**
      * @return array
      */
-    public static function getApiDoc()
+    public static function getApiDoc(): array
     {
         $routes = static::getApiRoutes();
         $apis   = [];
         foreach ($routes as $route) {
 
             /**
-             * @var $controller \App\Http\Controllers\Controller
+             * @var $controller Controller
              */
             $class      = explode('@', $route->action['uses'])[0];
             $controller = new $class();
 
             $apis[] = [
-                'name'        => $controller->name ?? '',
-                'description' => $controller->description ?? '',
+                'name'        => $controller->name,
+                'description' => $controller->description,
                 'uri'         => $route->uri,
                 'method'      => $route->methods[0],
                 'where'       => $route->action['where'] ?? '',
@@ -61,14 +61,14 @@ class Common
     /**
      * @return array
      */
-    public static function getOpenApiDoc()
+    public static function getOpenApiDoc(): array
     {
         $routes = static::getApiRoutes();
         $apis   = [];
         foreach ($routes as $route) {
 
             /**
-             * @var $controller \App\Http\Controllers\Controller
+             * @var $controller Controller
              */
             $class      = explode('@', $route->action['uses'])[0];
             $controller = new $class();
@@ -82,11 +82,11 @@ class Common
             }
 
             $apis[] = [
-                'name'        => $controller->name ?? '',
-                'description' => $controller->description ?? '',
+                'name'        => $controller->name,
+                'description' => $controller->description,
                 'uri'         => $route->uri,
                 'method'      => $route->methods[0],
-                'where'       => $route->action['where'] ?? '',
+                'where'       => $route->action['where'],
                 'rules'       => $controller->rules(),
                 'attributes'  => $controller->attributes(),
             ];
