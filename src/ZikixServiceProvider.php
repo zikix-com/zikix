@@ -28,7 +28,7 @@ class ZikixServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        Route::get('/health', [HealthController::class, 'action']);
+        Route::get('/health', HealthController::class);
 
         if (config('zikix.access_key_id')) {
             AlibabaCloud::accessKeyClient(
