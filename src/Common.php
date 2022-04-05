@@ -6,11 +6,29 @@ use Exception;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Route;
 use Throwable;
 use function parse_str;
 
 class Common
 {
+    /**
+     * @return array
+     */
+    public static function getApiRoutes()
+    {
+        $routes = Route::getRoutes();
+        $apis   = [];
+        foreach ($routes as $route) {
+            $middleware = $route->action['middleware'] ?? [];
+            if ($middleware && in_array('api', $middleware, true)) {
+                $apis[] = $route;
+            }
+        }
+
+        return $apis;
+    }
+
     /**
      * @param Exception $e
      * @param bool $detail
