@@ -12,6 +12,11 @@ class Controller extends BaseController
     /**
      * @var string
      */
+    public string $service = '';
+
+    /**
+     * @var string
+     */
     public string $name = '';
 
     /**

@@ -130,6 +130,32 @@ class Common
     }
 
     /**
+     * @return array
+     */
+    public static function getApi(): array
+    {
+        $routes = static::getApiRoutes();
+        $apis   = [];
+        foreach ($routes as $route) {
+
+            /**
+             * @var $controller Controller
+             */
+            $class      = explode('@', $route->action['uses'])[0];
+            $controller = new $class();
+
+            $apis[] = [
+                'uri'    => $route->uri,
+                'name'   => $controller->name,
+                'method' => $route->methods[0],
+                'as'     => $route->action['as'] ?? '',
+            ];
+        }
+
+        return $apis;
+    }
+
+    /**
      * @param Exception $e
      * @param bool $detail
      *
