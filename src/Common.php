@@ -49,6 +49,7 @@ class Common
                 'name'        => $controller->name,
                 'description' => $controller->description,
                 'method'      => $route->methods[0],
+                'as'          => $route->action['as'] ?? '',
                 'rules'       => $controller->rules(),
                 'attributes'  => $controller->attributes(),
             ];
@@ -85,8 +86,43 @@ class Common
                 'name'        => $controller->name,
                 'description' => $controller->description,
                 'method'      => $route->methods[0],
+                'as'          => $route->action['as'] ?? '',
                 'rules'       => $controller->rules(),
                 'attributes'  => $controller->attributes(),
+            ];
+        }
+
+        return $apis;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getOpenApi(): array
+    {
+        $routes = static::getApiRoutes();
+        $apis   = [];
+        foreach ($routes as $route) {
+
+            /**
+             * @var $controller Controller
+             */
+            $class      = explode('@', $route->action['uses'])[0];
+            $controller = new $class();
+
+            if (!property_exists($controller, 'openapi')) {
+                continue;
+            }
+
+            if (!$controller->openapi) {
+                continue;
+            }
+
+            $apis[] = [
+                'uri'    => $route->uri,
+                'name'   => $controller->name,
+                'method' => $route->methods[0],
+                'as'     => $route->action['as'] ?? '',
             ];
         }
 
