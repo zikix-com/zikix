@@ -11,26 +11,36 @@ class Controller extends BaseController
 {
 
     /**
+     * 所属服务或子系统名称
+     *
      * @var string
      */
     public string $service = '';
 
     /**
+     * API名称
+     *
      * @var string
      */
     public string $name = '';
 
     /**
+     * API 描述
+     *
      * @var string
      */
     public string $description = '';
 
     /**
+     * 是否属于 OpenAPI
+     *
      * @var bool
      */
     public bool $openapi = false;
 
     /**
+     * 是否对外隐藏
+     *
      * @var bool
      */
     public bool $hidden = false;
