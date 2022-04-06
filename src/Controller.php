@@ -46,6 +46,8 @@ class Controller extends BaseController
     public bool $hidden = false;
 
     /**
+     * 参数属性的名称映射
+     *
      * @var string[]
      */
     protected array $attributes = [];
