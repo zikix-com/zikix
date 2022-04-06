@@ -44,6 +44,10 @@ class Common
             $class      = explode('@', $route->action['uses'])[0];
             $controller = new $class();
 
+            if (!$controller instanceof Controller) {
+                continue;
+            }
+
             if ($controller->hidden) {
                 continue;
             }
@@ -77,11 +81,11 @@ class Common
             $class      = explode('@', $route->action['uses'])[0];
             $controller = new $class();
 
-            if ($controller->hidden) {
+            if (!$controller instanceof Controller) {
                 continue;
             }
 
-            if (!property_exists($controller, 'openapi')) {
+            if ($controller->hidden) {
                 continue;
             }
 
@@ -118,6 +122,10 @@ class Common
             $class      = explode('@', $route->action['uses'])[0];
             $controller = new $class();
 
+            if (!$controller instanceof Controller) {
+                continue;
+            }
+
             if ($controller->hidden) {
                 continue;
             }
@@ -151,6 +159,10 @@ class Common
              */
             $class      = explode('@', $route->action['uses'])[0];
             $controller = new $class();
+
+            if (!$controller instanceof Controller) {
+                continue;
+            }
 
             if ($controller->hidden) {
                 continue;
