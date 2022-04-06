@@ -54,6 +54,7 @@ class Common
 
             $apis[] = [
                 'uri'         => $route->uri,
+                'service'     => $controller->service,
                 'name'        => $controller->name,
                 'description' => $controller->description,
                 'method'      => $route->methods[0],
@@ -95,6 +96,7 @@ class Common
 
             $apis[] = [
                 'uri'         => $route->uri,
+                'service'     => $controller->service,
                 'name'        => $controller->name,
                 'description' => $controller->description,
                 'method'      => $route->methods[0],
@@ -135,10 +137,11 @@ class Common
             }
 
             $apis[] = [
-                'uri'    => $route->uri,
-                'name'   => $controller->name,
-                'method' => $route->methods[0],
-                'as'     => $route->action['as'] ?? '',
+                'uri'     => $route->uri,
+                'service' => $controller->service,
+                'name'    => $controller->name,
+                'method'  => $route->methods[0],
+                'as'      => $route->action['as'] ?? '',
             ];
         }
 
@@ -169,10 +172,11 @@ class Common
             }
 
             $apis[] = [
-                'uri'    => $route->uri,
-                'name'   => $controller->name,
-                'method' => $route->methods[0],
-                'as'     => $route->action['as'] ?? '',
+                'uri'     => $route->uri,
+                'service' => $controller->service,
+                'name'    => $controller->name,
+                'method'  => $route->methods[0],
+                'as'      => $route->action['as'] ?? '',
             ];
         }
 
