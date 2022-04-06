@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 
 class Controller extends BaseController
 {
+
     /**
      * @var string
      */
@@ -28,6 +29,11 @@ class Controller extends BaseController
      * @var bool
      */
     public bool $openapi = false;
+
+    /**
+     * @var bool
+     */
+    public bool $hidden = false;
 
     /**
      * @var string[]
