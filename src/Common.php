@@ -173,9 +173,9 @@ class Common
             }
 
             $apis[] = [
-                'uri'     => $route->uri,
                 'service' => $controller->service,
                 'name'    => $controller->name,
+                'uri'     => $route->uri,
                 'method'  => $route->methods[0],
                 'as'      => $route->action['as'] ?? '',
             ];
