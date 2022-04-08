@@ -3,6 +3,7 @@
 namespace Zikix\Zikix;
 
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
@@ -78,6 +79,15 @@ class ExceptionHandler extends Handler
 
         if ($e instanceof NotFoundHttpException) {
             $message = "请求的API地址不存在: {$request->getMethod()} {$request->url()}";
+        }
+
+        if ($e instanceof ModelNotFoundException) {
+            $message = '指定的数据不存在：' . $e->getModel();
+            if (count($e->getIds()) > 0) {
+                $message .= ' ' . implode(', ', $e->getIds());
+            }
+
+            return Api::response(404, $message);
         }
 
         if (!Common::isProduction()) {
