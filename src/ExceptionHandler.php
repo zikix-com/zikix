@@ -2,17 +2,9 @@
 
 namespace Zikix\Zikix;
 
-use Exception;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Auth\AuthenticationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Session\TokenMismatchException;
-use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
@@ -21,81 +13,62 @@ class ExceptionHandler extends Handler
     /**
      * A list of the exception types that are not reported.
      *
-     * @var array
+     * @var array<int, class-string<Throwable>>
      */
     protected $dontReport = [
-        NotFoundHttpException::class,
-        HttpResponseException::class,
-        AuthenticationException::class,
-        AuthorizationException::class,
-        ModelNotFoundException::class,
-        TokenMismatchException::class,
-        ValidationException::class,
+        //
     ];
 
     /**
      * A list of the inputs that are never flashed for validation exceptions.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $dontFlash = [
+        'current_password',
         'password',
         'password_confirmation',
     ];
 
     /**
-     * Report or log an exception.
-     *
-     * @param Exception $e
+     * Register the exception handling callbacks for the application.
      *
      * @return void
-     * @throws Throwable
      */
-    public function report(Throwable $e)
+    public function register()
     {
-        Qy::exception($e);
+        $this->reportable(function (Throwable $e) {
+            Qy::exception($e);
+            Weixin::exception($e);
+            Sls::$exception = $e;
+        });
 
-        Sls::$exception = $e;
+        $this->renderable(function (Throwable $e, Request $request) {
 
-        parent::report($e);
-    }
+            if ($request->ajax() || $request->acceptsJson()) {
 
-    /**
-     * Render an exception into an HTTP response.
-     *
-     * @param Request $request
-     * @param Exception $e
-     *
-     * @return Response|JsonResponse
-     * @throws Throwable
-     */
-    public function render($request, Throwable $e)
-    {
-        if ($e instanceof HttpResponseException) {
-            return $e->getResponse();
-        }
+                if ($e instanceof HttpResponseException) {
+                    return $e->getResponse();
+                }
 
-        $message = '服务器繁忙';
-        $data    = [];
+                $message = '服务器繁忙';
+                $data    = [];
 
-        if ($e instanceof NotFoundHttpException) {
-            $message = '请求地址错误';
-        }
+                if ($e instanceof NotFoundHttpException) {
+                    $message = "请求的API地址不存在: {$request->getMethod()} {$request->url()}";
+                }
 
-        if ($e instanceof ModelNotFoundException) {
-            $message = '指定的数据不存在：' . $e->getModel();
-            if (count($e->getIds()) > 0) {
-                $message .= ' ' . implode(', ', $e->getIds());
+                if (!Common::isProduction()) {
+                    $message           = $e->getMessage() ?: $message;
+                    $data['exception'] = Common::exceptionToArray($e, true);
+                }
+
+                return Api::response(500, $message, $data, 500);
             }
 
-            return Api::response(400, $message);
-        }
+            return parent::render($request, $e);
 
-        if (config('app.debug') === true) {
-            $data['exception'] = Common::exceptionToArray($e, true);
-        }
+        });
 
-        return Api::response(500, $message, $data, 500);
     }
-
 }
