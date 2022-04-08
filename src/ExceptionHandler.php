@@ -77,6 +77,11 @@ class ExceptionHandler extends Handler
         $message = '服务器繁忙';
         $data    = [];
 
+        if (!Common::isProduction()) {
+            $message           = $e->getMessage() ?: $message;
+            $data['exception'] = Common::exceptionToArray($e, true);
+        }
+
         if ($e instanceof NotFoundHttpException) {
             $message = "请求的API地址不存在: {$request->getMethod()} {$request->url()}";
         }
@@ -88,11 +93,6 @@ class ExceptionHandler extends Handler
             }
 
             return Api::response(400, $message);
-        }
-
-        if (!Common::isProduction()) {
-            $message           = $e->getMessage() ?: $message;
-            $data['exception'] = Common::exceptionToArray($e, true);
         }
 
         return Api::response(500, $message, $data, 500);
