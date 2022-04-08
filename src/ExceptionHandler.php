@@ -87,7 +87,7 @@ class ExceptionHandler extends Handler
                 $message .= ' ' . implode(', ', $e->getIds());
             }
 
-            return Api::response(404, $message);
+            return Api::response(400, $message);
         }
 
         if (!Common::isProduction()) {
