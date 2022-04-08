@@ -49,6 +49,10 @@ class ExceptionHandler extends Handler
 
         $this->renderable(function (Throwable $e, Request $request) {
 
+            if ($request->is('*/api/*')) {
+                return self::api($e, $request);
+            }
+
             if ($request->ajax() || $request->isJson()) {
                 return self::api($e, $request);
             }
