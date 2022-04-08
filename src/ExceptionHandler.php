@@ -86,7 +86,7 @@ class ExceptionHandler extends Handler
             $data['exception'] = Common::exceptionToArray($e, true);
         }
 
-        if ($e instanceof NotFoundHttpException) {
+        if ($e instanceof NotFoundHttpException && $e->getMessage() === '') {
             $message = "请求的API地址不存在: {$request->getMethod()} {$request->url()}";
         }
 
