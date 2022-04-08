@@ -45,7 +45,7 @@ class ExceptionHandler extends Handler
 
         $this->renderable(function (Throwable $e, Request $request) {
 
-            if ($request->ajax() || $request->acceptsJson()) {
+            if ($request->ajax() || $request->isJson()) {
 
                 if ($e instanceof HttpResponseException) {
                     return $e->getResponse();
@@ -65,8 +65,6 @@ class ExceptionHandler extends Handler
 
                 return Api::response(500, $message, $data, 500);
             }
-
-            return parent::render($request, $e);
 
         });
 
