@@ -32,7 +32,7 @@ class Sls
     /**
      * @var array
      */
-    private static $logs = [];
+    public static $logs = [];
 
     /**
      * Handle dynamic, static calls to the object.
@@ -89,23 +89,7 @@ class Sls
     private static function getDefaultFields(): array
     {
         try {
-            global $argv;
-            $logs = [
-                'request_id'      => Api::getRequestId(),
-                'app'             => config('app.name'),
-                'whoami'          => exec('whoami'),
-                'env'             => config('app.env'),
-                'request'         => request()?->toArray() ?: [],
-                'request_content' => request()?->getContent() ?: '',
-                'route'           => request()?->route() ?: [],
-                'ip'              => request()?->ip() ?: '',
-                'uri'             => request()?->getUri() ?: '',
-                'referer'         => request()?->header('referer'),
-                'headers'         => self::getHeaders(),
-                'logs'            => self::$logs,
-                'user'            => Auth::user(),
-                'argv'            => $argv ?? [],
-            ];
+            $logs = Common::data();
         } catch (Exception $exception) {
             $logs = [];
         }
@@ -123,19 +107,6 @@ class Sls
         }
 
         return $logs;
-    }
-
-    /**
-     * @return array|string|null
-     */
-    private static function getHeaders()
-    {
-        $headers = request()?->header();
-        foreach ($headers as $k => $v) {
-            $headers[$k] = $v[0];
-        }
-
-        return $headers;
     }
 
 }

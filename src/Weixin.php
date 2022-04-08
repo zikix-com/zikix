@@ -60,20 +60,7 @@ class Weixin
      */
     public static function content(string $title, array $content = [])
     {
-        global $argv;
-
-        $context = [
-            'app'             => config('app.name'),
-            'whoami'          => exec('whoami'),
-            'env'             => config('app.env'),
-            'Request Id'      => Api::getRequestId(),
-            'uri'             => request()?->getUri(),
-            'referer'         => request()?->header('referer'),
-            'ip'              => request()?->getClientIp(),
-            'location'        => Common::ip(request()?->ip()),
-            'argv'            => $argv ?? [],
-            'request_content' => request()?->getContent() ?: '',
-        ];
+        $context = Common::data();
 
         foreach ($content as $k => $v) {
             $context[$k] = $v;

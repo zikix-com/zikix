@@ -61,20 +61,7 @@ class Qy
      */
     public static function markdown(array $content, string $mentioned_list = '')
     {
-        global $argv;
-
-        $data = [
-            'app'             => config('app.name'),
-            'whoami'          => exec('whoami'),
-            'env'             => config('app.env'),
-            'Request Id'      => Api::getRequestId(),
-            'uri'             => request()?->getUri(),
-            'referer'         => request()?->header('referer'),
-            'ip'              => request()?->getClientIp(),
-            'location'        => Common::ip(request()?->ip()),
-            'argv'            => $argv ?? [],
-            'request_content' => request()?->getContent() ?: '',
-        ];
+        $data = Common::data();
 
         foreach ($content as $k => $v) {
             $data[$k] = $v;
