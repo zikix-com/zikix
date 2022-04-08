@@ -335,4 +335,12 @@ class Common
     }
 
 
+    /**
+     * @return bool
+     */
+    public static function isProduction()
+    {
+        return config('app.env') === 'production';
+    }
+
 }
