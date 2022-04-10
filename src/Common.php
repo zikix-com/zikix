@@ -59,7 +59,6 @@ class Common
                 'name'        => $controller->name,
                 'description' => $controller->description,
                 'method'      => $route->methods[0],
-                'as'          => $route->action['as'] ?? '',
                 'rules'       => $controller->rules(),
                 'attributes'  => $controller->attributes(),
             ];
@@ -101,7 +100,6 @@ class Common
                 'name'        => $controller->name,
                 'description' => $controller->description,
                 'method'      => $route->methods[0],
-                'as'          => $route->action['as'] ?? '',
                 'rules'       => $controller->rules(),
                 'attributes'  => $controller->attributes(),
             ];
@@ -142,7 +140,6 @@ class Common
                 'service' => $controller->service,
                 'name'    => $controller->name,
                 'method'  => $route->methods[0],
-                'as'      => $route->action['as'] ?? '',
             ];
         }
 
@@ -177,7 +174,6 @@ class Common
                 'name'    => $controller->name,
                 'uri'     => $route->uri,
                 'method'  => $route->methods[0],
-                'as'      => $route->action['as'] ?? '',
             ];
         }
 
