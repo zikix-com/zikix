@@ -313,6 +313,7 @@ class Common
             'logs'            => Sls::$logs,
             'user'            => Auth::user(),
             'argv'            => $argv ?? [],
+            'session'         => $_SESSION ?? [],
             'sls'             => config('zikix.sls_project'),
         ];
     }
