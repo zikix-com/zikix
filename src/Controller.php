@@ -55,14 +55,6 @@ class Controller extends BaseController
     /**
      * @throws Exception
      */
-    public function __construct()
-    {
-        $this->validate();
-    }
-
-    /**
-     * @throws Exception
-     */
     public function validate(): void
     {
         if ($this->rules() === []) {
