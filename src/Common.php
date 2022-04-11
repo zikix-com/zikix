@@ -340,4 +340,20 @@ class Common
         return config('app.env') === 'production';
     }
 
+    /**
+     * @return string
+     */
+    public static function dataEnv(): string
+    {
+        if (config('app.env') === 'production') {
+            return 'production';
+        }
+
+        if (config('app.env') === 'pre') {
+            return 'production';
+        }
+
+        return 'test';
+    }
+
 }
