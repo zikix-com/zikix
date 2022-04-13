@@ -371,6 +371,10 @@ class Common
      */
     public static function isApiRequest(Request $request): bool
     {
+        if ($request->is('api/*')) {
+            return true;
+        }
+
         if ($request->is('*/api/*')) {
             return true;
         }
