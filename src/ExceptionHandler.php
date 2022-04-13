@@ -53,9 +53,9 @@ class ExceptionHandler extends Handler
                 return self::api($e, $request);
             }
 
-            if (Common::isProduction()) {
-                return self::view($e, $request);
-            }
+//            if (Common::isProduction()) {
+//                return self::view($e, $request);
+//            }
 
         });
 
