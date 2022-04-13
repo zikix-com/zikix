@@ -51,10 +51,45 @@ class ExceptionHandler extends Handler
 
             if (Common::isApiRequest($request)) {
                 return self::api($e, $request);
+            } else {
+                return self::view($e, $request);
             }
 
         });
 
+    }
+
+    /**
+     * @param Throwable $e
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\Response
+     */
+    private static function view(Throwable $e, Request $request)
+    {
+        $status     = 500;
+        $message    = $e->getMessage();
+        $request_id = Api::getRequestId();
+        $code       = 400;
+
+        if ($e instanceof HttpResponseException) {
+            $status = $e->getResponse()->getStatusCode();
+
+            $data = json_decode($e->getResponse()->getContent(), true);
+
+            $message    = $data['message'] ?? '';
+            $code       = $data['code'] ?? '';
+            $request_id = $data['request_id'] ?? '';
+        }
+
+        return response()
+            ->view('500',
+                   [
+                       'message'    => $message,
+                       'code'       => $code,
+                       'request_id' => $request_id,
+                   ],
+                   $status);
     }
 
     /**
