@@ -4,6 +4,7 @@ namespace Zikix\Zikix;
 
 use Exception;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
@@ -354,6 +355,28 @@ class Common
         }
 
         return 'test';
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return bool
+     */
+    public static function isApiRequest(Request $request): bool
+    {
+        if ($request->is('*/api/*')) {
+            return true;
+        }
+
+        if ($request->ajax() || $request->isJson()) {
+            return true;
+        }
+
+        if ($request->route() && in_array('api', $request->route()->middleware(), true)) {
+            return true;
+        }
+
+        return false;
     }
 
 }
