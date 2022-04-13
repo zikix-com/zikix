@@ -332,13 +332,20 @@ class Common
         return $headers;
     }
 
+    /**
+     * @return bool
+     */
+    public static function isProduction(): bool
+    {
+        return config('app.env') === 'production';
+    }
 
     /**
      * @return bool
      */
-    public static function isProduction()
+    public static function isDebug(): bool
     {
-        return config('app.env') === 'production';
+        return config('app.debug');
     }
 
     /**
