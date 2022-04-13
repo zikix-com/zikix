@@ -35,7 +35,7 @@ class Common
      */
     public static function getApiDoc(): array
     {
-        $routes = static::getApiRoutes();
+        $routes = Route::getRoutes();
         $apis   = [];
         foreach ($routes as $route) {
 
@@ -72,7 +72,7 @@ class Common
      */
     public static function getOpenApiDoc(): array
     {
-        $routes = static::getApiRoutes();
+        $routes = Route::getRoutes();
         $apis   = [];
         foreach ($routes as $route) {
 
@@ -113,7 +113,7 @@ class Common
      */
     public static function getOpenApi(): array
     {
-        $routes = static::getApiRoutes();
+        $routes = Route::getRoutes();
         $apis   = [];
         foreach ($routes as $route) {
 
@@ -151,7 +151,7 @@ class Common
      */
     public static function getApi(): array
     {
-        $routes = static::getApiRoutes();
+        $routes = Route::getRoutes();
         $apis   = [];
         foreach ($routes as $route) {
 
