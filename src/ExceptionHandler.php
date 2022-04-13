@@ -51,9 +51,9 @@ class ExceptionHandler extends Handler
 
             if (Common::isApiRequest($request)) {
                 return self::api($e, $request);
-            } else {
-                return self::view($e, $request);
             }
+
+            return self::view($e, $request);
 
         });
 
@@ -65,7 +65,7 @@ class ExceptionHandler extends Handler
      *
      * @return \Illuminate\Http\Response
      */
-    private static function view(Throwable $e, Request $request)
+    private static function view(Throwable $e, Request $request): \Illuminate\Http\Response
     {
         $status     = 500;
         $message    = $e->getMessage();
