@@ -108,11 +108,10 @@ class ExceptionHandler extends Handler
             return $e->getResponse();
         }
 
-        $message = '服务器繁忙';
+        $message = $e->getMessage() ?: '服务器繁忙';
         $data    = [];
 
         if (Common::isDebug()) {
-            $message           = $e->getMessage() ?: $message;
             $data['exception'] = Common::exceptionToArray($e, true);
         }
 
