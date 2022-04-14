@@ -8,6 +8,7 @@ use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
@@ -20,7 +21,7 @@ class ExceptionHandler extends Handler
      * @var array<int, class-string<Throwable>>
      */
     protected $dontReport = [
-        //
+        InvalidArgumentException::class,
     ];
 
     /**
