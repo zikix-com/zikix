@@ -48,7 +48,11 @@ class Context
             'sls'             => config('zikix.sls_project'),
         ];
 
-        return array_merge(...self::$context, ...$base);
+        foreach ($base as $key => $value) {
+            self::$context[$key] = $value;
+        }
+
+        return self::$context;
     }
 
     /**
