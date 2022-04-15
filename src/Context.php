@@ -9,7 +9,7 @@ class Context
     /**
      * @var array
      */
-    public static array $context = [];
+    protected static array $context = [];
 
     /**
      * @param string $key
