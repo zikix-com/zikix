@@ -12,6 +12,17 @@ class Context
     public static array $context = [];
 
     /**
+     * @param string $key
+     * @param $value
+     *
+     * @return void
+     */
+    public static function append(string $key, $value): void
+    {
+        self::$context[$key] = $value;
+    }
+
+    /**
      * @return array
      */
     public static function context(): array
