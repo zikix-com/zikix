@@ -3,7 +3,6 @@
 namespace Zikix\Zikix;
 
 use Exception;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -89,7 +88,7 @@ class Sls
     private static function getDefaultFields(): array
     {
         try {
-            $logs = Common::data();
+            $logs = Context::context();
         } catch (Exception $exception) {
             $logs = [];
         }

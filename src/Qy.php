@@ -61,7 +61,7 @@ class Qy
      */
     public static function markdown(array $content, string $mentioned_list = '')
     {
-        $data = Common::data();
+        $data = Context::context();
 
         foreach ($content as $k => $v) {
             $data[$k] = $v;

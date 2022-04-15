@@ -5,7 +5,6 @@ namespace Zikix\Zikix;
 use Exception;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
@@ -293,43 +292,6 @@ class Common
         $newUriComponents .= '?' . http_build_query($newQuery);
 
         return $newUriComponents;
-    }
-
-    public static function data(): array
-    {
-        global $argv;
-
-        return [
-            'request_id'      => Api::getRequestId(),
-            'app'             => config('app.name'),
-            'whoami'          => exec('whoami'),
-            'env'             => config('app.env'),
-            'request'         => request()?->toArray() ?: [],
-            'request_content' => request()?->getContent() ?: '',
-            'route'           => request()?->route() ?: [],
-            'ip'              => request()?->ip() ?: '',
-            'uri'             => request()?->getUri() ?: '',
-            'referer'         => request()?->header('referer'),
-            'headers'         => self::getHeaders(),
-            'logs'            => Sls::$logs,
-            'user'            => Auth::user(),
-            'argv'            => $argv ?? [],
-            'session'         => $_SESSION ?? [],
-            'sls'             => config('zikix.sls_project'),
-        ];
-    }
-
-    /**
-     * @return array|string|null
-     */
-    public static function getHeaders()
-    {
-        $headers = request()?->header();
-        foreach ($headers as $k => $v) {
-            $headers[$k] = $v[0];
-        }
-
-        return $headers;
     }
 
     /**
