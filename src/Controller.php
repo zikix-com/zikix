@@ -36,7 +36,7 @@ class Controller extends BaseController
      *
      * @var ApiType
      */
-    public $apiType = ApiType::private;
+    public ApiType $apiType = ApiType::private;
 
     /**
      * 是否对外隐藏

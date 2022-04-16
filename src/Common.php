@@ -54,11 +54,12 @@ class Common
             }
 
             $apis[] = [
-                'uri'         => $route->uri,
                 'service'     => $controller->service,
                 'name'        => $controller->name,
                 'description' => $controller->description,
+                'type'        => $controller->apiType->name,
                 'method'      => $route->methods[0],
+                'uri'         => $route->uri,
                 'rules'       => $controller->rules(),
                 'attributes'  => $controller->attributes(),
             ];
@@ -95,10 +96,11 @@ class Common
             }
 
             $apis[] = [
-                'uri'         => $route->uri,
                 'service'     => $controller->service,
                 'name'        => $controller->name,
                 'description' => $controller->description,
+                'type'        => $controller->apiType->name,
+                'uri'         => $route->uri,
                 'method'      => $route->methods[0],
                 'rules'       => $controller->rules(),
                 'attributes'  => $controller->attributes(),
@@ -136,10 +138,12 @@ class Common
             }
 
             $apis[] = [
-                'uri'     => $route->uri,
-                'service' => $controller->service,
-                'name'    => $controller->name,
-                'method'  => $route->methods[0],
+                'service'     => $controller->service,
+                'name'        => $controller->name,
+                'description' => $controller->description,
+                'type'        => $controller->apiType->name,
+                'method'      => $route->methods[0],
+                'uri'         => $route->uri,
             ];
         }
 
@@ -170,10 +174,12 @@ class Common
             }
 
             $apis[] = [
-                'service' => $controller->service,
-                'name'    => $controller->name,
-                'uri'     => $route->uri,
-                'method'  => $route->methods[0],
+                'service'     => $controller->service,
+                'name'        => $controller->name,
+                'description' => $controller->description,
+                'type'        => $controller->apiType->name,
+                'method'      => $route->methods[0],
+                'uri'         => $route->uri,
             ];
         }
 
