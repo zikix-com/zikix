@@ -32,11 +32,11 @@ class Controller extends BaseController
     public string $description = '';
 
     /**
-     * 是否属于 OpenAPI
+     * API 类型
      *
-     * @var bool
+     * @var ApiType
      */
-    public bool $openapi = false;
+    public $apiType = ApiType::private;
 
     /**
      * 是否对外隐藏
