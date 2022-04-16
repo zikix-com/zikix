@@ -90,7 +90,7 @@ class Common
                 continue;
             }
 
-            if (!$controller->openapi) {
+            if ($controller->apiType = ApiType::private) {
                 continue;
             }
 
@@ -131,7 +131,7 @@ class Common
                 continue;
             }
 
-            if (!$controller->openapi) {
+            if ($controller->apiType = ApiType::private) {
                 continue;
             }
 
