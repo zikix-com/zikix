@@ -45,6 +45,7 @@ class Context
             'user'            => Auth::user(),
             'argv'            => $argv ?? [],
             'session'         => $_SESSION ?? [],
+            'sls_project'     => config('zikix.sls_project'),
             'sls_store'       => config('zikix.sls_store'),
         ];
 
