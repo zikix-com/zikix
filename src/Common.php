@@ -325,7 +325,7 @@ class Common
             return 'production';
         }
 
-        if (config('app.env') === 'pre') {
+        if (config('app.env') === 'pre' || config('app.env') === 'staging') {
             return 'production';
         }
 
