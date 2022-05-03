@@ -273,7 +273,7 @@ class Common
         }
 
         if (!in_array($ip, $array, true)) {
-            Api::unauthorized("Your ip $ip not in ip whitelist.");
+            Api::unauthorized("Your ip $ip not in whitelist.");
         }
 
         return true;
