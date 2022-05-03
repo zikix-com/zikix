@@ -226,7 +226,7 @@ class Common
         }
 
         if ($ip === '127.0.0.1' || $ip === '0.0.0.0') {
-            return '';
+            return '本地';
         }
 
         return Cache::remember('location:' . $ip, 86400, static function () use ($ip) {
