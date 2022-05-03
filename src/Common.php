@@ -312,7 +312,7 @@ class Common
             }
 
             if ($allowPublic === false && in_array('0.0.0.0', $ip_whitelist, true)) {
-                Api::badRequest('不允许配置 0.0.0.0');
+                Api::badRequest('It is forbidden to use 0.0.0.0 as IP address.');
             }
 
             $ip_whitelist = implode("\n", $ip_whitelist);
