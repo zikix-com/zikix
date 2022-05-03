@@ -285,8 +285,16 @@ class Common
     public static function ipWhitelistFormat(string $ip_whitelist, bool $allowPublic = false)
     {
         if ($ip_whitelist) {
-            $array        = explode("\n", $ip_whitelist);
+            $array = explode("\n", $ip_whitelist);
+
             $ip_whitelist = array_unique($array);
+
+            foreach ($ip_whitelist as $k => $v) {
+                $v = str_replace(' ', '', $v);
+                if (!$v) {
+                    unset($ip_whitelist[$k]);
+                }
+            }
 
             if ($allowPublic === false && in_array('0.0.0.0', $ip_whitelist, true)) {
                 Api::badRequest('不允许配置 0.0.0.0');
