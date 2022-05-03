@@ -256,17 +256,17 @@ class Common
      */
     public static function ipWhitelistCheck(string $ip_whitelist)
     {
-        if (!$ip_whitelist) {
-            Api::unauthorized('Please set ip whitelist first.');
-        }
-
-        $array = explode("\n", $ip_whitelist);
-
         $ip = \Illuminate\Support\Facades\Request::ip();
 
         if ($ip === '127.0.0.1' || $ip === '::1') {
             return true;
         }
+
+        if (!$ip_whitelist) {
+            Api::unauthorized('Please set ip whitelist first.');
+        }
+
+        $array = explode("\n", $ip_whitelist);
 
         if (in_array('0.0.0.0', $array, true)) {
             return true;
