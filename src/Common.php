@@ -293,19 +293,23 @@ class Common
 
             $ip_whitelist = array_unique($array);
 
-            foreach ($ip_whitelist as $k => $v) {
+            foreach ($ip_whitelist as $k => $ip) {
 
-                $v = str_replace(' ', '', $v);
+                $ip = str_replace(' ', '', $ip);
 
-                if (!$v) {
+                if (!$ip) {
                     unset($ip_whitelist[$k]);
                 }
 
-                if (filter_var($v, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === false) {
+                if ($ip === '127.0.0.1' || $ip === '::1') {
                     unset($ip_whitelist[$k]);
                 }
 
-                if (filter_var($v, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) !== false) {
+                if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === false) {
+                    unset($ip_whitelist[$k]);
+                }
+
+                if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) !== false) {
                     unset($ip_whitelist[$k]);
                 }
 
