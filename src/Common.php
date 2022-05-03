@@ -302,7 +302,7 @@ class Common
                 }
 
                 if ($ip === '127.0.0.1' || $ip === '::1') {
-                    Api::badRequest("It is forbidden to use $ip as IP address.");
+                    Api::badRequest("Do not use $ip as the IP address.");
                 }
 
                 if (filter_var($ip, FILTER_VALIDATE_IP, [FILTER_FLAG_IPV4, FILTER_FLAG_IPV6]) === false) {
@@ -312,7 +312,7 @@ class Common
             }
 
             if ($allowPublic === false && in_array('0.0.0.0', $ip_whitelist, true)) {
-                Api::badRequest('It is forbidden to use 0.0.0.0 as IP address.');
+                Api::badRequest('Do not use 0.0.0.0 as the IP address.');
             }
 
             $ip_whitelist = implode("\n", $ip_whitelist);
