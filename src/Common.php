@@ -290,10 +290,21 @@ class Common
             $ip_whitelist = array_unique($array);
 
             foreach ($ip_whitelist as $k => $v) {
+
                 $v = str_replace(' ', '', $v);
+
                 if (!$v) {
                     unset($ip_whitelist[$k]);
                 }
+
+                if (filter_var($v, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === false) {
+                    unset($ip_whitelist[$k]);
+                }
+
+                if (filter_var($v, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) !== false) {
+                    unset($ip_whitelist[$k]);
+                }
+
             }
 
             if ($allowPublic === false && in_array('0.0.0.0', $ip_whitelist, true)) {
