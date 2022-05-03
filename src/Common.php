@@ -249,6 +249,56 @@ class Common
     }
 
     /**
+     * @param string $ip_whitelist
+     *
+     * @return bool
+     * @throws Exception
+     */
+    public static function ipWhitelistCheck(string $ip_whitelist)
+    {
+        if (!$ip_whitelist) {
+            Api::unauthorized('Please set ip whitelist first.');
+        }
+
+        $array = explode("\n", $ip_whitelist);
+
+        $ip = \Illuminate\Support\Facades\Request::ip();
+
+        if (in_array('0.0.0.0', $array, true)) {
+            return true;
+        }
+
+        if (!in_array($ip, $array, true)) {
+            Api::unauthorized("Your ip $ip not in ip whitelist.");
+        }
+
+        return true;
+    }
+
+    /**
+     * @param string $ip_whitelist
+     * @param bool $allowPublic
+     *
+     * @return string
+     * @throws Exception
+     */
+    public static function ipWhitelistFormat(string $ip_whitelist, bool $allowPublic = false)
+    {
+        if ($ip_whitelist) {
+            $array        = explode("\n", $ip_whitelist);
+            $ip_whitelist = array_unique($array);
+
+            if ($allowPublic === false && in_array('0.0.0.0', $ip_whitelist, true)) {
+                Api::badRequest('不允许配置 0.0.0.0');
+            }
+
+            $ip_whitelist = implode("\n", $ip_whitelist);
+        }
+
+        return $ip_whitelist;
+    }
+
+    /**
      * @param $string
      *
      * @return mixed
