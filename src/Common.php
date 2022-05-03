@@ -249,12 +249,12 @@ class Common
     }
 
     /**
-     * @param string $ip_whitelist
+     * @param string|null $ip_whitelist
      *
      * @return bool
      * @throws Exception
      */
-    public static function ipWhitelistCheck(string $ip_whitelist)
+    public static function ipWhitelistCheck(?string $ip_whitelist): bool
     {
         $ip = \Illuminate\Support\Facades\Request::ip();
 
@@ -280,13 +280,13 @@ class Common
     }
 
     /**
-     * @param string $ip_whitelist
+     * @param string|null $ip_whitelist
      * @param bool $allowPublic
      *
      * @return string
      * @throws Exception
      */
-    public static function ipWhitelistFormat(string $ip_whitelist, bool $allowPublic = false)
+    public static function ipWhitelistFormat(?string $ip_whitelist, bool $allowPublic = false): string
     {
         if ($ip_whitelist) {
             $array = explode("\n", $ip_whitelist);
