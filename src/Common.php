@@ -264,6 +264,10 @@ class Common
 
         $ip = \Illuminate\Support\Facades\Request::ip();
 
+        if ($ip === '127.0.0.1' || $ip === '::1') {
+            return true;
+        }
+
         if (in_array('0.0.0.0', $array, true)) {
             return true;
         }
