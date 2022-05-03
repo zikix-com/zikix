@@ -302,15 +302,11 @@ class Common
                 }
 
                 if ($ip === '127.0.0.1' || $ip === '::1') {
-                    unset($ip_whitelist[$k]);
+                    Api::badRequest("It is forbidden to use $ip as IP address.");
                 }
 
-                if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === false) {
-                    unset($ip_whitelist[$k]);
-                }
-
-                if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) !== false) {
-                    unset($ip_whitelist[$k]);
+                if (filter_var($ip, FILTER_VALIDATE_IP, [FILTER_FLAG_IPV4, FILTER_FLAG_IPV6]) === false) {
+                    Api::badRequest("$ip is not a legal IP address.");
                 }
 
             }
