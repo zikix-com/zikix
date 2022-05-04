@@ -293,6 +293,10 @@ class Common
 
             $ip_whitelist = array_unique($array);
 
+            if (count($ip_whitelist) > 500) {
+                Api::badRequest('The number of IP addresses cannot exceed 500.');
+            }
+
             foreach ($ip_whitelist as $k => $ip) {
 
                 $ip = str_replace(' ', '', $ip);
