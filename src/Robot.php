@@ -30,6 +30,14 @@ class Robot
     ];
 
     /**
+     * @param string $e
+     */
+    public static function message(string $e): void
+    {
+        self::markdown(['Message' => $e]);
+    }
+
+    /**
      * @param Throwable $e
      */
     public static function exception(Throwable $e): void
