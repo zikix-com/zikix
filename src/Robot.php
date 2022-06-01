@@ -10,8 +10,9 @@ use Illuminate\Session\TokenMismatchException;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
+use Ymlluo\GroupRobot\GroupRobot;
 
-class GroupRobot
+class Robot
 {
     /**
      * A list of the exception types that are not reported.
@@ -30,11 +31,8 @@ class GroupRobot
 
     /**
      * @param Throwable $e
-     * @param string $mentioned_list
-     *
-     * @return array|void
      */
-    public static function exception(Throwable $e, string $mentioned_list = '')
+    public static function exception(Throwable $e): void
     {
         foreach (self::$dontReport as $item) {
             if ($e instanceof $item) {
@@ -44,16 +42,13 @@ class GroupRobot
 
         $data = Common::exceptionToArray($e);
 
-        return self::markdown($data, $mentioned_list);
+        self::markdown($data);
     }
 
     /**
      * @param array $content
-     * @param string $mentioned_list
-     *
-     * @return array
      */
-    public static function markdown(array $content, string $mentioned_list = ''): array
+    public static function markdown(array $content): void
     {
         $data = Context::context();
 
@@ -62,7 +57,7 @@ class GroupRobot
         }
 
         // https://packagist.org/packages/ymlluo/group-robot
-        $robot = new \Ymlluo\GroupRobot\GroupRobot();
+        $robot = new GroupRobot();
 
         $qy_key    = config('zikix.qy_key');
         $qy_secret = config('zikix.qy_secret', '');
@@ -73,10 +68,8 @@ class GroupRobot
         $feishu_key    = config('zikix.feishu_key');
         $feishu_secret = config('zikix.feishu_secret', '');
         if ($feishu_key) {
-            $robot = $robot->markdown(self::getFeishuMarkdownString($data))->cc('feishu', "https://open.feishu.cn/open-apis/bot/v2/hook/$feishu_key", $feishu_secret, 'feishu1')->send();
+            $robot->markdown(self::getFeishuMarkdownString($data))->cc('feishu', "https://open.feishu.cn/open-apis/bot/v2/hook/$feishu_key", $feishu_secret, 'feishu1')->send();
         }
-
-        return [];
 
     }
 

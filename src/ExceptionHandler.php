@@ -43,8 +43,7 @@ class ExceptionHandler extends Handler
     public function register()
     {
         $this->reportable(function (Throwable $e) {
-            Qy::exception($e);
-            Weixin::exception($e);
+            Robot::exception($e);
             Sls::$exception = $e;
         });
 
