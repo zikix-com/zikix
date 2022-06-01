@@ -34,7 +34,8 @@
     "ext-curl": "*",
     "ext-zip": "*",
     "lokielse/aliyun-open-api-sls": "^1.0",
-    "alibabacloud/client": "^1.5"
+    "alibabacloud/client": "^1.5",
+    "ymlluo/group-robot": "^1.1"
   },
   "require-dev": {
     "laravel/framework": "^9",
