@@ -63,23 +63,54 @@ class GroupRobot
 
         // https://packagist.org/packages/ymlluo/group-robot
         $robot = new \Ymlluo\GroupRobot\GroupRobot();
-        $robot = $robot->markdown(self::getMarkdownString($data));
 
         $qy_key    = config('zikix.qy_key');
         $qy_secret = config('zikix.qy_secret', '');
         if ($qy_key) {
-            $robot = $robot->cc('wechat', "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=$qy_key", $qy_secret, 'wx_1');
+            $robot->markdown(self::getMarkdownString($data))->cc('wechat', "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=$qy_key", $qy_secret, 'wx_1')->send();
         }
 
         $feishu_key    = config('zikix.feishu_key');
         $feishu_secret = config('zikix.feishu_secret', '');
         if ($feishu_key) {
-            $robot = $robot->cc('feishu', "https://open.feishu.cn/open-apis/bot/v2/hook/$feishu_key", $feishu_secret, 'feishu1');
+            $robot = $robot->markdown(self::getFeishuMarkdownString($data))->cc('feishu', "https://open.feishu.cn/open-apis/bot/v2/hook/$feishu_key", $feishu_secret, 'feishu1')->send();
         }
 
-        return $robot->send();
+        return [];
 
     }
+
+
+    /**
+     * @param array $array
+     *
+     * @return string
+     */
+    public static function getFeishuMarkdownString(array $array): string
+    {
+        $markdown = "";
+        foreach ($array as $k => $v) {
+            if ($v) {
+                $k        = strtoupper($k);
+                $markdown .= "# $k\n";
+
+                if (is_array($v) || is_object($v)) {
+                    $v = json_encode($v, JSON_UNESCAPED_UNICODE);
+                }
+
+                if (strpos($v, 'http') === 0) {
+                    $markdown .= "$v\n\n\n";
+                } else {
+                    $v = str_replace("\\", "\\\\", $v);
+
+                    $markdown .= "$v\n\n\n";
+                }
+            }
+        }
+
+        return $markdown;
+    }
+
 
     /**
      * @param array $array
