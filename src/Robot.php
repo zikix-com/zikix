@@ -115,7 +115,7 @@ class Robot
         foreach ($array as $k => $v) {
             if ($v) {
                 $k        = strtoupper($k);
-                $markdown .= "# $k\n";
+                $markdown .= "**$k**\n";
 
                 if (is_array($v) || is_object($v)) {
                     $v = json_encode($v, JSON_UNESCAPED_UNICODE);
