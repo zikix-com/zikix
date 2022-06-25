@@ -59,8 +59,16 @@ class Api
         $content['message']    = $message;
 
         $env = config('app.env');
-        if ($env !== 'production') {
-            $content['message'] = "[$env] {$content['message']}";
+
+        $env_array = [
+            'local'   => '开发环境',
+            'test'    => '测试环境',
+            'pre'     => '预发环境',
+            'staging' => '预发环境',
+        ];
+
+        if (isset($env_array[$env])) {
+            $content['message'] = "[$env_array[$env]] {$content['message']}";
         }
 
         if ($data !== []) {
