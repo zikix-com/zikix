@@ -3,6 +3,7 @@
 namespace Zikix\Zikix;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Request;
 
 class Where
 {
@@ -15,7 +16,9 @@ class Where
      */
     public static function query($builder, string $request_key, array $model_columns, string $opt = 'like'): void
     {
-        if ($value = request($request_key)) {
+        if (Request::filled($request_key)) {
+
+            $value = request($request_key);
 
             $builder->where(function ($query) use ($model_columns, $opt, $value) {
                 /** @var Builder $query */
