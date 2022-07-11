@@ -69,14 +69,18 @@ class Robot
         $qy_secret = config('zikix.qy_secret', '');
         if ($qy_key) {
             $robot = new GroupRobot();
-            $robot->markdown(self::getMarkdownString($data))->cc('wechat', "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=$qy_key", $qy_secret, 'wx_1')->send();
+            $robot->markdown(self::getMarkdownString($data))
+                  ->cc('wechat', "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=$qy_key", $qy_secret, 'wx_1')
+                  ->send();
         }
 
         $feishu_key    = config('zikix.feishu_key');
         $feishu_secret = config('zikix.feishu_secret', '');
         if ($feishu_key) {
             $robot = new GroupRobot();
-            $robot->markdown(self::getFeishuMarkdownString($data))->cc('feishu', "https://open.feishu.cn/open-apis/bot/v2/hook/$feishu_key", $feishu_secret, 'feishu1')->send();
+            $robot->markdown(self::getFeishuMarkdownString($data))
+                  ->cc('feishu', "https://open.feishu.cn/open-apis/bot/v2/hook/$feishu_key", $feishu_secret, 'feishu1')
+                  ->send();
         }
 
     }
