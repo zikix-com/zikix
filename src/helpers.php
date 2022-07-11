@@ -1,9 +1,30 @@
 <?php
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Zikix\Zikix\Adb;
 use Zikix\Zikix\Model;
 use Zikix\Zikix\Where;
+
+if (!function_exists('id')) {
+    /**
+     * @return int|string|null
+     */
+    function id()
+    {
+        return Auth::id();
+    }
+}
+
+if (!function_exists('user')) {
+    /**
+     * @return \Illuminate\Contracts\Auth\Authenticatable|null|\App\Models\User
+     */
+    function user()
+    {
+        return Auth::user();
+    }
+}
 
 if (!function_exists('zikix_adb')) {
     /**
