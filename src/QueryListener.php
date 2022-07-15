@@ -45,9 +45,10 @@ class QueryListener
                 }
             }
             $sql = vsprintf($sql, $event->bindings);
+            $sql .= ';';
 
             self::$sql[] = [
-                'sql'  => $sql . ';',
+                'sql'  => $sql,
                 'time' => $event->time,
             ];
 
