@@ -53,32 +53,7 @@ class QueryListener
             ];
 
             // Alert dispatch when sql is slow query.
-            if ($event->time > config('zikix.slow_query_min_mysql', 1000)) {
-                RobotMessageJob::dispatch(
-                    PHP_EOL
-                    . 'Slow Query @' . $event->connectionName
-                    . PHP_EOL
-                    . PHP_EOL
-                    . 'APP'
-                    . PHP_EOL
-                    . config('app.env') . '@' . config('app.name')
-                    . PHP_EOL
-                    . PHP_EOL
-                    . 'RequestId'
-                    . PHP_EOL
-                    . Api::getRequestId()
-                    . PHP_EOL
-                    . PHP_EOL
-                    . 'SQL'
-                    . PHP_EOL
-                    . $sql
-                    . PHP_EOL
-                    . PHP_EOL
-                    . 'Milliseconds'
-                    . PHP_EOL
-                    . $event->time
-                );
-            }
+            $this->alertDispatch($event, $sql);
 
             self::$sql_time += $event->time;
 
@@ -87,6 +62,51 @@ class QueryListener
 
         } catch (Exception $exception) {
             Log::error('log sql error:' . $exception->getMessage());
+        }
+    }
+
+    /**
+     * @param QueryExecuted $event
+     * @param $sql
+     *
+     * @return void
+     */
+    public function alertDispatch(QueryExecuted $event, $sql): void
+    {
+        $connection = strtolower($event->connectionName);
+
+        if ($connection === 'adb') {
+            $configTime = config('zikix.slow_query_min_adb', 1000);
+        } else {
+            $configTime = config('zikix.SLOW_QUERY_MIN_MYSQL', 1000);
+        }
+
+        // Alert dispatch when sql is slow query.
+        if ($event->time > $configTime) {
+            RobotMessageJob::dispatch(
+                PHP_EOL
+                . 'Slow Query @' . $connection
+                . PHP_EOL
+                . PHP_EOL
+                . 'APP'
+                . PHP_EOL
+                . config('app.env') . '@' . config('app.name')
+                . PHP_EOL
+                . PHP_EOL
+                . 'RequestId'
+                . PHP_EOL
+                . Api::getRequestId()
+                . PHP_EOL
+                . PHP_EOL
+                . 'SQL'
+                . PHP_EOL
+                . $sql
+                . PHP_EOL
+                . PHP_EOL
+                . 'Milliseconds'
+                . PHP_EOL
+                . $event->time
+            );
         }
     }
 }

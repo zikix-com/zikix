@@ -5,6 +5,7 @@ return [
     'access_key_secret' => env('ALIYUN_ACCESS_KEY_SECRET'),
 
     'slow_query_min_mysql' => env('SLOW_QUERY_MIN_MYSQL', 1000),
+    'slow_query_min_adb'   => env('SLOW_QUERY_MIN_ADB', 1000),
 
     /**
      * https://help.aliyun.com/document_detail/29008.html
