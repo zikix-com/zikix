@@ -88,11 +88,6 @@ class QueryListener
                 . 'Slow Query @' . $connection
                 . PHP_EOL
                 . PHP_EOL
-                . 'RequestId'
-                . PHP_EOL
-                . Api::getRequestId()
-                . PHP_EOL
-                . PHP_EOL
                 . 'SQL'
                 . PHP_EOL
                 . $sql
