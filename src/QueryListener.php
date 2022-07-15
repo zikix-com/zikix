@@ -51,6 +51,19 @@ class QueryListener
                 'time' => $event->time,
             ];
 
+            // Alert dispatch when sql is slow query.
+            if ($event->time > 10) {
+                RobotMessageJob::dispatch(
+                    'Slow Query'
+                    . PHP_EOL
+                    . Api::getRequestId()
+                    . PHP_EOL
+                    . $sql
+                    . PHP_EOL
+                    . $event->time
+                );
+            }
+
             self::$sql_time += $event->time;
 
             (new Logger('SQL'))->pushHandler(new RotatingFileHandler(storage_path('logs/sql.log')))

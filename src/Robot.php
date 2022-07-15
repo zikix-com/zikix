@@ -65,19 +65,19 @@ class Robot
         }
 
         // https://packagist.org/packages/ymlluo/group-robot
-        $qy_key    = config('zikix.qy_key');
-        $qy_secret = config('zikix.qy_secret', '');
+        $qy_key = config('zikix.qy_key');
         if ($qy_key) {
-            $robot = new GroupRobot();
+            $qy_secret = config('zikix.qy_secret', '');
+            $robot     = new GroupRobot();
             $robot->markdown(self::getMarkdownString($data))
                   ->cc('wechat', "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=$qy_key", $qy_secret, 'wx_1')
                   ->send();
         }
 
-        $feishu_key    = config('zikix.feishu_key');
-        $feishu_secret = config('zikix.feishu_secret', '');
+        $feishu_key = config('zikix.feishu_key');
         if ($feishu_key) {
-            $robot = new GroupRobot();
+            $feishu_secret = config('zikix.feishu_secret', '');
+            $robot         = new GroupRobot();
             $robot->markdown(self::getFeishuMarkdownString($data))
                   ->cc('feishu', "https://open.feishu.cn/open-apis/bot/v2/hook/$feishu_key", $feishu_secret, 'feishu1')
                   ->send();
