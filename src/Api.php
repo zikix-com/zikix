@@ -90,15 +90,25 @@ class Api
     }
 
     /**
+     * @param string $requestId
+     *
+     * @return void
+     */
+    public static function setRequestId(string $requestId): void
+    {
+        self::$requestId = $requestId;
+    }
+
+    /**
      * @return string
      */
     public static function getRequestId(): string
     {
         if (self::$requestId === null) {
-            self::$requestId = Uuid::uuid4()->toString();
+            self::$requestId = strtoupper(Uuid::uuid4()->toString());
         }
 
-        return strtoupper(self::$requestId);
+        return self::$requestId;
     }
 
     /**

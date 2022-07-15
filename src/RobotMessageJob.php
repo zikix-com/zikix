@@ -28,13 +28,19 @@ class RobotMessageJob implements ShouldQueue
     protected string $message;
 
     /**
+     * @var string
+     */
+    protected string $requestId;
+
+    /**
      * Create a new job instance.
      *
      * @return void
      */
     public function __construct(string $message)
     {
-        $this->message = $message;
+        $this->message   = $message;
+        $this->requestId = Api::getRequestId();
 
         $this->onQueue('high');
     }
@@ -46,6 +52,8 @@ class RobotMessageJob implements ShouldQueue
      */
     public function handle(): void
     {
+        Api::setRequestId($this->requestId);
+
         Robot::message($this->message);
     }
 }

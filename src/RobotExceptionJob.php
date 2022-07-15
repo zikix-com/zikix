@@ -29,13 +29,19 @@ class RobotExceptionJob implements ShouldQueue
     protected Throwable $e;
 
     /**
+     * @var string
+     */
+    protected string $requestId;
+
+    /**
      * Create a new job instance.
      *
      * @return void
      */
     public function __construct(Throwable $e)
     {
-        $this->e = $e;
+        $this->e         = $e;
+        $this->requestId = Api::getRequestId();
 
         $this->onQueue('high');
     }
@@ -47,6 +53,8 @@ class RobotExceptionJob implements ShouldQueue
      */
     public function handle(): void
     {
+        Api::setRequestId($this->requestId);
+
         Robot::exception($this->e);
     }
 }
