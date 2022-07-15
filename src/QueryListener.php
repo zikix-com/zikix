@@ -54,7 +54,8 @@ class QueryListener
             // Alert dispatch when sql is slow query.
             if ($event->time > config('zikix.slow_query_min', 1000)) {
                 RobotMessageJob::dispatch(
-                    'Slow Query'
+                    PHP_EOL
+                    . 'Slow Query'
                     . PHP_EOL
                     . PHP_EOL
                     . 'APP'
