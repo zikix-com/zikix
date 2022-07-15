@@ -61,13 +61,14 @@ if (!function_exists('zikix_like')) {
      * @param Builder|\Illuminate\Database\Query\Builder $builder
      * @param string $request_key
      * @param array $columns
+     * @param string $pre_like
      */
-    function zikix_like($builder, string $request_key, array $columns = []): void
+    function zikix_like($builder, string $request_key, array $columns = [], string $pre_like = '%'): void
     {
         if ($columns === []) {
-            Where::query($builder, $request_key, [$request_key]);
+            Where::query($builder, $request_key, [$request_key], 'like', $pre_like);
         } else {
-            Where::query($builder, $request_key, $columns);
+            Where::query($builder, $request_key, $columns, 'like', $pre_like);
         }
     }
 }

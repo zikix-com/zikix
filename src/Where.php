@@ -13,14 +13,15 @@ class Where
      * @param string $request_key
      * @param array $model_columns
      * @param string $opt
+     * @param string $pre_like
      */
-    public static function query($builder, string $request_key, array $model_columns, string $opt = 'like'): void
+    public static function query($builder, string $request_key, array $model_columns, string $opt = 'like', string $pre_like = '%'): void
     {
         if (Request::filled($request_key)) {
 
             $value = request($request_key);
 
-            $builder->where(function ($query) use ($model_columns, $opt, $value) {
+            $builder->where(function ($query) use ($model_columns, $opt, $value, $pre_like) {
                 /** @var Builder $query */
                 foreach ($model_columns as $column) {
                     if ($opt === 'like') {
@@ -30,7 +31,7 @@ class Where
                         if (in_array($column, ['abbr', 'phrase']) && !ctype_alpha($value)) {
                             continue;
                         }
-                        $query->orWhere($column, $opt, "%$value%");
+                        $query->orWhere($column, $opt, "$pre_like$value%");
                     } else {
                         $query->orWhere($column, $opt, $value);
                     }
