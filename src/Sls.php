@@ -85,7 +85,7 @@ class Sls
     /**
      * @return array
      */
-    private static function getDefaultFields(): array
+    public static function getDefaultFields(): array
     {
         try {
             $logs = Context::context();

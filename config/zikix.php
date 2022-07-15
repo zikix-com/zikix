@@ -3,6 +3,7 @@ return [
     'region_id'         => env('ALIYUN_REGION_ID', 'cn-hangzhou'),
     'access_key_id'     => env('ALIYUN_ACCESS_KEY_ID'),
     'access_key_secret' => env('ALIYUN_ACCESS_KEY_SECRET'),
+    'debug_users_id'    => env('DEBUG_USERS_ID'),
 
     /**
      * https://help.aliyun.com/document_detail/29008.html

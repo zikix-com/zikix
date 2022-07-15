@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Ramsey\Uuid\Uuid;
 
 class Api
@@ -73,6 +74,11 @@ class Api
 
         if ($data !== []) {
             $content['data'] = $data;
+        }
+
+        // Debug users
+        if (($list = config('zikix.debug_users_id')) && Auth::id() && in_array(Auth::id(), $list, true)) {
+            $content['console'] = Sls::getDefaultFields();
         }
 
         if (config('zikix.api_key_case') !== null) {
