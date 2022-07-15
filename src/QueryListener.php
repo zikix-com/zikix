@@ -56,7 +56,7 @@ class QueryListener
             if ($event->time > config('zikix.slow_query_min', 1000)) {
                 RobotMessageJob::dispatch(
                     PHP_EOL
-                    . 'Slow Query'
+                    . 'Slow Query @' . $event->connectionName
                     . PHP_EOL
                     . PHP_EOL
                     . 'APP'
