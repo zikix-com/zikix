@@ -4,6 +4,8 @@ return [
     'access_key_id'     => env('ALIYUN_ACCESS_KEY_ID'),
     'access_key_secret' => env('ALIYUN_ACCESS_KEY_SECRET'),
 
+    'slow_query_min'    => env('SLOW_QUERY_MIN', 5),
+
     /**
      * https://help.aliyun.com/document_detail/29008.html
      */
