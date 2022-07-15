@@ -76,9 +76,9 @@ class QueryListener
         $connection = strtolower($event->connectionName);
 
         if ($connection === 'adb') {
-            $configTime = config('zikix.slow_query_min_adb', 1000);
+            $configTime = config('zikix.slow_query_min_adb', 150);
         } else {
-            $configTime = config('zikix.slow_query_min_mysql', 1500);
+            $configTime = config('zikix.slow_query_min_mysql', 100);
         }
 
         // Alert dispatch when sql is slow query.
