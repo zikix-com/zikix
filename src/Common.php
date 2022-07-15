@@ -398,11 +398,7 @@ class Common
      */
     public static function dataEnv(): string
     {
-        if (config('app.env') === 'production') {
-            return 'production';
-        }
-
-        if (config('app.env') === 'pre' || config('app.env') === 'staging') {
+        if (in_array(config('app.env'), ['production', 'pre', 'staging'])) {
             return 'production';
         }
 

@@ -56,6 +56,10 @@ class QueryListener
                 RobotMessageJob::dispatch(
                     'Slow Query'
                     . PHP_EOL
+                    . config('app.env')
+                    . '@'
+                    . config('app.name')
+                    . PHP_EOL
                     . Api::getRequestId()
                     . PHP_EOL
                     . $sql
