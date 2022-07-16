@@ -77,7 +77,7 @@ class Api
 
         // Debug users
         if (Common::isDebug()) {
-            $content['console'] = Sls::getDefaultFields();
+            $content['debug'] = Sls::getDefaultFields();
         }
 
         if (config('zikix.api_key_case') !== null) {
