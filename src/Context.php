@@ -34,7 +34,9 @@ class Context
             self::$context[$key] = [];
         }
 
-        self::$context[$key][] = $item;
+        if (is_array(self::$context[$key])) {
+            self::$context[$key][] = $item;
+        }
     }
 
     /**
