@@ -12,6 +12,16 @@ class Context
     protected static array $context = [];
 
     /**
+     * @param array $context
+     *
+     * @return void
+     */
+    public static function set(array $context): void
+    {
+        self::$context = $context;
+    }
+
+    /**
      * @param string $key
      * @param $value
      *
@@ -59,7 +69,7 @@ class Context
         ];
 
         // Request
-        $request = Api::getRequest();
+        $request = request();
 
         if ($request?->route()) {
             $base['request']         = $request?->toArray() ?: [];
@@ -71,11 +81,11 @@ class Context
             $base['headers']         = self::getHeaders();
         }
 
-        foreach ($base as $key => $value) {
-            self::$context[$key] = $value;
+        foreach (self::$context as $key => $value) {
+            $base[$key] = $value;
         }
 
-        return self::$context;
+        return $base;
     }
 
     /**

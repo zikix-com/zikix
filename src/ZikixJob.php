@@ -5,7 +5,6 @@ namespace Zikix\Zikix;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Http\Request;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
@@ -26,9 +25,9 @@ class ZikixJob implements ShouldQueue
     protected string $requestId;
 
     /**
-     * @var mixed|Request|string|array|null
+     * @var string
      */
-    protected mixed $request;
+    protected string $context;
 
     /**
      * Create a new job instance.
@@ -38,9 +37,11 @@ class ZikixJob implements ShouldQueue
     public function __construct()
     {
         $this->requestId = Api::getRequestId();
-        $this->request   = new Request();
 
         Context::push('queue', __CLASS__);
+
+        $this->context = json_encode(Context::context());
+
 
         $this->onQueue('high');
     }
@@ -53,6 +54,6 @@ class ZikixJob implements ShouldQueue
     public function handle(): void
     {
         Api::setRequestId($this->requestId);
-        Api::setRequest($this->request);
+        Context::set(json_decode($this->context, true));
     }
 }
