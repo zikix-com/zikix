@@ -45,7 +45,12 @@ class QueryListener
                 }
             }
 
-//            $sql = vsprintf($sql, $event->bindings);
+            try {
+                $sql = vsprintf($sql, $event->bindings);
+            } catch (Exception $exception) {
+
+            }
+
             $sql .= ';';
 
             self::$sql[] = [
