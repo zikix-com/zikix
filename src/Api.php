@@ -128,7 +128,7 @@ class Api
      *
      * @return void
      */
-    public static function setRequest(Request $request): void
+    public static function setRequest(Request $request = null): void
     {
         self::$request = $request;
     }
