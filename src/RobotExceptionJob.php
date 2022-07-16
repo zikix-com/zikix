@@ -37,7 +37,7 @@ class RobotExceptionJob implements ShouldQueue
     /**
      * @var mixed|Request|string|array|null
      */
-    private mixed $request;
+    private $request;
 
     /**
      * Create a new job instance.
