@@ -42,7 +42,7 @@ class Context
         ];
 
         // Request
-        if (request() && request()->route()) {
+        if (request()?->route()) {
             $base['request']         = request()?->toArray() ?: [];
             $base['request_content'] = request()?->getContent() ?: '';
             $base['route']           = request()?->route() ?: [];
