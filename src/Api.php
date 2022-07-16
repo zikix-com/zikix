@@ -141,7 +141,6 @@ class Api
         return self::$request ?: request();
     }
 
-
     /**
      * @param string $content
      * @param int $status
