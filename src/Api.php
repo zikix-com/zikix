@@ -100,7 +100,7 @@ class Api
     }
 
     /**
-     * Length: 32
+     * Length: 36
      *
      * @return string
      */
@@ -111,7 +111,7 @@ class Api
             $time      = date('YmdHis');
             $id        = $snowflake->next();
 
-            self::$requestId = $time . $id;
+            self::$requestId = $time . '0000' . $id;
         }
 
         return self::$requestId;
