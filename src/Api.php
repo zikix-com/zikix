@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-use Ramsey\Uuid\Uuid;
+use Kra8\Snowflake\Snowflake;
 
 class Api
 {
@@ -104,8 +104,16 @@ class Api
      */
     public static function getRequestId(): string
     {
+        // ADB RID
+        // 2022071611560619216821019703453191794
+        // len 37
+
         if (self::$requestId === null) {
-            self::$requestId = strtoupper(Uuid::uuid4()->toString());
+            $snowflake = app(Snowflake::class);
+            $time      = date('YmdHis');
+            $id        = $snowflake->next();
+
+            self::$requestId = $time . $id;
         }
 
         return self::$requestId;
