@@ -100,14 +100,12 @@ class Api
     }
 
     /**
+     * Length: 32
+     *
      * @return string
      */
     public static function getRequestId(): string
     {
-        // ADB RID
-        // 2022071611560619216821019703453191794
-        // len 37
-
         if (self::$requestId === null) {
             $snowflake = app(Snowflake::class);
             $time      = date('YmdHis');
