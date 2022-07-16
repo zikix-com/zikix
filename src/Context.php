@@ -30,23 +30,27 @@ class Context
         global $argv;
 
         $base = [
-            'request_id'      => Api::getRequestId(),
-            'app'             => config('app.name'),
-            'whoami'          => exec('whoami'),
-            'env'             => config('app.env'),
-            'request'         => request()?->toArray() ?: [],
-            'request_content' => request()?->getContent() ?: '',
-            'route'           => request()?->route() ?: [],
-            'ip'              => request()?->ip() ?: '',
-            'uri'             => request()?->getUri() ?: '',
-            'referer'         => request()?->header('referer'),
-            'headers'         => self::getHeaders(),
-            'logs'            => Sls::$logs,
-            'user'            => Auth::user(),
-            'argv'            => $argv ?? [],
-            'session'         => $_SESSION ?? [],
-            'sls'             => config('zikix.sls_project') . '@' . config('zikix.sls_store'),
+            'request_id' => Api::getRequestId(),
+            'app'        => config('app.name'),
+            'whoami'     => exec('whoami'),
+            'argv'       => $argv ?? [],
+            'env'        => config('app.env'),
+            'logs'       => Sls::$logs,
+            'user'       => Auth::user(),
+            'session'    => $_SESSION ?? [],
+            'sls'        => config('zikix.sls_project') . '@' . config('zikix.sls_store'),
         ];
+
+        // Request
+        if (request() && request()->route()) {
+            $base['request']         = request()?->toArray() ?: [];
+            $base['request_content'] = request()?->getContent() ?: '';
+            $base['route']           = request()?->route() ?: [];
+            $base['ip']              = request()?->ip() ?: '';
+            $base['uri']             = request()?->getUri() ?: '';
+            $base['referer']         = request()?->header('referer');
+            $base['headers']         = self::getHeaders();
+        }
 
         foreach ($base as $key => $value) {
             self::$context[$key] = $value;
