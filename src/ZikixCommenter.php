@@ -26,7 +26,6 @@ class ZikixCommenter implements Commenter
         return [
             Comment::make('rid', Api::getRequestId()),
             Comment::make('controller', $controller),
-            Comment::make('time', date('Y-m-d H:i:s')),
         ];
     }
 
