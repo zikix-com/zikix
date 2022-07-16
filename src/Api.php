@@ -124,13 +124,13 @@ class Api
     }
 
     /**
-     * @param mixed|Request|string|array|null $request
+     * @param mixed|Request|string|array $request
      *
      * @return void
      */
-    public static function setRequest($request = null): void
+    public static function setRequest(Request $request): void
     {
-        self::$request = $request ?? request();
+        self::$request = $request;
     }
 
     /**
@@ -138,7 +138,7 @@ class Api
      */
     public static function getRequest(): mixed
     {
-        return self::$request ?? request();
+        return self::$request ?: request();
     }
 
     /**
