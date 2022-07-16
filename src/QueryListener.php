@@ -91,8 +91,7 @@ class QueryListener
         // Alert dispatch when sql is slow query.
         if ($event->time > $configTime) {
             RobotMessageJob::dispatch(
-                PHP_EOL
-                . 'Slow Query SQL @' . $connection
+                'Slow Query @' . $connection
                 . PHP_EOL
                 . $sql
                 . PHP_EOL
