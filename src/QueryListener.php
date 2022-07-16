@@ -44,7 +44,8 @@ class QueryListener
                     $event->bindings[$i] = $binding;
                 }
             }
-            $sql = vsprintf($sql, $event->bindings);
+
+//            $sql = vsprintf($sql, $event->bindings);
             $sql .= ';';
 
             self::$sql[] = [
