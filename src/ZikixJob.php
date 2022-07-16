@@ -40,6 +40,8 @@ class ZikixJob implements ShouldQueue
         $this->requestId = Api::getRequestId();
         $this->request   = \request();
 
+        Context::push('queue', __CLASS__);
+
         $this->onQueue('high');
     }
 

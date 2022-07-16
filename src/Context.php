@@ -9,7 +9,7 @@ class Context
     /**
      * @var array
      */
-    protected static array $context = [];
+    public static array $context = [];
 
     /**
      * @param string $key
@@ -20,6 +20,21 @@ class Context
     public static function append(string $key, $value): void
     {
         self::$context[$key] = $value;
+    }
+
+    /**
+     * @param string $key
+     * @param $item
+     *
+     * @return void
+     */
+    public static function push(string $key, $item): void
+    {
+        if (!isset(self::$context[$key])) {
+            self::$context[$key] = [];
+        }
+
+        self::$context[$key][] = $item;
     }
 
     /**
