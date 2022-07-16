@@ -29,8 +29,6 @@ class Context
     {
         global $argv;
 
-        $request = Api::getRequest();
-
         $base = [
             'request_id' => Api::getRequestId(),
             'app'        => config('app.name'),
@@ -44,6 +42,8 @@ class Context
         ];
 
         // Request
+        $request = request();
+
         if ($request?->route()) {
             $base['request']         = $request?->toArray() ?: [];
             $base['request_content'] = $request?->getContent() ?: '';

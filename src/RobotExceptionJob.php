@@ -5,7 +5,6 @@ namespace Zikix\Zikix;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Http\Request;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Throwable;
@@ -35,11 +34,6 @@ class RobotExceptionJob implements ShouldQueue
     protected string $requestId;
 
     /**
-     * @var mixed|Request|string|array|null
-     */
-    private $request;
-
-    /**
      * Create a new job instance.
      *
      * @return void
@@ -48,7 +42,6 @@ class RobotExceptionJob implements ShouldQueue
     {
         $this->e         = $e;
         $this->requestId = Api::getRequestId();
-        $this->request   = Api::getRequest();
 
         $this->onQueue('high');
     }
@@ -61,7 +54,6 @@ class RobotExceptionJob implements ShouldQueue
     public function handle(): void
     {
         Api::setRequestId($this->requestId);
-        Api::setRequest($this->request);
 
         Robot::exception($this->e);
     }
