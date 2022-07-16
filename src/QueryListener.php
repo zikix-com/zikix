@@ -92,10 +92,7 @@ class QueryListener
         if ($event->time > $configTime) {
             RobotMessageJob::dispatch(
                 PHP_EOL
-                . 'Slow Query @' . $connection
-                . PHP_EOL
-                . PHP_EOL
-                . 'SQL'
+                . 'Slow Query SQL @' . $connection
                 . PHP_EOL
                 . $sql
                 . PHP_EOL
