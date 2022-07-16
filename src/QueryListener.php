@@ -28,6 +28,7 @@ class QueryListener
      * @param QueryExecuted $event
      *
      * @return void
+     * @throws Exception
      */
     public function handle(QueryExecuted $event): void
     {
@@ -67,7 +68,13 @@ class QueryListener
             (new Logger('SQL'))->pushHandler(new RotatingFileHandler(storage_path('logs/sql.log')))
                                ->info('[' . $event->time . 'ms] ' . $sql);
 
-        } catch (Exception $exception) {
+        } catch (Throwable $exception) {
+            Api::badRequest($exception->getMessage()
+                            . PHP_EOL
+                            . $exception->getFile()
+                            . '@'
+                            . $exception->getLine()
+            );
             Log::error('log sql error:' . $exception->getMessage());
         }
     }

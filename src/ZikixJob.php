@@ -38,7 +38,7 @@ class ZikixJob implements ShouldQueue
     public function __construct()
     {
         $this->requestId = Api::getRequestId();
-        $this->request   = \request();
+        $this->request   = new Request();
 
         Context::push('queue', __CLASS__);
 
