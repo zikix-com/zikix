@@ -5,6 +5,7 @@ namespace Zikix\Zikix;
 use Exception;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Kra8\Snowflake\Snowflake;
 
@@ -14,6 +15,11 @@ class Api
      * @var string
      */
     private static $requestId;
+
+    /**
+     * @var mixed|Request|string|array|null
+     */
+    private static $request;
 
     /**
      * Success - OK
@@ -115,6 +121,24 @@ class Api
         }
 
         return self::$requestId;
+    }
+
+    /**
+     * @param mixed|Request|string|array|null $request
+     *
+     * @return void
+     */
+    public static function setRequest(Request $request = null): void
+    {
+        self::$request = $request ?? request();
+    }
+
+    /**
+     * @return mixed|Request|string|array|null
+     */
+    public static function getRequest(): mixed
+    {
+        return self::$request ?? request();
     }
 
     /**

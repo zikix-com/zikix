@@ -29,6 +29,8 @@ class Context
     {
         global $argv;
 
+        $request = Api::getRequest();
+
         $base = [
             'request_id' => Api::getRequestId(),
             'app'        => config('app.name'),
@@ -42,13 +44,13 @@ class Context
         ];
 
         // Request
-        if (request()?->route()) {
-            $base['request']         = request()?->toArray() ?: [];
-            $base['request_content'] = request()?->getContent() ?: '';
-            $base['route']           = request()?->route() ?: [];
-            $base['ip']              = request()?->ip() ?: '';
-            $base['uri']             = request()?->getUri() ?: '';
-            $base['referer']         = request()?->header('referer');
+        if ($request?->route()) {
+            $base['request']         = $request?->toArray() ?: [];
+            $base['request_content'] = $request?->getContent() ?: '';
+            $base['route']           = $request?->route() ?: [];
+            $base['ip']              = $request?->ip() ?: '';
+            $base['uri']             = $request?->getUri() ?: '';
+            $base['referer']         = $request?->header('referer');
             $base['headers']         = self::getHeaders();
         }
 
