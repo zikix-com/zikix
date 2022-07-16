@@ -8,6 +8,7 @@ use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Facades\Log;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
+use Throwable;
 
 class QueryListener
 {
@@ -47,7 +48,7 @@ class QueryListener
 
             try {
                 $sql = vsprintf($sql, $event->bindings);
-            } catch (Exception $exception) {
+            } catch (Throwable $exception) {
 
             }
 
