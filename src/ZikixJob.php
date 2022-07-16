@@ -28,7 +28,7 @@ class ZikixJob implements ShouldQueue
     /**
      * @var mixed|Request|string|array|null
      */
-    private mixed $request;
+    protected mixed $request;
 
     /**
      * Create a new job instance.
