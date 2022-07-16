@@ -106,7 +106,7 @@ class Api
      */
     public static function getRequestId(): string
     {
-        if (self::$requestId === null) {
+        if (!self::$requestId) {
             $snowflake = app(Snowflake::class);
             $time      = date('YmdHis');
             $id        = $snowflake->next();
