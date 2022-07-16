@@ -42,7 +42,7 @@ class Context
         ];
 
         // Request
-        $request = request();
+        $request = Api::getRequest();
 
         if ($request?->route()) {
             $base['request']         = $request?->toArray() ?: [];
