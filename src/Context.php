@@ -59,17 +59,17 @@ class Context
         ];
 
         // Request
-        $request = Api::getRequest();
-
-        if ($request?->route()) {
-            $base['request']         = $request?->toArray() ?: [];
-            $base['request_content'] = $request?->getContent() ?: '';
-            $base['route']           = $request?->route() ?: [];
-            $base['ip']              = $request?->ip() ?: '';
-            $base['uri']             = $request?->getUri() ?: '';
-            $base['referer']         = $request?->header('referer');
-            $base['headers']         = self::getHeaders();
-        }
+//        $request = Api::getRequest();
+//
+//        if ($request?->route()) {
+//            $base['request']         = $request?->toArray() ?: [];
+//            $base['request_content'] = $request?->getContent() ?: '';
+//            $base['route']           = $request?->route() ?: [];
+//            $base['ip']              = $request?->ip() ?: '';
+//            $base['uri']             = $request?->getUri() ?: '';
+//            $base['referer']         = $request?->header('referer');
+//            $base['headers']         = self::getHeaders();
+//        }
 
         foreach ($base as $key => $value) {
             self::$context[$key] = $value;
