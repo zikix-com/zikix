@@ -63,6 +63,7 @@ class Context
             'argv'       => $argv ?? [],
             'env'        => config('app.env'),
             'logs'       => Sls::$logs,
+            'user_id'    => Auth::id(),
             'user'       => Auth::user(),
             'session'    => $_SESSION ?? [],
             'time'       => date('Y-m-d H:i:s'),
@@ -76,8 +77,8 @@ class Context
             $base['request']         = $request?->toArray() ?: [];
             $base['request_content'] = $request?->getContent() ?: '';
             $base['route']           = $request?->route() ?: [];
+            $base['uri']             = $request?->route()?->uri() ?: [];
             $base['ip']              = $request?->ip() ?: '';
-            $base['uri']             = $request?->getUri() ?: '';
             $base['referer']         = $request?->header('referer');
             $base['headers']         = self::getHeaders();
         }
