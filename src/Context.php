@@ -65,6 +65,7 @@ class Context
             'logs'       => Sls::$logs,
             'user'       => Auth::user(),
             'session'    => $_SESSION ?? [],
+            'time'       => date('Y-m-d H:i:s'),
             'sls'        => config('zikix.sls_project') . '@' . config('zikix.sls_store'),
         ];
 

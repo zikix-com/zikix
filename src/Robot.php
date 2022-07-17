@@ -64,6 +64,10 @@ class Robot
             $data[$k] = $v;
         }
 
+        if (isset($data['ip']) && $data['ip']) {
+            $data['ip'] .= '(' . Common::ip($data['ip']) . ')';
+        }
+
         // https://packagist.org/packages/ymlluo/group-robot
         $qy_key = config('zikix.qy_key');
         if ($qy_key) {
