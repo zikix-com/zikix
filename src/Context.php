@@ -57,17 +57,18 @@ class Context
         global $argv;
 
         $base = [
-            'request_id' => Api::getRequestId(),
-            'app'        => config('app.name'),
-            'whoami'     => exec('whoami'),
-            'argv'       => $argv ?? [],
-            'env'        => config('app.env'),
-            'logs'       => Sls::$logs,
-            'user_id'    => Auth::id() ?: '',
-            'user'       => Auth::user() ?: [],
-            'session'    => $_SESSION ?? [],
-            'time'       => date('Y-m-d H:i:s'),
-            'sls'        => config('zikix.sls_project') . '@' . config('zikix.sls_store'),
+            'request_id'   => Api::getRequestId(),
+            'request_time' => microtime(true) - LARAVEL_START,
+            'time'         => date('Y-m-d H:i:s'),
+            'app'          => config('app.name'),
+            'whoami'       => exec('whoami'),
+            'argv'         => $argv ?? [],
+            'env'          => config('app.env'),
+            'logs'         => Sls::$logs,
+            'user_id'      => Auth::id() ?: '',
+            'user'         => Auth::user() ?: [],
+            'session'      => $_SESSION ?? [],
+            'sls'          => config('zikix.sls_project') . '@' . config('zikix.sls_store'),
         ];
 
         // Request
