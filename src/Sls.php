@@ -99,6 +99,8 @@ class Sls
                 'time'    => QueryListener::$sql_time,
                 'queries' => QueryListener::$sql,
             ];
+        } else {
+            $logs['sql'] = [];
         }
 
         if (self::$exception) {

@@ -63,8 +63,8 @@ class Context
             'argv'       => $argv ?? [],
             'env'        => config('app.env'),
             'logs'       => Sls::$logs,
-            'user_id'    => Auth::id(),
-            'user'       => Auth::user(),
+            'user_id'    => Auth::id() ?: '',
+            'user'       => Auth::user() ?: [],
             'session'    => $_SESSION ?? [],
             'time'       => date('Y-m-d H:i:s'),
             'sls'        => config('zikix.sls_project') . '@' . config('zikix.sls_store'),
@@ -90,15 +90,16 @@ class Context
     }
 
     /**
-     * @return array|string|null
+     * @return array|string
      */
-    public static function getHeaders(): array|string|null
+    public static function getHeaders(): array|string
     {
         $headers = request()?->header();
+
         foreach ($headers as $k => $v) {
             $headers[$k] = $v[0];
         }
 
-        return $headers;
+        return $headers ?: [];
     }
 }
