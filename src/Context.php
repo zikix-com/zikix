@@ -75,7 +75,7 @@ class Context
         // Request
         $request                 = request();
         $base['request']         = $request?->toArray() ?: [];
-        $base['request_length']  = $request?->getContent() ? strlen($request?->getContent()) : 0;
+        $base['request_length']  = (int) ($_SERVER['CONTENT_LENGTH'] ?? 0);
         $base['request_content'] = $request?->getContent() ?: '';
         $base['method']          = $request?->getMethod() ?: '';
         $base['uri']             = $request?->route()?->uri() ?: [];
