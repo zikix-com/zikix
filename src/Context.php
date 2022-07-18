@@ -75,8 +75,9 @@ class Context
         if ($request?->route()) {
             $base['request']         = $request?->toArray() ?: [];
             $base['request_content'] = $request?->getContent() ?: '';
-            $base['route']           = $request?->route() ?: [];
+            $base['method']          = $request?->getMethod() ?: '';
             $base['uri']             = $request?->route()?->uri() ?: [];
+            $base['route']           = $request?->route() ?: [];
             $base['ip']              = $request?->ip() ?: '';
             $base['referer']         = $request?->header('referer');
             $base['headers']         = self::getHeaders();
