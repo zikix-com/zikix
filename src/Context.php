@@ -68,12 +68,14 @@ class Context
             'user_id'      => Auth::id() ?: '',
             'user'         => Auth::user() ?: [],
             'session'      => $_SESSION ?? [],
+            'region'       => 'cn-hangzhou',
             'sls'          => config('zikix.sls_project') . '@' . config('zikix.sls_store'),
         ];
 
         // Request
         $request                 = request();
         $base['request']         = $request?->toArray() ?: [];
+        $base['request_length']  = $request?->getContent() ? strlen($request?->getContent()) : 0;
         $base['request_content'] = $request?->getContent() ?: '';
         $base['method']          = $request?->getMethod() ?: '';
         $base['uri']             = $request?->route()?->uri() ?: [];
