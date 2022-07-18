@@ -44,7 +44,7 @@ class ExceptionHandler extends Handler
     {
         $this->reportable(function (Throwable $e) {
             Robot::exception($e);
-            Sls::$exception = $e;
+            Context::append('exception', Common::exceptionToArray($e));
         });
 
         $this->renderable(function (Throwable $e, Request $request) {

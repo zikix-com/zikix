@@ -58,13 +58,12 @@ class Context
 
         $base = [
             'request_id'   => Api::getRequestId(),
-            'request_time' => microtime(true) - LARAVEL_START,
+            'request_time' => (microtime(true) - LARAVEL_START) * 1000, // Milliseconds
             'time'         => date('Y-m-d H:i:s'),
             'app'          => config('app.name'),
             'whoami'       => exec('whoami'),
             'argv'         => $argv ?? [],
             'env'          => config('app.env'),
-            'logs'         => Sls::$logs,
             'user_id'      => Auth::id() ?: '',
             'user'         => Auth::user() ?: [],
             'session'      => $_SESSION ?? [],
@@ -84,8 +83,20 @@ class Context
         $base['referer']         = $request?->header('referer');
         $base['headers']         = self::getHeaders();
 
+        // overwrite default fields
         foreach ($base as $key => $value) {
             self::$context[$key] = $value;
+        }
+
+        // append sql
+        if ($count = count(QueryListener::$sql)) {
+            self::$context['sql'] = [
+                'count'   => $count,
+                'time'    => QueryListener::$sql_time,
+                'queries' => QueryListener::$sql,
+            ];
+        } else {
+            self::$context['sql'] = [];
         }
 
         return self::$context;

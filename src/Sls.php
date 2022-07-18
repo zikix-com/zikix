@@ -24,16 +24,6 @@ use RuntimeException;
 class Sls
 {
     /**
-     * @var Exception|null
-     */
-    public static $exception;
-
-    /**
-     * @var array
-     */
-    public static $logs = [];
-
-    /**
      * Handle dynamic, static calls to the object.
      *
      * @param string $method
@@ -44,7 +34,7 @@ class Sls
      */
     public static function __callStatic(string $method, array $args)
     {
-        self::$logs[] = $args;
+        Context::push('logs', $args);
         return Log::getFacadeRoot()->$method(...$args);
     }
 
@@ -56,7 +46,7 @@ class Sls
      */
     public static function put(array $data = []): void
     {
-        $logs = self::getDefaultFields();
+        $logs = Context::context();
 
         if (is_array($data)) {
             foreach ($data as $k => $v) {
@@ -80,34 +70,6 @@ class Sls
         } catch (Exception $exception) {
             Log::error(json_encode(Common::exceptionToArray($exception), JSON_THROW_ON_ERROR));
         }
-    }
-
-    /**
-     * @return array
-     */
-    public static function getDefaultFields(): array
-    {
-        try {
-            $logs = Context::context();
-        } catch (Exception $exception) {
-            $logs = [];
-        }
-
-        if ($count = count(QueryListener::$sql)) {
-            $logs['sql'] = [
-                'count'   => $count,
-                'time'    => QueryListener::$sql_time,
-                'queries' => QueryListener::$sql,
-            ];
-        } else {
-            $logs['sql'] = [];
-        }
-
-        if (self::$exception) {
-            $logs['exception'] = Common::exceptionToArray(self::$exception);
-        }
-
-        return $logs;
     }
 
 }
