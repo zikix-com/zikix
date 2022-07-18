@@ -229,23 +229,22 @@ class Common
             return '本地';
         }
 
-        return Cache::remember('location:' . $ip, 86400, static function () use ($ip) {
+        return Cache::remember('ip:location:' . $ip, 86400, static function () use ($ip) {
 
             try {
-                $response = Http::connectTimeout(1)
-                                ->timeout(1)
-                                ->get("http://opendata.baidu.com/api.php?query=$ip&co=&resource_id=6006&oe=utf8");
+                $url = "http://opendata.baidu.com/api.php?query=$ip&co=&resource_id=6006&oe=utf8";
+
+                $response = Http::connectTimeout(5)
+                                ->timeout(5)
+                                ->get($url);
+
                 if (!$response->successful()) {
                     return '';
                 }
 
                 $ip = $response['data'][0]['location'] ?? '';
 
-                if ($ip === '-') {
-                    $ip = '';
-                }
-
-                return $ip;
+                return str_replace('-', '', $ip);
 
             } catch (Exception $exception) {
                 return '';
