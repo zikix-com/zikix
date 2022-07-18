@@ -3,6 +3,7 @@
 namespace Zikix\Zikix;
 
 use Illuminate\Support\Facades\Auth;
+use JsonException;
 
 class Context
 {
@@ -10,6 +11,25 @@ class Context
      * @var array
      */
     protected static array $context = [];
+
+    /**
+     * @return string
+     * @throws JsonException
+     */
+    public static function serialize(): string
+    {
+        return json_encode(self::$context, JSON_THROW_ON_ERROR);
+    }
+
+    /**
+     * @param string $string
+     *
+     * @throws JsonException
+     */
+    public static function unserialize(string $string)
+    {
+        self::$context = json_decode($string, true, 512, JSON_THROW_ON_ERROR);
+    }
 
     /**
      * @param array $context

@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use JsonException;
 
 class ZikixJob implements ShouldQueue
 {
@@ -32,7 +33,7 @@ class ZikixJob implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @throws JsonException
      */
     public function __construct()
     {
@@ -40,8 +41,7 @@ class ZikixJob implements ShouldQueue
 
         Context::push('queue', __CLASS__);
 
-        $this->context = json_encode(Context::context());
-
+        $this->context = Context::serialize();
 
         $this->onQueue('high');
     }
@@ -50,10 +50,12 @@ class ZikixJob implements ShouldQueue
      * Execute the job.
      *
      * @return void
+     * @throws JsonException
      */
     public function handle(): void
     {
         Api::setRequestId($this->requestId);
-        Context::set(json_decode($this->context, true));
+
+        Context::unserialize($this->context);
     }
 }
