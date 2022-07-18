@@ -239,7 +239,13 @@ class Common
                     return '';
                 }
 
-                return $response['data'][0]['location'] ?? '';
+                $ip = $response['data'][0]['location'] ?? '';
+
+                if ($ip === '-') {
+                    $ip = '';
+                }
+
+                return $ip;
 
             } catch (Exception $exception) {
                 return '';
