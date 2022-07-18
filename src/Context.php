@@ -81,11 +81,11 @@ class Context
         $base['referer']         = $request?->header('referer');
         $base['headers']         = self::getHeaders();
 
-        foreach (self::$context as $key => $value) {
-            $base[$key] = $value;
+        foreach ($base as $key => $value) {
+            self::$context[$key] = $value;
         }
 
-        return $base;
+        return self::$context;
     }
 
     /**
