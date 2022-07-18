@@ -72,7 +72,6 @@ class Context
 
         // Request
         $request = request();
-
         if ($request?->route()) {
             $base['request']         = $request?->toArray() ?: [];
             $base['request_content'] = $request?->getContent() ?: '';
