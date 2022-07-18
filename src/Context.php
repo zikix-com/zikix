@@ -71,17 +71,15 @@ class Context
         ];
 
         // Request
-        $request = request();
-        if ($request?->route()) {
-            $base['request']         = $request?->toArray() ?: [];
-            $base['request_content'] = $request?->getContent() ?: '';
-            $base['method']          = $request?->getMethod() ?: '';
-            $base['uri']             = $request?->route()?->uri() ?: [];
-            $base['route']           = $request?->route() ?: [];
-            $base['ip']              = $request?->ip() ?: '';
-            $base['referer']         = $request?->header('referer');
-            $base['headers']         = self::getHeaders();
-        }
+        $request                 = request();
+        $base['request']         = $request?->toArray() ?: [];
+        $base['request_content'] = $request?->getContent() ?: '';
+        $base['method']          = $request?->getMethod() ?: '';
+        $base['uri']             = $request?->route()?->uri() ?: [];
+        $base['route']           = $request?->route() ?: [];
+        $base['ip']              = $request?->ip() ?: '';
+        $base['referer']         = $request?->header('referer');
+        $base['headers']         = self::getHeaders();
 
         foreach (self::$context as $key => $value) {
             $base[$key] = $value;
@@ -96,6 +94,7 @@ class Context
     public static function getHeaders(): array|string
     {
         $headers = request()?->header();
+        $headers = $headers ?: [];
 
         foreach ($headers as $k => $v) {
             $headers[$k] = $v[0];
