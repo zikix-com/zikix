@@ -5,6 +5,7 @@ namespace Zikix\Zikix;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
 use JsonException;
+use Kra8\Snowflake\Snowflake;
 
 class ContextManager
 {
@@ -26,6 +27,11 @@ class ContextManager
     protected array $context = [];
 
     /**
+     * @var string
+     */
+    private string $requestId;
+
+    /**
      * Create a new Cache manager instance.
      *
      * @param Application $app
@@ -35,6 +41,27 @@ class ContextManager
     public function __construct($app)
     {
         $this->app = $app;
+
+        $snowflake       = app(Snowflake::class);
+        $time            = date('YmdHis');
+        $id              = $snowflake->next();
+        $this->requestId = $time . $id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRequestId(): string
+    {
+        return $this->requestId;
+    }
+
+    /**
+     * @param string $requestId
+     */
+    public function setRequestId(string $requestId): void
+    {
+        $this->requestId = $requestId;
     }
 
     /**
@@ -99,11 +126,10 @@ class ContextManager
      */
     public function get(): array
     {
-
         global $argv;
 
         $this->base = [
-            'request_id'   => Api::getRequestId(),
+            'request_id'   => $this->getRequestId(),
             'request_time' => (microtime(true) - LARAVEL_START) * 1000, // Milliseconds
             'time'         => date('Y-m-d H:i:s'),
             'app'          => config('app.name'),

@@ -19,7 +19,9 @@ class RobotMessageJob extends ZikixJob
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param string $message
+     *
+     * @throws \JsonException
      */
     public function __construct(string $message)
     {

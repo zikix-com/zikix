@@ -71,7 +71,7 @@ class ExceptionHandler extends Handler
     {
         $status     = 500;
         $message    = $e->getMessage();
-        $request_id = Api::getRequestId();
+        $request_id = Context::getRequestId();
         $code       = 400;
 
         if ($e instanceof HttpResponseException) {

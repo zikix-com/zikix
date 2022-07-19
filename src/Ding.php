@@ -65,7 +65,7 @@ class Ding
             'app'        => config('app.name'),
             'whoami'     => exec('whoami'),
             'env'        => config('app.env'),
-            'Request Id' => Api::getRequestId(),
+            'Request Id' => Context::getRequestId(),
             'uri'        => request()?->getUri(),
             'referer'    => request()?->header('referer'),
             'ip'         => request()?->getClientIp(),

@@ -64,4 +64,23 @@ class Context
         return app('zikix.context')->get();
     }
 
+    /**
+     * @param string $requestId
+     *
+     * @return void
+     */
+    public static function setRequestId(string $requestId): void
+    {
+        app('zikix.context')->setRequestId($requestId);
+
+    }
+
+    /**
+     * @return string
+     */
+    public static function getRequestId(): string
+    {
+        return app('zikix.context')->getRequestId();
+    }
+
 }

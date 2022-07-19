@@ -19,7 +19,7 @@ class ZikixCommenter implements Commenter
     public function comments(string $query, Connection $connection): Comment|array|null
     {
         return [
-            Comment::make('rid', Api::getRequestId()),
+            Comment::make('rid', Context::getRequestId()),
         ];
     }
 

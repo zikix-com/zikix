@@ -5,22 +5,10 @@ namespace Zikix\Zikix;
 use Exception;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Kra8\Snowflake\Snowflake;
 
 class Api
 {
-    /**
-     * @var string
-     */
-    private static $requestId;
-
-    /**
-     * @var mixed|Request|string|array|null
-     */
-    private static $request;
-
     /**
      * Success - OK
      * Standard response for successful HTTP requests. The actual response will depend on the request method used. In a
@@ -60,7 +48,7 @@ class Api
      */
     public static function response(int $bizCode, string $message = '成功', array|object $data = [], int $httpCode = 200, array $headers = [], int $options = 0): JsonResponse
     {
-        $content['request_id'] = self::getRequestId();
+        $content['request_id'] = Context::getRequestId();
         $content['code']       = $bizCode;
         $content['message']    = $message;
 
@@ -93,52 +81,6 @@ class Api
         Sls::put(['response' => $content]);
 
         return new JsonResponse($content, $httpCode, $headers, $options);
-    }
-
-    /**
-     * @param string $requestId
-     *
-     * @return void
-     */
-    public static function setRequestId(string $requestId): void
-    {
-        self::$requestId = $requestId;
-    }
-
-    /**
-     * Length: 34
-     *
-     * @return string
-     */
-    public static function getRequestId(): string
-    {
-        if (!self::$requestId) {
-            $snowflake = app(Snowflake::class);
-            $time      = date('YmdHis');
-            $id        = $snowflake->next();
-
-            self::$requestId = $time . $id;
-        }
-
-        return self::$requestId;
-    }
-
-    /**
-     * @param mixed|Request|string|array $request
-     *
-     * @return void
-     */
-    public static function setRequest($request = null): void
-    {
-        self::$request = $request;
-    }
-
-    /**
-     * @return mixed|Request|string|array|null
-     */
-    public static function getRequest(): mixed
-    {
-        return self::$request ?: request();
     }
 
     /**
@@ -299,7 +241,7 @@ class Api
         }
 
         if (config('zikix.api_error_with_request_id')) {
-            $message .= ' ' . self::getRequestId();
+            $message .= ' ' . Context::getRequestId();
         }
 
         throw new HttpResponseException(self::response($bizCode, $message, $data, $httpCode, $headers, $options));
