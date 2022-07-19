@@ -18,7 +18,9 @@ class RobotExceptionJob extends ZikixJob
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param Throwable $e
+     *
+     * @throws \JsonException
      */
     public function __construct(Throwable $e)
     {
