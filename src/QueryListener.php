@@ -43,8 +43,6 @@ class QueryListener
 
             }
 
-            $sql .= ';';
-
             Context::push('sql', [
                 'sql'  => $sql,
                 'time' => $event->time,
