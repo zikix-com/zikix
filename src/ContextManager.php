@@ -70,7 +70,11 @@ class ContextManager
      */
     public function serialize(): string
     {
-        return json_encode($this->context, JSON_THROW_ON_ERROR);
+        return json_encode([
+                               'requestId' => $this->requestId,
+                               'base'      => $this->base,
+                               'context'   => $this->context,
+                           ], JSON_THROW_ON_ERROR);
     }
 
     /**
@@ -80,7 +84,13 @@ class ContextManager
      */
     public function unserialize(string $string): void
     {
-        $this->context = json_decode($string, true, 512, JSON_THROW_ON_ERROR);
+        $data = json_decode($string, true, 512, JSON_THROW_ON_ERROR);
+
+        $this->requestId = $data['requestId'];
+
+        $this->context = $data['context'];
+
+        $this->base = $data['base'];
     }
 
     /**

@@ -23,11 +23,6 @@ class ZikixJob implements ShouldQueue
     /**
      * @var string
      */
-    protected string $requestId;
-
-    /**
-     * @var string
-     */
     protected string $context;
 
     /**
@@ -37,8 +32,6 @@ class ZikixJob implements ShouldQueue
      */
     public function __construct()
     {
-        $this->requestId = Context::getRequestId();
-
         Context::push('queue', __CLASS__);
 
         $this->context = Context::serialize();
@@ -53,8 +46,6 @@ class ZikixJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Context::setRequestId($this->requestId);
-
         Context::unserialize($this->context);
     }
 }
