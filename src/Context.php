@@ -53,7 +53,7 @@ class Context
      */
     public static function push(string $key, $item): void
     {
-        app('zikix.context')->append($key, $item);
+        app('zikix.context')->push($key, $item);
     }
 
     /**
