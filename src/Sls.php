@@ -46,7 +46,7 @@ class Sls
      */
     public static function put(array $data = []): void
     {
-        $logs = Context::context();
+        $logs = Context::get();
 
         if (is_array($data)) {
             foreach ($data as $k => $v) {

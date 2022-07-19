@@ -83,7 +83,7 @@ class Api
 
         // Debug users
         if (Common::isDebug()) {
-            $content['debug'] = Context::context();
+            $content['debug'] = Context::get();
         }
 
         if (config('zikix.api_key_case') !== null) {

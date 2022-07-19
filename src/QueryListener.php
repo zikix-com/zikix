@@ -12,15 +12,6 @@ use Throwable;
 
 class QueryListener
 {
-    /**
-     * @var array SQL
-     */
-    public static $sql = [];
-
-    /**
-     * @var float milliseconds
-     */
-    public static $sql_time = 0;
 
     /**
      * Handle the event.
@@ -32,7 +23,6 @@ class QueryListener
      */
     public function handle(QueryExecuted $event): void
     {
-
         try {
             if (env('APP_DEBUG') === false) {
                 return;
@@ -55,15 +45,13 @@ class QueryListener
 
             $sql .= ';';
 
-            self::$sql[] = [
+            Context::push('sql', [
                 'sql'  => $sql,
                 'time' => $event->time,
-            ];
+            ]);
 
             // Alert dispatch when sql is slow query.
             $this->alertDispatch($event, $sql);
-
-            self::$sql_time += $event->time;
 
             (new Logger('SQL'))->pushHandler(new RotatingFileHandler(storage_path('logs/sql.log')))
                                ->info('[' . $event->time . 'ms] ' . $sql);

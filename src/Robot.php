@@ -58,7 +58,7 @@ class Robot
      */
     public static function markdown(array $content): void
     {
-        $data = Context::context();
+        $data = Context::get();
 
         foreach ($content as $k => $v) {
             $data[$k] = $v;

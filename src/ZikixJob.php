@@ -50,7 +50,6 @@ class ZikixJob implements ShouldQueue
      * Execute the job.
      *
      * @return void
-     * @throws JsonException
      */
     public function handle(): void
     {

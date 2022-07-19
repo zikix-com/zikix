@@ -56,5 +56,9 @@ class ZikixServiceProvider extends ServiceProvider
             return $log;
         });
 
+        $this->app->singleton('zikix.context', function ($app) {
+            return new ContextManager($app);
+        });
+
     }
 }

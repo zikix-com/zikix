@@ -60,7 +60,7 @@ class Weixin
      */
     public static function content(string $title, array $content = [])
     {
-        $context = Context::context();
+        $context = Context::get();
 
         foreach ($content as $k => $v) {
             $context[$k] = $v;
