@@ -35,35 +35,6 @@ class ContextManager
     public function __construct($app)
     {
         $this->app = $app;
-
-        global $argv;
-
-        $this->base = [
-            'request_id'   => Api::getRequestId(),
-            'request_time' => (microtime(true) - LARAVEL_START) * 1000, // Milliseconds
-            'time'         => date('Y-m-d H:i:s'),
-            'app'          => config('app.name'),
-            'whoami'       => exec('whoami'),
-            'argv'         => $argv ?? [],
-            'env'          => config('app.env'),
-            'user_id'      => Auth::id() ?: '',
-            'user'         => Auth::user() ?: [],
-            'session'      => $_SESSION ?? [],
-            'region'       => 'cn-hangzhou',
-            'sls'          => config('zikix.sls_project') . '@' . config('zikix.sls_store'),
-        ];
-
-        // Request
-        $request                       = request();
-        $this->base['request']         = $request?->toArray() ?: [];
-        $this->base['request_length']  = (int) ($_SERVER['CONTENT_LENGTH'] ?? 0);
-        $this->base['request_content'] = $request?->getContent() ?: '';
-        $this->base['method']          = $request?->getMethod() ?: '';
-        $this->base['uri']             = $request?->route()?->uri() ?: [];
-        $this->base['route']           = $request?->route() ?: [];
-        $this->base['ip']              = $request?->ip() ?: '';
-        $this->base['referer']         = $request?->header('referer');
-        $this->base['headers']         = $this->getHeaders();
     }
 
     /**
@@ -128,6 +99,36 @@ class ContextManager
      */
     public function get(): array
     {
+
+        global $argv;
+
+        $this->base = [
+            'request_id'   => Api::getRequestId(),
+            'request_time' => (microtime(true) - LARAVEL_START) * 1000, // Milliseconds
+            'time'         => date('Y-m-d H:i:s'),
+            'app'          => config('app.name'),
+            'whoami'       => exec('whoami'),
+            'argv'         => $argv ?? [],
+            'env'          => config('app.env'),
+            'user_id'      => Auth::id() ?: '',
+            'user'         => Auth::user() ?: [],
+            'session'      => $_SESSION ?? [],
+            'region'       => 'cn-hangzhou',
+            'sls'          => config('zikix.sls_project') . '@' . config('zikix.sls_store'),
+        ];
+
+        // Request
+        $request                       = request();
+        $this->base['request']         = $request?->toArray() ?: [];
+        $this->base['request_length']  = (int) ($_SERVER['CONTENT_LENGTH'] ?? 0);
+        $this->base['request_content'] = $request?->getContent() ?: '';
+        $this->base['method']          = $request?->getMethod() ?: '';
+        $this->base['uri']             = $request?->route()?->uri() ?: [];
+        $this->base['route']           = $request?->route() ?: [];
+        $this->base['ip']              = $request?->ip() ?: '';
+        $this->base['referer']         = $request?->header('referer');
+        $this->base['headers']         = $this->getHeaders();
+
         // overwrite default fields
         foreach ($this->base as $key => $value) {
             $this->context[$key] = $value;
