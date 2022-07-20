@@ -43,7 +43,7 @@ class ContextManager
         $this->app = $app;
 
         $snowflake       = app(Snowflake::class);
-        $time            = date('YmdHis');
+        $time            = date('ymdHis');
         $id              = $snowflake->next();
         $this->requestId = $time . $id;
     }
